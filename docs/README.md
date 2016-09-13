@@ -11,7 +11,6 @@
 - [ ] Game runs until there is a winner
 - [ ] Bonus: Game state can run until there is one player remaining keeping track of winner/loser
 
-
 ## Technologies
 
 > NodeJS
@@ -40,7 +39,6 @@ Phase 1: Backend setup/Card functionality (1 day)
   - [ ] 13 random cards will go into the hand at first
   - [ ] Players can `select` and `play` cards
   - [ ] Hitting `play` causes cards to move from `hand` to the player's box of cards played within the current round
-
 
 Phase 2: (1 day)
 
