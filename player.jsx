@@ -1,25 +1,33 @@
 import React from 'react';
 
 class Player extends React.Component{
-  constructor(player, hand){
+  constructor(props){
+    super(props);
     this.state = {
-      hand: this.createCards(hand),
+      hand: this.createCards(this.props.hand),
       currentPlay: []
     };
 
-    this.suits = ["spades", "clubs", "diamonds", "hearts"];
-    this.player = player;
+    this.player = this.props.player;
   }
 
   createCards(hand){
     //CONSIDER MAKING UL/LI LIST INSTEAD
+    const suits = ["spades", "clubs", "diamonds", "hearts"];
+
     return(
-      hand.map(i => {
+      hand.map((i, idx) => {
         let rank = " rank".concat(i % 13 + 1);
-        let suit = this.suits[i / 13 | 0];
+        let suit = suits[i / 13 | 0];
+
+        let offset = {"left":`calc(40% + ${idx * 2}%)`};
+        console.log(offset);
 
         return(
-          <div key={"card ".concat(suit).concat(rank)} className={"card ".concat(suit).concat(rank)}>
+          <div
+            style={offset}
+            key={"card ".concat(suit).concat(rank)}
+            className={"card ".concat(suit).concat(rank)}>
             <div key={"face ".concat(suit).concat(rank)} className="face"></div>
           </div>
         );
@@ -28,13 +36,16 @@ class Player extends React.Component{
   }
 
   render(){
-    // let hand = this.hand;
-    // let currentPlay = this.currentPlay;
-
+    console.log(this.state.hand);
     return (
       <div className={this.player}>
-        {this.hand}
-        {this.currentPlay}
+        <div className={this.player.concat(" hand")}>
+          {this.state.hand}
+        </div>
+
+        <div className={this.player.concat(" played-hand")}>
+          {this.state.currentPlay}
+        </div>
       </div>
     );
   }
