@@ -17,8 +17,8 @@ class ComputerPlayer extends React.Component{
       hand.map((i, idx) => {
         let rank = " rank".concat(i % 13 + 1);
         let suit = suits[i / 13 | 0];
-        console.log(this.props.player);
         let offset;
+
         if (this.props.player === 2) {
           offset = {"left":`calc(140px + ${idx * 30}px)`};
         } else if (this.props.player === 1) {

@@ -9,6 +9,8 @@ class HumanPlayer extends React.Component{
     };
   }
 
+  
+
   createCards(hand){
     //CONSIDER MAKING UL/LI LIST INSTEAD
     const suits = ["spades", "clubs", "diamonds", "hearts"];

@@ -31,6 +31,12 @@
   /*border: 1px solid black;*/
 }
 
+.human-player-hand .card:hover {
+  cursor: pointer;
+  background: whitesmoke;
+  bottom: -40px;
+}
+
 .CPU-player-hand1, .CPU-player-hand3 {
   /*display: flex;*/
   /*justify-content: space-between;
