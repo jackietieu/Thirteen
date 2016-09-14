@@ -20,6 +20,12 @@
   width: 100%;
 }
 
+.played-cards {
+  width: 400px;
+  height: 400px;
+  background: lightgreen;
+}
+
 .human-player-hand {
   position: relative;
 }
@@ -38,15 +44,30 @@
 .human-player-hand .card:hover {
   cursor: pointer;
   background: beige;
-  top: -30px;
+  top: -25px;
 }
 
 .human-player-hand .selected {
-  top: -30px;
+  top: -25px;
 }
 
 .human-player-hand .selected:hover {
   background: blanchedalmond;
+}
+
+.human-player {
+  /*position: relative;
+  display: flex;
+  align-items: center;*/
+  /*flex-direction: column;*/
+}
+
+.human-player-played-hand {
+  position: absolute;
+  top: -127px;
+  width: 300px;
+  height: 125px;
+  border: 1px solid black;
 }
 
 button.play-button {

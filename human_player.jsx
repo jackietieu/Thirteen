@@ -51,7 +51,14 @@ class HumanPlayer extends React.Component{
     );
   }
 
-  playCards(cards){
+  playCards(e){
+    e.preventDefault();
+    this.state.currentSelection.forEach(card => {
+
+    });
+  }
+
+  validPlay(cards){
 
   }
 
@@ -60,13 +67,13 @@ class HumanPlayer extends React.Component{
       <div className="human-player">
         <div className="human-player-hand">
           {this.state.hand}
-          <button className="play-button" value="Play Hand">
+          <button className="play-button" value="Play Hand" onClick={this.playCards.bind(this)}>
             <span>Play Hand!</span>
           </button>
-        </div>
 
-        <div className="human-player-played-hand">
-          {this.state.currentPlay}
+          <div className="human-player-played-hand">
+            {this.state.currentPlay}
+          </div>
         </div>
       </div>
     );
