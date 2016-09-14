@@ -90,7 +90,7 @@ button.play-button {
   font-size: 14px;
 }
 
-button:hover {
+button:hover:enabled {
   cursor: pointer;
   background: #e1ffe1;
 }

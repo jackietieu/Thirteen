@@ -10,8 +10,11 @@ class PlayingFieldComponent extends React.Component {
     this.shuffledDeck = this.shuffleDeck();
 
     this.state = {
-      currentPlayersInRound: this.startingRotation
+      currentPlayersInRound: this.startingRotation,
+      bestCurrentPlay: []
     };
+
+    this.run();
   }
 
   shuffleDeck(){
@@ -33,20 +36,41 @@ class PlayingFieldComponent extends React.Component {
     return shuffled;
   }
 
-  render() {
+  run(){
+    this.state.currentPlayersInRound;
+    // this.nextPlayer();
+  }
+
+  nextPlayer(){
+    let currentPlayers = this.state.currentPlayersInRound;
+    currentPlayers.push(currentPlayers.shift());
+    this.setState({ currentPlayersInRound: currentPlayers });
+    console.log(this.state.currentPlayersInRound);
+    //make a pass button/function
+  }
+
+  render(){
     return(
       <section className="playing-field">
-        <ComputerPlayer player={2} hand={this.shuffledDeck.slice(26, 39).sort()} />
+        <ComputerPlayer
+          player={2}
+          hand={this.shuffledDeck.slice(26, 39).sort()} />
 
         <div className="left-right players">
-          <ComputerPlayer player={1} hand={this.shuffledDeck.slice(13, 26).sort()} />
+          <ComputerPlayer
+            player={1}
+            hand={this.shuffledDeck.slice(13, 26).sort()} />
           <div className="played-cards">
-            
+
           </div>
-          <ComputerPlayer player={3} hand={this.shuffledDeck.slice(39, 52).sort()} />
+          <ComputerPlayer
+            player={3}
+            hand={this.shuffledDeck.slice(39, 52).sort()} />
         </div>
 
-        <HumanPlayer player={0} hand={this.shuffledDeck.slice(0, 13).sort()}/>
+        <HumanPlayer
+          player={0}
+          hand={this.shuffledDeck.slice(0, 13).sort()} />
       </section>
     );
   }

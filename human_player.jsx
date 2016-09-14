@@ -78,19 +78,22 @@ class HumanPlayer extends React.Component{
     });
   }
 
-  validPlay(cards){
+  validPlay(){
     //disabled = validPlay(currentSelection)
     //button disabled={disabled}
     //button only shows up if selection is valid
     //determined by game state
+    return true;
   }
 
   render(){
+    let disabled = this.validPlay();
+
     return (
       <div className="human-player">
         <div className="human-player-hand">
           {this.state.hand}
-          <button className="play-button" value="Play Hand" onClick={this.playCards.bind(this)}>
+          <button disabled={disabled} className="play-button" value="Play Hand" onClick={this.playCards.bind(this)}>
             <span>Play Hand!</span>
           </button>
 
