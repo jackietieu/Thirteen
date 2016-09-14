@@ -1,7 +1,8 @@
 .playing-field {
-  background: darkgreen;
+  background: lightgreen;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border: 1px solid black;
   width: 700px;
   height: 700px;
@@ -9,31 +10,53 @@
   align-items: center;
 }
 
-.CPU.left-right {
-  border: 1px solid black;
-  height: 300px;
+.left-right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: darkgreen;
+  /*border: 1px solid black;*/
+  height: 100%;
   width: 100%;
 }
 
-.CPU.player.top-hand, .bottom-hand {
-  position: relative;
+.CPU-player-hand2, .human-player-hand {
+  /*position: relative;*/
   display: flex;
   justify-content: center;
   align-items: center;
   width: 500px;
-  height: 95px;
+  height: 125px;
   background: lightgreen;
-  border: 1px solid black;
+  /*border: 1px solid black;*/
 }
 
-.CPU.player.played-cards {
+.CPU-player-hand1, .CPU-player-hand3 {
+  /*display: flex;*/
+  /*justify-content: space-between;
+  align-items: center;*/
+  width: 125px;
+  height: 500px;
+  background: lightgreen;
+  /*border: 1px solid black;*/
+}
+
+.CPU-player-hand1 .card, .CPU-player-hand3 .card {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+/*.CPU.player.played-cards {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 500px;
   height: 95px;
   border: 1px solid black;
-}
+}*/
 
 .card {
   border: 1px solid black;
@@ -41,8 +64,6 @@
   display: inline-block;
   width: 3.875rem;
   height: 5.5rem;
-  /*width: 3.1rem;
-  height: 4.4rem;*/
   background-color: #fff;
   -webkit-border-radius: 4px;
   border-radius: 4px;

@@ -1,14 +1,12 @@
 import React from 'react';
 
-class Player extends React.Component{
+class ComputerPlayer extends React.Component{
   constructor(props){
     super(props);
     this.state = {
       hand: this.createCards(this.props.hand),
       currentPlay: []
     };
-
-    this.player = this.props.player;
   }
 
   createCards(hand){
@@ -19,16 +17,22 @@ class Player extends React.Component{
       hand.map((i, idx) => {
         let rank = " rank".concat(i % 13 + 1);
         let suit = suits[i / 13 | 0];
-
-        let offset = {"left":`calc(40% + ${idx * 2}%)`};
-        console.log(offset);
+        console.log(this.props.player);
+        let offset;
+        if (this.props.player === 2) {
+          offset = {"left":`calc(140px + ${idx * 30}px)`};
+        } else if (this.props.player === 1) {
+          offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"32.5px"};
+        } else {
+          offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"605px"};
+        }
 
         return(
           <div
             style={offset}
             key={"card ".concat(suit).concat(rank)}
             className={"card ".concat(suit).concat(rank)}>
-            <div key={"face ".concat(suit).concat(rank)} className="face"></div>
+            <div key={"face ".concat(suit).concat(rank)} className="back"></div>
           </div>
         );
       })
@@ -36,14 +40,13 @@ class Player extends React.Component{
   }
 
   render(){
-    console.log(this.state.hand);
     return (
-      <div className={this.player}>
-        <div className={this.player.concat(" hand")}>
+      <div className={"CPU-player".concat(this.props.player)}>
+        <div className={"CPU-player-hand".concat(this.props.player)}>
           {this.state.hand}
         </div>
 
-        <div className={this.player.concat(" played-hand")}>
+        <div className={"CPU-player-played-hand".concat(this.props.player)}>
           {this.state.currentPlay}
         </div>
       </div>
@@ -51,4 +54,4 @@ class Player extends React.Component{
   }
 }
 
-export default Player;
+export default ComputerPlayer;
