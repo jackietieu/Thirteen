@@ -20,6 +20,10 @@
   width: 100%;
 }
 
+.human-player-hand {
+  position: relative;
+}
+
 .CPU-player-hand2, .human-player-hand {
   /*position: relative;*/
   display: flex;
@@ -33,8 +37,35 @@
 
 .human-player-hand .card:hover {
   cursor: pointer;
-  background: whitesmoke;
-  bottom: -40px;
+  background: beige;
+  top: -30px;
+}
+
+.human-player-hand .selected {
+  top: -30px;
+}
+
+.human-player-hand .selected:hover {
+  background: blanchedalmond;
+}
+
+button.play-button {
+  position: absolute;
+  right: -75px;
+  background: #cef5ce;
+  border: 2px solid #75ca9a;
+  color: black;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+}
+
+button:hover {
+  cursor: pointer;
+  background: #e1ffe1;
 }
 
 .CPU-player-hand1, .CPU-player-hand3 {

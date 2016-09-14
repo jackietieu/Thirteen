@@ -32,7 +32,7 @@ class ComputerPlayer extends React.Component{
             style={offset}
             key={"card ".concat(suit).concat(rank)}
             className={"card ".concat(suit).concat(rank)}>
-            <div key={"face ".concat(suit).concat(rank)} className="back"></div>
+            <div key={"face ".concat(suit).concat(rank)} className="face"></div>
           </div>
         );
       })
