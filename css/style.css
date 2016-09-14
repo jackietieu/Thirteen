@@ -41,17 +41,20 @@
   /*border: 1px solid black;*/
 }
 
-.human-player-hand .card:hover {
+.human-player-hand > .card {
+}
+
+.human-player-hand > .card:hover {
   cursor: pointer;
   background: beige;
   top: -25px;
 }
 
-.human-player-hand .selected {
+.human-player-hand > .selected {
   top: -25px;
 }
 
-.human-player-hand .selected:hover {
+.human-player-hand > .selected:hover {
   background: blanchedalmond;
 }
 
@@ -64,6 +67,8 @@
 
 .human-player-played-hand {
   position: absolute;
+  display: flex;
+  align-items: center;
   top: -127px;
   width: 300px;
   height: 125px;
