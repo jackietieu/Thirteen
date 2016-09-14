@@ -42,6 +42,7 @@
 }
 
 .human-player-hand > .card {
+  z-index: 2;
 }
 
 .human-player-hand > .card:hover {

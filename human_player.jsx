@@ -34,6 +34,7 @@ class HumanPlayer extends React.Component{
     //CONSIDER MAKING UL/LI LIST INSTEAD
     const suits = ["spades", "clubs", "diamonds", "hearts"];
     // console.log(hand);
+
     return(
       hand.sort((a, b) => (
         a - b
@@ -72,12 +73,16 @@ class HumanPlayer extends React.Component{
     this.setState({
       handCardIds: newHandCardIds,
       hand: this.createCards(newHandCardIds),
-      currentPlay: this.createCards(removeHandCardIds, "play")
+      currentPlay: this.createCards(removeHandCardIds, "play"),
+      currentSelection: []
     });
   }
 
   validPlay(cards){
-
+    //disabled = validPlay(currentSelection)
+    //button disabled={disabled}
+    //button only shows up if selection is valid
+    //determined by game state
   }
 
   render(){
