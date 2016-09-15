@@ -16,7 +16,7 @@ class HumanPlayer extends React.Component{
 
     if (!e.currentTarget.classList.contains('selected')) {
       this.setState({
-        currentSelection: this.state.currentSelection.concat(e.currentTarget.id)
+        currentSelection: this.state.currentSelection.concat(parseInt(e.currentTarget.id))
       });
     } else {
       let idx = this.state.currentSelection.indexOf(e.currentTarget.id);
@@ -65,7 +65,7 @@ class HumanPlayer extends React.Component{
     let newHandCardIds = [];
 
     oldHandCardIds.map(id => {
-      if (!removeHandCardIds.includes(id.toString())) {
+      if (!removeHandCardIds.includes(id)) {
         newHandCardIds.push(id);
       }
     });
@@ -79,11 +79,13 @@ class HumanPlayer extends React.Component{
   }
 
   validPlay(){
-    //disabled = validPlay(currentSelection)
-    //button disabled={disabled}
-    //button only shows up if selection is valid
-    //determined by game state
-    return true;
+    if (this.state.currentSelection.includes(2)) {
+      //human has 3 of spades, first player
+      return false;
+    } else {
+      //human has to play according to the current round's cards
+      return true;
+    }
   }
 
   render(){
