@@ -14,8 +14,7 @@ class HumanPlayer extends React.Component{
 
   selectCard(e){
     e.preventDefault();
-    console.log(e.currentTarget.className);
-    console.log(e.target.className);
+
     if (!e.currentTarget.classList.contains('selected')) {
       this.setState({
         currentSelection: this.state.currentSelection.concat(parseInt(e.currentTarget.id))
@@ -45,36 +44,8 @@ class HumanPlayer extends React.Component{
         selectCard={this.selectCard.bind(this)} />
     ));
 
-    // return(
-    //   <div className="human-hand">
-    //     {cards}
-    //   </div>
-    // );
     return cards;
   }
-  // const suits = ["spades", "clubs", "diamonds", "hearts"];
-  //
-  // return(
-  // hand.sort((a, b) => (
-  //   a - b
-  // )).map((i, idx) => {
-  //     let rank = " rank".concat(i % 13 + 1);
-  //     let suit = suits[i / 13 | 0];
-  //     let offset = {"left":`calc(30px + ${idx * 30}px)`};
-  //     let key = (play === "play") ? " play" : " hand";
-  //
-  //     return(
-  //       <div
-  //         id={i}
-  //         style={offset}
-  //         key={"card ".concat(suit).concat(rank)}
-  //         className={"card ".concat(suit).concat(rank)}
-  //         onClick={this.selectCard.bind(this)}>
-  //         <div key={"face ".concat(suit).concat(rank).concat(play)} className="face"></div>
-  //       </div>
-  //     );
-  //   })
-  // );
 
   playCards(e){
     e.preventDefault();
@@ -108,7 +79,7 @@ class HumanPlayer extends React.Component{
 
   render(){
     let disabled = this.validPlay();
-
+    debugger;
     return (
       <div className="human-player">
         <div className="human-player-hand">

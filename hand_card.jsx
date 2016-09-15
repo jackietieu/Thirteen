@@ -6,6 +6,12 @@ class HandCard extends React.Component{
 
     this.i = this.props.i;
     this.idx = this.props.idx;
+
+    const suits = ["spades", "clubs", "diamonds", "hearts"];
+    this.rank = " rank".concat(this.i % 13 + 1);
+    this.val = this.i % 13 + 1;
+    this.suit = suits[this.i / 13 | 0];
+    this.offset = {"left":`czalc(30px + ${this.idx * 30}px)`};
   }
 
   // selectCard(e){
@@ -28,20 +34,20 @@ class HandCard extends React.Component{
   // }
 
   render(){
-    const suits = ["spades", "clubs", "diamonds", "hearts"];
-    let rank = " rank".concat(this.i % 13 + 1);
-    let suit = suits[this.i / 13 | 0];
-    let offset = {"left":`calc(30px + ${this.idx * 30}px)`};
+    // const suits = ["spades", "clubs", "diamonds", "hearts"];
+    // let rank = " rank".concat(this.i % 13 + 1);
+    // let suit = suits[this.i / 13 | 0];
+    // let offset = {"left":`calc(30px + ${this.idx * 30}px)`};
     // let key = (play === "play") ? " play" : " hand";
 
     return(
       <div
         id={this.i}
-        style={offset}
-        key={"card ".concat(suit).concat(rank)}
-        className={"card ".concat(suit).concat(rank)}
+        style={this.offset}
+        key={"card ".concat(this.suit).concat(this.rank)}
+        className={"card ".concat(this.suit).concat(this.rank)}
         onClick={this.props.selectCard} >
-        <div key={"face ".concat(suit).concat(rank)} className="face"></div>
+        <div key={"face ".concat(this.suit).concat(this.rank)} className="face"></div>
       </div>
     );
   }
