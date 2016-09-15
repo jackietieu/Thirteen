@@ -1,4 +1,5 @@
 import React from 'react';
+import HandCard from './hand_card';
 
 class HumanPlayer extends React.Component{
   constructor(props){
@@ -13,7 +14,8 @@ class HumanPlayer extends React.Component{
 
   selectCard(e){
     e.preventDefault();
-
+    console.log(e.currentTarget.className);
+    console.log(e.target.className);
     if (!e.currentTarget.classList.contains('selected')) {
       this.setState({
         currentSelection: this.state.currentSelection.concat(parseInt(e.currentTarget.id))
@@ -31,32 +33,48 @@ class HumanPlayer extends React.Component{
   }
 
   createCards(hand, play){
-    //CONSIDER MAKING UL/LI LIST INSTEAD
-    const suits = ["spades", "clubs", "diamonds", "hearts"];
-    // console.log(hand);
+    let key = (play === "play") ? " play" : " hand";
 
-    return(
-      hand.sort((a, b) => (
-        a - b
-      )).map((i, idx) => {
-        let rank = " rank".concat(i % 13 + 1);
-        let suit = suits[i / 13 | 0];
-        let offset = {"left":`calc(30px + ${idx * 30}px)`};
-        let key = (play === "play") ? " play" : " hand";
+    let cards = hand.sort((a, b) => (
+      a - b
+    )).map((i, idx) => (
+      <HandCard
+        i={i}
+        idx={idx}
+        key={"card ".concat(i).concat(` ${idx}`)}
+        selectCard={this.selectCard.bind(this)} />
+    ));
 
-        return(
-          <div
-            id={i}
-            style={offset}
-            key={"card ".concat(suit).concat(rank)}
-            className={"card ".concat(suit).concat(rank)}
-            onClick={this.selectCard.bind(this)}>
-            <div key={"face ".concat(suit).concat(rank).concat(play)} className="face"></div>
-          </div>
-        );
-      })
-    );
+    // return(
+    //   <div className="human-hand">
+    //     {cards}
+    //   </div>
+    // );
+    return cards;
   }
+  // const suits = ["spades", "clubs", "diamonds", "hearts"];
+  //
+  // return(
+  // hand.sort((a, b) => (
+  //   a - b
+  // )).map((i, idx) => {
+  //     let rank = " rank".concat(i % 13 + 1);
+  //     let suit = suits[i / 13 | 0];
+  //     let offset = {"left":`calc(30px + ${idx * 30}px)`};
+  //     let key = (play === "play") ? " play" : " hand";
+  //
+  //     return(
+  //       <div
+  //         id={i}
+  //         style={offset}
+  //         key={"card ".concat(suit).concat(rank)}
+  //         className={"card ".concat(suit).concat(rank)}
+  //         onClick={this.selectCard.bind(this)}>
+  //         <div key={"face ".concat(suit).concat(rank).concat(play)} className="face"></div>
+  //       </div>
+  //     );
+  //   })
+  // );
 
   playCards(e){
     e.preventDefault();
