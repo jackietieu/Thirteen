@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import HumanPlayer from './human_player';
 import ComputerPlayer from './computer_player';
+import ComputerPlayerObj from './ThirteenJS/computer_player';
+import HumanPlayerObj from './ThirteenJS/human_player';
 
 class PlayingFieldComponent extends React.Component {
   constructor(props){
@@ -9,7 +11,15 @@ class PlayingFieldComponent extends React.Component {
     this.startingRotation = [];
     this.shuffledDeck = this.shuffleDeck();
 
+    this.players = [
+      new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort()),
+      new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26)),
+      new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39)),
+      new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52))
+    ];
+
     this.state = {
+      players: this.players,
       currentPlayersInRound: this.startingRotation,
       bestCurrentPlay: []
     };
@@ -45,7 +55,6 @@ class PlayingFieldComponent extends React.Component {
     let currentPlayers = this.state.currentPlayersInRound;
     currentPlayers.push(currentPlayers.shift());
     this.setState({ currentPlayersInRound: currentPlayers });
-    console.log(this.state.currentPlayersInRound);
     //make a pass button/function
   }
 
@@ -53,24 +62,23 @@ class PlayingFieldComponent extends React.Component {
     return(
       <section className="playing-field">
         <ComputerPlayer
-          player={2}
-          hand={this.shuffledDeck.slice(26, 39).sort()} />
-
+          playerId={2}
+          playerObj={this.state.players[2]} />
         <div className="left-right players">
           <ComputerPlayer
-            player={1}
-            hand={this.shuffledDeck.slice(13, 26).sort()} />
+            playerId={1}
+            playerObj={this.state.players[1]} />
           <div className="played-cards">
 
           </div>
           <ComputerPlayer
-            player={3}
-            hand={this.shuffledDeck.slice(39, 52).sort()} />
+            playerId={3}
+            playerObj={this.state.players[3]} />
         </div>
 
         <HumanPlayer
-          player={0}
-          hand={this.shuffledDeck.slice(0, 13).sort()} />
+          playerId={0}
+          playerObj={this.state.players[0]} />
       </section>
     );
   }

@@ -31,7 +31,7 @@
 }
 
 .CPU-player-hand2, .human-player-hand {
-  /*position: relative;*/
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -96,7 +96,9 @@ button:hover:enabled {
 }
 
 .CPU-player-hand1, .CPU-player-hand3 {
-  /*display: flex;*/
+  /*position: relative;*/
+  /*display: flex;
+  flex-direction: column;*/
   /*justify-content: space-between;
   align-items: center;*/
   width: 125px;
@@ -106,6 +108,7 @@ button:hover:enabled {
 }
 
 .CPU-player-hand1 .card, .CPU-player-hand3 .card {
+  /*position: absolute;*/
   -webkit-transform: rotate(90deg);
   -moz-transform: rotate(90deg);
   -o-transform: rotate(90deg);

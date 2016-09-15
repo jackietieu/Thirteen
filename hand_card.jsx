@@ -11,7 +11,7 @@ class HandCard extends React.Component{
     this.rank = " rank".concat(this.i % 13 + 1);
     this.val = this.i % 13 + 1;
     this.suit = suits[this.i / 13 | 0];
-    this.offset = {"left":`czalc(30px + ${this.idx * 30}px)`};
+    this.offset = this.props.offset;
   }
 
   // selectCard(e){
