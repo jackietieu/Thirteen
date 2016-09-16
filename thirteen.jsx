@@ -28,7 +28,9 @@ class PlayingFieldComponent extends React.Component {
 
     let firstPlayerIdx = this.shuffledDeck.indexOf(2) / 13 | 0;
     let rotation = [this.player0, this.player1, this.player2, this.player3];
-    this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
+    this.startingRotation = rotation.splice(
+      firstPlayerIdx,
+      rotation.length).concat(rotation.splice(0, firstPlayerIdx));
 
     this.resetBestCurrentPlay = {
       type: "newRound",
@@ -72,14 +74,25 @@ class PlayingFieldComponent extends React.Component {
   }
 
   nextRound(){
-    let startingPlayerIdx = this.players.indexOf(this.state.currentPlayersInRound[0]);
-    let newRoundRotation = this.players.slice(startingPlayerIdx, this.players.length).concat(this.players.slice(0, startingPlayerIdx));
+    console.log("nextRound thirteenjsx");
+    let startingPlayerIdx = this.state.players.indexOf(
+      this.state.currentPlayersInRound[0]
+    );
 
-    let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
-    let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
+    let newRoundRotation = this.state.players.slice(
+      startingPlayerIdx,
+      this.state.players.length).concat(this.state.players.slice(0, startingPlayerIdx));
+
+    let firstPlayerIdx = this.rotation.indexOf(
+      this.state.currentPlayersInRound[0]
+    );
+
+    let newRotation = this.rotation.slice(
+      firstPlayerIdx,
+      this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
 
     this.setState({
-      currentPlayersInRound: newRotation,
+      currentPlayersInRound: newRoundRotation,
       bestCurrentPlay: this.resetBestCurrentPlay
     },
       this.nextMoveSameRound()
@@ -87,8 +100,8 @@ class PlayingFieldComponent extends React.Component {
   }
 
   nextMoveSameRound(){
-    this.sleep(3000).then(() => {
-      let currentPlayers = this.state.currentPlayersInRound;
+    this.sleep(5000).then(() => {
+      let currentPlayers = [].concat(this.state.currentPlayersInRound);
       let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
       //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
       //DON'T USE THIS MOVE
@@ -98,10 +111,13 @@ class PlayingFieldComponent extends React.Component {
           //next round
           if(this.state.currentPlayersInRound.length > 1){
             this.nextMoveSameRound();
+          } else {
+            this.nextRound();
           }
         }
       );
       } else {
+        console.log(move);
         this.setState({ bestCurrentPlay: move },
           () => {
             this.nextPlayer();
@@ -109,6 +125,15 @@ class PlayingFieldComponent extends React.Component {
         );
       }
     });
+  }
+
+  nextPlayer(){
+    console.log('next player');
+    let currentPlayers = [].concat(this.state.currentPlayersInRound);
+    currentPlayers.push(currentPlayers.shift());
+    this.setState({ currentPlayersInRound: currentPlayers },
+      this.nextMoveSameRound()
+    );
   }
 
   run(){
@@ -133,30 +158,21 @@ class PlayingFieldComponent extends React.Component {
     // }
   }
 
-  nextPlayer(){
-    let currentPlayers = [].concat(this.state.currentPlayersInRound);
-    currentPlayers.push(currentPlayers.shift());
-    this.setState({ currentPlayersInRound: currentPlayers },
-      this.nextMoveSameRound()
-    );
-  }
-
   render(){
     let playedCardsOwner = (this.state.bestCurrentPlay.playerId) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played these cards!`}</p> : undefined;
     let playedCards = this.state.bestCurrentPlay.cards.sort((a, b) => (
       a.i - b.i
     )).map((card, idx) => {
-    return(
-      <HandCard
-        offset={{"left":`calc(50vh + ${idx}*10px)`}}
-        i={card.i}
-        idx={idx}
-        key={"card ".concat(card.i).concat(` ${idx}`)} />
-    );
-    }
+      return(
+        <HandCard
+          offset={{"left":`calc(50vh + ${idx}*10px)`}}
+          i={card.i}
+          idx={idx}
+          key={"card ".concat(card.i).concat(` ${idx}`)} />
+      );}
     );
 
-    let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>Your turn!</p> : undefined;
+    let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 
     return(
       <section className="playing-field">
@@ -168,9 +184,9 @@ class PlayingFieldComponent extends React.Component {
             playerId={1}
             playerObj={this.state.players[1]} />
           <div className="played-cards">
+            {yourTurn}
             {playedCardsOwner}
             {playedCards}
-            {yourTurn}
           </div>
           <ComputerPlayer
             playerId={3}

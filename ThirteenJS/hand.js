@@ -51,8 +51,13 @@ class HandObj{
         let betterCardIdx = this.cards.indexOf(this.cards.find(card => (
           card.kickerRank > currentPlay.cards[0].kickerRank
         )));
-        console.log(betterCardIdx);
-        if (betterCardIdx !== -1) {
+
+        if (betterCardIdx === -1) {
+          console.log("passing");
+          return "pass";
+        } else {
+          console.log("playing card");
+          console.log(betterCardIdx);
           let betterCardId = this.cards[betterCardIdx].i;
 
           let nextPlay = {
@@ -63,9 +68,19 @@ class HandObj{
           };
 
           return nextPlay;
-        } else {
-          return "pass";
         }
+      case "newRound":
+        //default play
+        //placeholder -> cpu plays first card in hand for now
+        console.log("newRound");
+        let nextPlay = {
+          type: "single",
+          cards: [this.cards[0]],
+          kicker: this.cards.splice(0, 1)[0],
+          playerId: this.offsetPlayerId
+        };
+
+        return nextPlay;
       default:
         return "pass";
     }

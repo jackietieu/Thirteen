@@ -24,6 +24,8 @@ class ComputerPlayerObj{
         } else {
           return "pass";
         }
+      case "newRound":
+        return this.hand.validPlay(currentPlay);
       // case "pair":
       //   if (this.hand.validPlay("pair")) {
       //     return this.hand.validPlay("pair");

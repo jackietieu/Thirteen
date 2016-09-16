@@ -47,7 +47,6 @@ class HumanPlayer extends React.Component{
   }
 
   playCards(e){
-    console.log(this.state.currentSelection);
     e.preventDefault();
     let oldHandCardIds = this.state.handCardIds;
     let removeHandCardIds = this.state.currentSelection;
