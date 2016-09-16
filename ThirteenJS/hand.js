@@ -37,13 +37,30 @@ class HandObj{
           kicker: this.cards.splice(spades3idx, 1)[0],
           playerId: this.offsetPlayerId
         };
+
         return startingPlay;
       case "single":
-        return ;
+        let betterCardIdx = this.cards.indexOf(this.cards.find(card => (
+          card.i > currentPlay.cards[0].i
+        )));
+
+        let betterCardId = this.cards[betterCardIdx].i;
+
+        if (betterCardIdx !== -1) {
+          let nextPlay = {
+            type: "single",
+            cards: [new CardObj(betterCardId)],
+            kicker: this.cards.splice(betterCardIdx, 1)[0],
+            playerId: this.offsetPlayerId
+          };
+
+          return nextPlay;
+        } else {
+          return "pass";
+        }
       default:
+        return "pass";
     }
-    return "pass";
-    //return "pass" by default
   }
 }
 

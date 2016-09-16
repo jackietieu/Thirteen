@@ -45,6 +45,7 @@ class PlayingFieldComponent extends React.Component {
         kicker: {}
       }
     };
+    window.state = this.state;
   }
 
   componentDidMount(){
@@ -63,9 +64,6 @@ class PlayingFieldComponent extends React.Component {
       }
     }
 
-    // let firstPlayerIdx = shuffled.indexOf(2) / 13 | 0;
-    // let rotation = [this.player0, this.player1, this.player2, this.player3];
-    // this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
     return shuffled;
   }
 
@@ -73,10 +71,10 @@ class PlayingFieldComponent extends React.Component {
     // game loop
     // let firstMove = true;
     // while(this.state.players.length === 4){
-    //   //round loop
-    //   while(this.state.currentPlayersInRound > 1){
+      //round loop
+      // while(this.state.currentPlayersInRound.length > 1){
         let currentPlayers = this.state.currentPlayersInRound;
-        let move = this.state.currentPlayersInRound[0].makeMove(this.state.bestCurrentPlay);
+        let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
         //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
         //DON'T USER THIS MOVE
         if (move === "pass"){
@@ -85,8 +83,8 @@ class PlayingFieldComponent extends React.Component {
           this.setState({ bestCurrentPlay: move });
           this.nextPlayer();
         }
-      }
-      //currentPlayersInRound has just 1 player, add on the rest of the players
+      // }
+      // currentPlayersInRound has just 1 player, add on the rest of the players
       // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
       // let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
       //
@@ -94,13 +92,13 @@ class PlayingFieldComponent extends React.Component {
       //   currentPlayersInRound: newRotation,
       //   bestCurrentPlay: this.resetBestCurrentPlay
       // });
-      //
+
       // firstMove = false;
-  //   }
-  // }
+    // }
+  }
 
   nextPlayer(){
-    let currentPlayers = this.state.currentPlayersInRound;
+    let currentPlayers = [].concat(this.state.currentPlayersInRound);
     currentPlayers.push(currentPlayers.shift());
     this.setState({ currentPlayersInRound: currentPlayers });
     //make a pass button/function
@@ -120,7 +118,7 @@ class PlayingFieldComponent extends React.Component {
     );
     }
     );
-
+    console.log(playedCards);
     let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>Your turn!</p> : undefined;
 
     return(

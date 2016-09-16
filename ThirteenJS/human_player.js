@@ -10,7 +10,8 @@ class HumanPlayerObj{
   }
 
   makeMove(currentPlay){
-    console.log('humanplayerobj makemove');
+    console.log('change humanplayerobj makemove from pass');
+    return "pass";
   }
 }
 

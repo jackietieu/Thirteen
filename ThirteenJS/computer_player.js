@@ -7,6 +7,7 @@ class ComputerPlayerObj{
 
   //currentPlayType = single, pair, triple, quad, n-sequence
   makeMove(currentPlay){
+    console.log('cpumove');
     switch (currentPlay.type) {
       //currentPlay is obj with `type` string and `kicker` cardobj properties
       case "start":
