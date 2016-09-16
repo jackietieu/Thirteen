@@ -4,26 +4,50 @@ import HumanPlayer from './human_player';
 import ComputerPlayer from './computer_player';
 import ComputerPlayerObj from './ThirteenJS/computer_player';
 import HumanPlayerObj from './ThirteenJS/human_player';
+import HandObj from './ThirteenJS/hand';
+import HandCard from './hand_card';
 
 class PlayingFieldComponent extends React.Component {
   constructor(props){
     super(props);
+    this.rotation = [0, 1, 2, 3];
     this.startingRotation = [];
     this.shuffledDeck = this.shuffleDeck();
 
-    this.players = [
-      new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort()),
-      new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26)),
-      new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39)),
-      new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52))
+    this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
+    this.player1 = new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26));
+    this.player2 = new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39));
+    this.player3 = new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52));
+
+    this.initialPlayers = [
+      this.player0,
+      this.player1,
+      this.player2,
+      this.player3
     ];
 
-    this.state = {
-      players: this.players,
-      currentPlayersInRound: this.startingRotation,
-      bestCurrentPlay: []
+    let firstPlayerIdx = this.shuffledDeck.indexOf(2) / 13 | 0;
+    let rotation = [this.player0, this.player1, this.player2, this.player3];
+    this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
+
+    this.resetBestCurrentPlay = {
+      type: "newRound",
+      cards: [],
+      kicker: {}
     };
 
+    this.state = {
+      players: this.initialPlayers,
+      currentPlayersInRound: this.startingRotation,
+      bestCurrentPlay: {
+        type: "start",
+        cards: [],
+        kicker: {}
+      }
+    };
+  }
+
+  componentDidMount(){
     this.run();
   }
 
@@ -39,17 +63,41 @@ class PlayingFieldComponent extends React.Component {
       }
     }
 
-    let firstPlayerIdx = shuffled.indexOf(2) / 13 | 0;
-    let rotation = [0, 1, 2, 3];
-    this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
-
+    // let firstPlayerIdx = shuffled.indexOf(2) / 13 | 0;
+    // let rotation = [this.player0, this.player1, this.player2, this.player3];
+    // this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
     return shuffled;
   }
 
   run(){
-    this.state.currentPlayersInRound;
-    // this.nextPlayer();
-  }
+    // game loop
+    // let firstMove = true;
+    // while(this.state.players.length === 4){
+    //   //round loop
+    //   while(this.state.currentPlayersInRound > 1){
+        let currentPlayers = this.state.currentPlayersInRound;
+        let move = this.state.currentPlayersInRound[0].makeMove(this.state.bestCurrentPlay);
+        //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
+        //DON'T USER THIS MOVE
+        if (move === "pass"){
+          this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)});
+        } else {
+          this.setState({ bestCurrentPlay: move });
+          this.nextPlayer();
+        }
+      }
+      //currentPlayersInRound has just 1 player, add on the rest of the players
+      // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
+      // let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
+      //
+      // this.setState({
+      //   currentPlayersInRound: newRotation,
+      //   bestCurrentPlay: this.resetBestCurrentPlay
+      // });
+      //
+      // firstMove = false;
+  //   }
+  // }
 
   nextPlayer(){
     let currentPlayers = this.state.currentPlayersInRound;
@@ -59,6 +107,22 @@ class PlayingFieldComponent extends React.Component {
   }
 
   render(){
+    let playedCardsOwner = (this.state.bestCurrentPlay.playerId) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played these cards!`}</p> : undefined;
+    let playedCards = this.state.bestCurrentPlay.cards.sort((a, b) => (
+      a.i - b.i
+    )).map((card, idx) => {
+    return(
+      <HandCard
+        offset={{"left":`calc(50vh + ${idx}*10px)`}}
+        i={card.i}
+        idx={idx}
+        key={"card ".concat(card.i).concat(` ${idx}`)} />
+    );
+    }
+    );
+
+    let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>Your turn!</p> : undefined;
+
     return(
       <section className="playing-field">
         <ComputerPlayer
@@ -69,7 +133,9 @@ class PlayingFieldComponent extends React.Component {
             playerId={1}
             playerObj={this.state.players[1]} />
           <div className="played-cards">
-
+            {playedCardsOwner}
+            {playedCards}
+            {yourTurn}
           </div>
           <ComputerPlayer
             playerId={3}

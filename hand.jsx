@@ -37,7 +37,7 @@ class Hand extends React.Component{
 
   render(){
     let cards = this.hand.sort((a, b) => (
-      a.val - b.val
+      a.i - b.i
     )).map((card, idx) => {
     return(
       <HandCard

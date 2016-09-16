@@ -4,6 +4,7 @@ class HandObj{
   constructor(cardIds, offsetPlayerId){
     let offset;
 
+    this.offsetPlayerId = offsetPlayerId;
     this.cardIds = cardIds;
     this.cards = cardIds.sort((a, b) => (
       a - b
@@ -22,12 +23,27 @@ class HandObj{
     });
   }
 
-  getHand(){
-    return this.cards;
-  }
+  validPlay(currentPlay){
+    switch (currentPlay.type) {
+      case "start":
+        //return CardObj of 3 spades
+        let spades3idx = this.cards.indexOf(this.cards.find(card => (
+          card.i === 2
+        )));
 
-  getValidPlays(){
-
+        let startingPlay = {
+          type: "single",
+          cards: [new CardObj(2)],
+          kicker: this.cards.splice(spades3idx, 1)[0],
+          playerId: this.offsetPlayerId
+        };
+        return startingPlay;
+      case "single":
+        return ;
+      default:
+    }
+    return "pass";
+    //return "pass" by default
   }
 }
 

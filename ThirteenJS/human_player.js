@@ -8,6 +8,10 @@ class HumanPlayerObj{
   hand(){
     return this.hand;
   }
+
+  makeMove(currentPlay){
+    console.log('humanplayerobj makemove');
+  }
 }
 
 export default HumanPlayerObj;
