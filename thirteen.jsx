@@ -76,7 +76,7 @@ class PlayingFieldComponent extends React.Component {
         let currentPlayers = this.state.currentPlayersInRound;
         let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
         //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-        //DON'T USER THIS MOVE
+        //DON'T USE THIS MOVE
         if (move === "pass"){
           this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)});
         } else {
@@ -101,7 +101,6 @@ class PlayingFieldComponent extends React.Component {
     let currentPlayers = [].concat(this.state.currentPlayersInRound);
     currentPlayers.push(currentPlayers.shift());
     this.setState({ currentPlayersInRound: currentPlayers });
-    //make a pass button/function
   }
 
   render(){
@@ -118,7 +117,7 @@ class PlayingFieldComponent extends React.Component {
     );
     }
     );
-    console.log(playedCards);
+
     let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>Your turn!</p> : undefined;
 
     return(
