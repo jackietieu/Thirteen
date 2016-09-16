@@ -47,6 +47,7 @@ class PlayingFieldComponent extends React.Component {
         kicker: {}
       }
     };
+
     window.state = this.state;
   }
 
@@ -107,34 +108,38 @@ class PlayingFieldComponent extends React.Component {
       //DON'T USE THIS MOVE
       if (move === "pass"){
         this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-        () => {
-          //next round
-          if(this.state.currentPlayersInRound.length > 1){
-            this.nextMoveSameRound();
-          } else {
-            this.nextRound();
-          }
-        }
-      );
-      } else {
-        console.log(move);
-        this.setState({ bestCurrentPlay: move },
           () => {
-            this.nextPlayer();
+            //next round
+            if(this.state.currentPlayersInRound.length > 1){
+              return this.nextMoveSameRound();
+            } else {
+              return this.nextRound();
+            }
           }
         );
+      } else {
+        console.log('nextplayer');
+        currentPlayers.push(currentPlayers.shift());
+        this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
+          this.nextMoveSameRound()
+        );
+        // this.setState({ bestCurrentPlay: move },
+        //   () => {
+        //     return this.nextPlayer();
+        //   }
+        // );
       }
     });
   }
 
-  nextPlayer(){
-    console.log('next player');
-    let currentPlayers = [].concat(this.state.currentPlayersInRound);
-    currentPlayers.push(currentPlayers.shift());
-    this.setState({ currentPlayersInRound: currentPlayers },
-      this.nextMoveSameRound()
-    );
-  }
+  // nextPlayer(){
+  //   console.log('next player');
+  //   let currentPlayers = [].concat(this.state.currentPlayersInRound);
+  //   currentPlayers.push(currentPlayers.shift());
+  //   this.setState({ currentPlayersInRound: currentPlayers },
+  //     this.nextMoveSameRound()
+  //   );
+  // }
 
   run(){
     this.nextMoveSameRound();

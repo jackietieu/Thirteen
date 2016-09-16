@@ -19,8 +19,9 @@ class ComputerPlayerObj{
         //because can't play current round
         return this.hand.validPlay(currentPlay);
       case "single":
-        if (this.hand.validPlay(currentPlay)) {
-          return this.hand.validPlay(currentPlay);
+        let play = this.hand.validPlay(currentPlay);
+        if (play) {
+          return play;
         } else {
           return "pass";
         }
