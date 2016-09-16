@@ -67,22 +67,58 @@ class PlayingFieldComponent extends React.Component {
     return shuffled;
   }
 
+  sleep(time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+
+  nextRound(){
+    let startingPlayerIdx = this.players.indexOf(this.state.currentPlayersInRound[0]);
+    let newRoundRotation = this.players.slice(startingPlayerIdx, this.players.length).concat(this.players.slice(0, startingPlayerIdx));
+
+    let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
+    let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
+
+    this.setState({
+      currentPlayersInRound: newRotation,
+      bestCurrentPlay: this.resetBestCurrentPlay
+    },
+      this.nextMoveSameRound()
+    );
+  }
+
+  nextMoveSameRound(){
+    this.sleep(3000).then(() => {
+      let currentPlayers = this.state.currentPlayersInRound;
+      let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
+      //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
+      //DON'T USE THIS MOVE
+      if (move === "pass"){
+        this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
+        () => {
+          //next round
+          if(this.state.currentPlayersInRound.length > 1){
+            this.nextMoveSameRound();
+          }
+        }
+      );
+      } else {
+        this.setState({ bestCurrentPlay: move },
+          () => {
+            this.nextPlayer();
+          }
+        );
+      }
+    });
+  }
+
   run(){
+    this.nextMoveSameRound();
     // game loop
     // let firstMove = true;
     // while(this.state.players.length === 4){
       //round loop
       // while(this.state.currentPlayersInRound.length > 1){
-        let currentPlayers = this.state.currentPlayersInRound;
-        let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-        //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-        //DON'T USE THIS MOVE
-        if (move === "pass"){
-          this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)});
-        } else {
-          this.setState({ bestCurrentPlay: move });
-          this.nextPlayer();
-        }
+      //
       // }
       // currentPlayersInRound has just 1 player, add on the rest of the players
       // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
@@ -100,7 +136,9 @@ class PlayingFieldComponent extends React.Component {
   nextPlayer(){
     let currentPlayers = [].concat(this.state.currentPlayersInRound);
     currentPlayers.push(currentPlayers.shift());
-    this.setState({ currentPlayersInRound: currentPlayers });
+    this.setState({ currentPlayersInRound: currentPlayers },
+      this.nextMoveSameRound()
+    );
   }
 
   render(){

@@ -4,6 +4,14 @@ class HandObj{
   constructor(cardIds, offsetPlayerId){
     let offset;
 
+    // .sort((a,b) => (
+    //   a.kickerRank - b.kickerRank
+    // ))
+
+    // .sort((a, b) => (
+    //   a - b
+    // ))
+
     this.offsetPlayerId = offsetPlayerId;
     this.cardIds = cardIds;
     this.cards = cardIds.sort((a, b) => (
@@ -41,15 +49,15 @@ class HandObj{
         return startingPlay;
       case "single":
         let betterCardIdx = this.cards.indexOf(this.cards.find(card => (
-          card.i > currentPlay.cards[0].i
+          card.kickerRank > currentPlay.cards[0].kickerRank
         )));
-
-        let betterCardId = this.cards[betterCardIdx].i;
-
+        console.log(betterCardIdx);
         if (betterCardIdx !== -1) {
+          let betterCardId = this.cards[betterCardIdx].i;
+
           let nextPlay = {
             type: "single",
-            cards: [new CardObj(betterCardId)],
+            cards: [this.cards[betterCardIdx]],
             kicker: this.cards.splice(betterCardIdx, 1)[0],
             playerId: this.offsetPlayerId
           };
