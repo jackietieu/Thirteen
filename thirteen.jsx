@@ -102,7 +102,7 @@ class PlayingFieldComponent extends React.Component {
   }
 
   nextMoveSameRound(){
-    this.sleep(5000).then(() => {
+    this.sleep(1000).then(() => {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
       let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
       console.log(currentPlayers);
@@ -140,6 +140,7 @@ class PlayingFieldComponent extends React.Component {
           //this is for humanplayer logic
           this.sleep(1000).then(() => {
             return move;
+            // return this.nextMoveSameRound();
           });
 
           if (move !== undefined) {
@@ -157,6 +158,7 @@ class PlayingFieldComponent extends React.Component {
               );
             } else {
               //move has been made, go to next player
+              console.log('move has been made');
               currentPlayers.push(currentPlayers.shift());
               this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
                 this.nextMoveSameRound()

@@ -35,6 +35,10 @@ class HumanPlayerObj{
           this.pass = false;
           //cards were played, return currentPlay obj
           // return "pass";
+
+          //THIS SHOULD RETURN A CURRENTPLAY OBJECT
+          //'validPlay' should actually be checked by
+          //human_player.jsx component on frontend
           return this.playedCards.validPlay(currentPlay);
         }
       }

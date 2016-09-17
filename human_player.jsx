@@ -42,6 +42,7 @@ class HumanPlayer extends React.Component{
 
     let selectedCards = document.querySelectorAll("selected");
     let selectedCardIds = [];
+
     selectedCards.forEach(cardDiv => (
       selectedCardIds.push(parseInt(cardDiv.id))
     ));

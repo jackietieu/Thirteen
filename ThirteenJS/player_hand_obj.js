@@ -4,14 +4,6 @@ class PlayerHandObj{
   constructor(cardIds, offsetPlayerId){
     let offset;
 
-    // .sort((a,b) => (
-    //   a.kickerRank - b.kickerRank
-    // ))
-
-    // .sort((a, b) => (
-    //   a - b
-    // ))
-
     this.offsetPlayerId = offsetPlayerId;
     this.cardIds = cardIds;
     this.cards = cardIds.sort((a, b) => (
@@ -31,55 +23,19 @@ class PlayerHandObj{
     });
   }
 
+  //REMOVE AI LOGIC, REPLACE WITH LOGIC TO CHECK SELECTEDHAND
+  //validPlay is called with the selected hand as `this.cards`
+
   validPlay(currentPlay){
-    switch (currentPlay.type) {
-      case "start":
-        //return CardObj of 3 spades
-        let spades3idx = this.cards.indexOf(this.cards.find(card => (
-          card.i === 2
-        )));
+    //human player cards are removed by the front end
+    let play = {
+      type: currentPlay.type,
+      cards: this.cards,
+      kicker: this.cards.slice(this.cards.length - 1, this.cards.length),
+      playerId: this.offsetPlayerId
+    };
 
-        let startingPlay = {
-          type: "single",
-          cards: [new CardObj(2)],
-          kicker: this.cards.splice(spades3idx, 1)[0],
-          playerId: this.offsetPlayerId
-        };
-
-        return startingPlay;
-      case "single":
-        let betterCardIdx = this.cards.indexOf(this.cards.find(card => (
-          card.kickerRank > currentPlay.cards[0].kickerRank
-        )));
-
-        if (betterCardIdx === -1) {
-          console.log("passing");
-          return "pass";
-        } else {
-          let nextPlay = {
-            type: "single",
-            cards: [this.cards[betterCardIdx]],
-            kicker: this.cards.splice(betterCardIdx, 1)[0],
-            playerId: this.offsetPlayerId
-          };
-
-          return nextPlay;
-        }
-      case "newRound":
-        //default play
-        //placeholder -> cpu plays first card in hand for now
-        console.log("newRound");
-        let nextPlay = {
-          type: "single",
-          cards: [this.cards[0]],
-          kicker: this.cards.splice(0, 1)[0],
-          playerId: this.offsetPlayerId
-        };
-
-        return nextPlay;
-      default:
-        return "pass";
-    }
+    return play;
   }
 }
 
