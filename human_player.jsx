@@ -1,16 +1,24 @@
 import React from 'react';
 import HandCard from './hand_card';
 import Hand from './ThirteenJS/hand';
+import CardObj from './ThirteenJS/card_obj';
 
 class HumanPlayer extends React.Component{
   constructor(props){
     super(props);
+
+    this.currentPlayToBeat = this.props.currentPlayToBeat;
+
     this.state = {
       handCardIds: this.props.playerObj.hand.cardIds,
       hand: this.createCards(this.props.playerObj.hand.cards),
       currentSelection: [],
       currentPlay: []
     };
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.currentPlayToBeat = nextProps.currentPlayToBeat;
   }
 
   selectCard(e){
@@ -28,7 +36,16 @@ class HumanPlayer extends React.Component{
         currentSelection: tempSelection
       });
     }
+
     e.currentTarget.classList.toggle('selected');
+
+    let selectedCards = document.querySelectorAll("selected");
+    let selectedCardIds = [];
+    selectedCards.forEach(cardDiv => (
+      selectedCardIds.push(parseInt(cardDiv.id))
+    ));
+
+    this.props.playerObj.selectedHand = new Hand(selectedCardIds);
   }
 
   createCards(hand){
@@ -60,12 +77,17 @@ class HumanPlayer extends React.Component{
 
     let newHand = new Hand(newHandCardIds, 0);
     let playedCards = new Hand(removeHandCardIds, 0);
+
     this.setState({
       handCardIds: newHandCardIds,
       hand: this.createCards(newHand.cards),
       currentPlay: this.createCards(playedCards.cards),
       currentSelection: []
-    });
+    }, () => {
+      this.props.playerObj.playedCards = playedCards;
+      this.props.playerObj.kickout = true;
+    }
+  );
   }
 
   validPlay(){
@@ -76,7 +98,19 @@ class HumanPlayer extends React.Component{
     //   //human has to play according to the current round's cards
     //   return true;
     // }
-    return false;
+
+    //single card selection for now
+    //grab id
+
+    let singleCard = new CardObj(this.state.currentSelection[0]);
+    // console.log(singleCard.kickerRank);
+    // console.log(this.currentPlayToBeat.kicker);
+    // console.log(this.currentPlayToBeat.kicker.kickerRank);
+    if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
+     return false;
+    } else {
+     return true;
+    }
   }
 
   render(){

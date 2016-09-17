@@ -28,6 +28,7 @@ class PlayingFieldComponent extends React.Component {
 
     let firstPlayerIdx = this.shuffledDeck.indexOf(2) / 13 | 0;
     let rotation = [this.player0, this.player1, this.player2, this.player3];
+
     this.startingRotation = rotation.splice(
       firstPlayerIdx,
       rotation.length).concat(rotation.splice(0, firstPlayerIdx));
@@ -104,9 +105,23 @@ class PlayingFieldComponent extends React.Component {
     this.sleep(5000).then(() => {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
       let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
+      console.log(currentPlayers);
+      // console.log(move);
+      //IF STAFEMENT
+      //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
+      //SET MOVE = UNDEFINED
+      //USE SLEEP TIMER
+      //CALL HUMANPLAYEROBJ MAKEMOVE
+      //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
+      //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
+      //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
+      //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
+
       //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
       //DON'T USE THIS MOVE
       if (move === "pass"){
+        console.log("pass");
+        console.log(currentPlayers.slice(1, currentPlayers.length));
         this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
           () => {
             //next round
@@ -176,6 +191,7 @@ class PlayingFieldComponent extends React.Component {
           key={"card ".concat(card.i).concat(` ${idx}`)} />
       );}
     );
+    console.log('best play', this.state.bestCurrentPlay);
 
     let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 
@@ -200,7 +216,8 @@ class PlayingFieldComponent extends React.Component {
 
         <HumanPlayer
           playerId={0}
-          playerObj={this.state.players[0]} />
+          playerObj={this.state.players[0]}
+          currentPlayToBeat={this.state.bestCurrentPlay} />
       </section>
     );
   }
