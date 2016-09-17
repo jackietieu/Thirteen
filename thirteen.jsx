@@ -105,7 +105,7 @@ class PlayingFieldComponent extends React.Component {
     this.sleep(1000).then(() => {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
       let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-      console.log(currentPlayers);
+      // console.log(currentPlayers);
       // console.log(move);
       //IF STAFEMENT
       //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
@@ -136,18 +136,19 @@ class PlayingFieldComponent extends React.Component {
         console.log('nextplayer');
         console.log(move);
         if (move === undefined) {
-          //need to wair for human player to move
+          //need to wait for human player to move
           //this is for humanplayer logic
           this.sleep(1000).then(() => {
-            return move;
+            console.log('human player logic check in sleep loop');
+            // return move;
             // return this.nextMoveSameRound();
-          });
-
-          if (move !== undefined) {
-            //move has been made
-            if (move === "pass") {
-              this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
+            if (move !== undefined) {
+              //move has been made
+              console.log('move made');
+              if (move === "pass") {
+                this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
                 () => {
+                  console.log('pass');
                   //next play or round
                   if(this.state.currentPlayersInRound.length > 1){
                     return this.nextMoveSameRound();
@@ -165,13 +166,15 @@ class PlayingFieldComponent extends React.Component {
               );
             }
           }
-        } else {
-          //run through rest of logic for AI
-          currentPlayers.push(currentPlayers.shift());
-          this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
-            this.nextMoveSameRound()
-          );
-        }
+          });
+      } else {
+        //run through rest of logic for AI
+        currentPlayers.push(currentPlayers.shift());
+        this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
+          this.nextMoveSameRound()
+        );
+      }
+
         // this.setState({ bestCurrentPlay: move },
         //   () => {
         //     return this.nextPlayer();

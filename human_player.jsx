@@ -93,7 +93,7 @@ class HumanPlayer extends React.Component{
   }
 
   validPlay(){
-    if (this.state.currentSelection.includes(2)) {
+    if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
       //human has 3 of spades, first player
       return false;
     }
@@ -102,6 +102,7 @@ class HumanPlayer extends React.Component{
     //grab id
 
     let singleCard = new CardObj(this.state.currentSelection[0]);
+
     if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
      return false;
     } else {
