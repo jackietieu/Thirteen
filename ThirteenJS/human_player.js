@@ -1,16 +1,12 @@
-import Hand from './hand';
+import PlayerHandObj from './player_hand_obj';
 
 class HumanPlayerObj{
   constructor(cardIds){
-    this.hand = new Hand(cardIds, 0);
+    this.hand = new PlayerHandObj(cardIds, 0);
     this.selectedHand = undefined;
     this.kickout = false;
     this.pass = false;
     this.playedCards = undefined;
-  }
-
-  hand(){
-    return this.hand;
   }
 
   sleep(time) {
@@ -26,7 +22,7 @@ class HumanPlayerObj{
     console.log('waiting for human input');
     this.sleep(1000).then(() => {
       if (this.kickout === false) {
-        this.makeMove(currentPlay);
+        return this.makeMove(currentPlay);
       } else {
         //kickout because pass or cards were played
         // console.log('pass');
@@ -38,7 +34,7 @@ class HumanPlayerObj{
           this.kickout = false;
           this.pass = false;
           //cards were played, return currentPlay obj
-
+          // return "pass";
           return this.playedCards.validPlay(currentPlay);
         }
       }

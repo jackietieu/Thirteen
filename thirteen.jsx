@@ -134,10 +134,42 @@ class PlayingFieldComponent extends React.Component {
         );
       } else {
         console.log('nextplayer');
-        currentPlayers.push(currentPlayers.shift());
-        this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
-          this.nextMoveSameRound()
-        );
+        console.log(move);
+        if (move === undefined) {
+          //need to wair for human player to move
+          //this is for humanplayer logic
+          this.sleep(1000).then(() => {
+            return move;
+          });
+
+          if (move !== undefined) {
+            //move has been made
+            if (move === "pass") {
+              this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
+                () => {
+                  //next play or round
+                  if(this.state.currentPlayersInRound.length > 1){
+                    return this.nextMoveSameRound();
+                  } else {
+                    return this.nextRound();
+                  }
+                }
+              );
+            } else {
+              //move has been made, go to next player
+              currentPlayers.push(currentPlayers.shift());
+              this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
+                this.nextMoveSameRound()
+              );
+            }
+          }
+        } else {
+          //run through rest of logic for AI
+          currentPlayers.push(currentPlayers.shift());
+          this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
+            this.nextMoveSameRound()
+          );
+        }
         // this.setState({ bestCurrentPlay: move },
         //   () => {
         //     return this.nextPlayer();

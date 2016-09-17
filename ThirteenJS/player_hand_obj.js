@@ -1,6 +1,6 @@
 import CardObj from './card_obj.js';
-//CPU HAND
-class HandObj{
+
+class PlayerHandObj{
   constructor(cardIds, offsetPlayerId){
     let offset;
 
@@ -56,10 +56,6 @@ class HandObj{
           console.log("passing");
           return "pass";
         } else {
-          console.log("playing card");
-          console.log(betterCardIdx);
-          let betterCardId = this.cards[betterCardIdx].i;
-
           let nextPlay = {
             type: "single",
             cards: [this.cards[betterCardIdx]],
@@ -87,4 +83,4 @@ class HandObj{
   }
 }
 
-export default HandObj;
+export default PlayerHandObj;

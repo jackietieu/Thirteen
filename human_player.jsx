@@ -2,6 +2,7 @@ import React from 'react';
 import HandCard from './hand_card';
 import Hand from './ThirteenJS/hand';
 import CardObj from './ThirteenJS/card_obj';
+import PlayerHandObj from './ThirteenJS/player_hand_obj';
 
 class HumanPlayer extends React.Component{
   constructor(props){
@@ -45,7 +46,7 @@ class HumanPlayer extends React.Component{
       selectedCardIds.push(parseInt(cardDiv.id))
     ));
 
-    this.props.playerObj.selectedHand = new Hand(selectedCardIds);
+    this.props.playerObj.selectedHand = new PlayerHandObj(selectedCardIds);
   }
 
   createCards(hand){
@@ -75,8 +76,8 @@ class HumanPlayer extends React.Component{
       }
     });
 
-    let newHand = new Hand(newHandCardIds, 0);
-    let playedCards = new Hand(removeHandCardIds, 0);
+    let newHand = new PlayerHandObj(newHandCardIds, 0);
+    let playedCards = new PlayerHandObj(removeHandCardIds, 0);
 
     this.setState({
       handCardIds: newHandCardIds,
@@ -91,21 +92,15 @@ class HumanPlayer extends React.Component{
   }
 
   validPlay(){
-    // if (this.state.currentSelection.includes(2)) {
-    //   //human has 3 of spades, first player
-    //   return false;
-    // } else {
-    //   //human has to play according to the current round's cards
-    //   return true;
-    // }
+    if (this.state.currentSelection.includes(2)) {
+      //human has 3 of spades, first player
+      return false;
+    }
 
     //single card selection for now
     //grab id
 
     let singleCard = new CardObj(this.state.currentSelection[0]);
-    // console.log(singleCard.kickerRank);
-    // console.log(this.currentPlayToBeat.kicker);
-    // console.log(this.currentPlayToBeat.kicker.kickerRank);
     if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
      return false;
     } else {
