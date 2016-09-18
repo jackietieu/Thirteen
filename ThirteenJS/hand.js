@@ -79,7 +79,7 @@ class HandObj{
           kicker: this.cards.splice(0, 1)[0],
           playerId: this.offsetPlayerId
         };
-
+        console.log(nextPlay.playerId);
         return nextPlay;
       default:
         return "pass";

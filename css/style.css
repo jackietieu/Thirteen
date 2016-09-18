@@ -34,7 +34,7 @@
   position: relative;
 }
 
-.CPU-player-hand2, .human-player-hand {
+.CPU-player-hand2, .human-player-hand, .CPU-player-hand0 {
   position: relative;
   display: flex;
   justify-content: center;

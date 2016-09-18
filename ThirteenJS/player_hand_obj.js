@@ -29,7 +29,7 @@ class PlayerHandObj{
   validPlay(currentPlay){
     //human player cards are removed by the front end
     let play = {
-      type: currentPlay.type,
+      type: "single",
       cards: this.cards,
       kicker: this.cards.slice(this.cards.length - 1, this.cards.length),
       playerId: this.offsetPlayerId
