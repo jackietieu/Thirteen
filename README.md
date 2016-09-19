@@ -6,6 +6,10 @@
 
 Thirteen is a classic Vietnamese card game that also goes by the name of Big Two. This web app utilizes ReactJS to quickly render the appropriate components. Currently, it features an AI simulation between four players using basic rules of the game.
 
+This app makes use of JavaScript, ReactJS, HTML/CSS and Chris Aguilar's [vector playing cards][card_link].
+
+[card_link]: http://sourceforge.net/projects/vector-cards/
+
 ## Features & Implementation
 
 ### Rules of the Game
