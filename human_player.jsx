@@ -1,8 +1,8 @@
 import React from 'react';
 import HandCard from './hand_card';
-import Hand from './ThirteenJS/hand';
-import CardObj from './ThirteenJS/card_obj';
-import PlayerHandObj from './ThirteenJS/player_hand_obj';
+import Hand from './lib/hand';
+import CardObj from './lib/card_obj';
+import PlayerHandObj from './lib/player_hand_obj';
 
 class HumanPlayer extends React.Component{
   constructor(props){

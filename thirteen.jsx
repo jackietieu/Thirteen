@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import HumanPlayer from './human_player';
 import ComputerPlayer from './computer_player';
-import ComputerPlayerObj from './ThirteenJS/computer_player';
-import HumanPlayerObj from './ThirteenJS/human_player';
-import HandObj from './ThirteenJS/hand';
+import ComputerPlayerObj from './lib/computer_player';
+import HumanPlayerObj from './lib/human_player';
+import HandObj from './lib/hand';
 import HandCard from './hand_card';
 
 class PlayingFieldComponent extends React.Component {
@@ -120,7 +120,7 @@ class PlayingFieldComponent extends React.Component {
   // }
 
   nextMoveSameRound(){
-    this.sleep(100).then(() => {
+    this.sleep(2000).then(() => {
       // console.log('nextmove');
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
       let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
@@ -265,12 +265,17 @@ class PlayingFieldComponent extends React.Component {
     )).map((card, idx) => {
       return(
         <HandCard
-          offset={{"left":`calc(50vh + ${idx}*10px)`}}
+          offset={{"left":`calc(165px + ${idx}*10px)`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />
       );}
     );
+
+    // let passed = undefined;
+    // if (this.state.passed || this.state.bestCurrentPlay.type === "newRound") {
+    //   passed = <span className="passed">{`Player ${this.state.passed.playerId}`}</span>;
+    // }
 
     // let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 

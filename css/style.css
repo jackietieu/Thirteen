@@ -10,6 +10,14 @@
   align-items: center;
 }
 
+.title {
+  text-align: center;
+}
+
+.instructions li {
+  list-style: square;
+}
+
 .left-right {
   display: flex;
   justify-content: space-between;
@@ -21,9 +29,11 @@
 }
 
 .played-cards {
-  /*display: flex;*/
+  /*display: flex;
+  flex-direction: column;*/
   /*justify-content: space-between;*/
   /*align-items: center;*/
+  position: relative;
   text-align: center;
   width: 400px;
   height: 400px;

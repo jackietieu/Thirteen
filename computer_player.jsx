@@ -1,5 +1,5 @@
 import React from 'react';
-import HandObj from './ThirteenJS/hand';
+import HandObj from './lib/hand';
 import Hand from './hand';
 
 class ComputerPlayer extends React.Component{
