@@ -49,8 +49,6 @@ class PlayingFieldComponent extends React.Component {
         kicker: {}
       }
     };
-
-    window.state = this.state;
   }
 
   componentDidMount(){
@@ -99,7 +97,6 @@ class PlayingFieldComponent extends React.Component {
   }
 
   nextMoveSameRound(){
-    console.log(this.state.currentPlayersInRound);
     if (this.state.currentPlayersInRound[0].id !== 0) {
       setTimeout(() => {
         let currentPlayers = [].concat(this.state.currentPlayersInRound);
@@ -131,11 +128,9 @@ class PlayingFieldComponent extends React.Component {
     }
   }, 1000);
     } else {
-      console.log('player move');
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
       currentPlayers[0].makeMove(this.state.bestCurrentPlay, (move) => {
-        console.log('callback fired');
         if (move === "pass"){
           this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
           () => {
@@ -158,138 +153,11 @@ class PlayingFieldComponent extends React.Component {
           );
         }
       });
-
-      //pass in callback to continue rest of code ^^
-
-      // if (humanMove) {
-      //   move = humanMove;
-      // } else {
-      //   move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-      // }
-      //
-      // if ((currentPlayers[0] === this.player0) && (move === undefined)) {
-      //   move = this.waitForPlayerMove();
-      //   debugger;
-      //   this.nextMoveSameRound(move);
-      // }
-
-      // console.log(currentPlayers);
-      // console.log(move);
-      //IF STAFEMENT
-      //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
-      //SET MOVE = UNDEFINED
-      //USE SLEEP TIMER
-      //CALL HUMANPLAYEROBJ MAKEMOVE
-      //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
-      //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
-      //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
-      //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
-
-      //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-      //DON'T USE THIS MOVE
-      // if (move !== undefined) {
-      // if (move === "pass"){
-        // console.log("pass");
-        // console.log(currentPlayers.slice(1, currentPlayers.length));
-      //   this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-      //   () => {
-      //     //next round
-      //     if(this.state.currentPlayersInRound.length > 1){
-      //       return this.nextMoveSameRound();
-      //     } else {
-      //       return this.nextRound();
-      //     }
-      //   }
-      // );
-      // } else {
-      // console.log('nextplayer');
-      // console.log(move);
-      // if (move === undefined) {
-      //   //need to wait for human player to move
-      //   //this is for humanplayer logic
-      //   this.sleep(1000).then(() => {
-      //     // console.log('human player logic check in sleep loop');
-      //     // return move;
-      //     // return this.nextMoveSameRound();
-      //     if (move !== undefined) {
-      //       //move has been made
-      //       // console.log('move made');
-      //       if (move === "pass") {
-      //         this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-      //         () => {
-      //           // console.log('pass');
-      //           //next play or round
-      //           if(this.state.currentPlayersInRound.length > 1){
-      //             return this.nextMoveSameRound();
-      //           } else {
-      //             return this.nextRound();
-      //           }
-      //         }
-      //       );
-      //     } else {
-      //       //move has been made, go to next player
-      //       // console.log('move has been made');
-      //       currentPlayers.push(currentPlayers.shift());
-      //       this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
-      //         this.nextMoveSameRound()
-      //       );
-      //     }
-      //   }
-      // });
-    // } else {
-      //if someone won
-      //run through rest of logic for AI
-  //     let possibleWinner = currentPlayers[0];
-  //     currentPlayers.push(currentPlayers.shift());
-  //     this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, () => {
-  //       if (possibleWinner.hand.cards.length === 0) {
-  //         alert(`Player ${possibleWinner.id} won!`);
-  //         return;
-  //       }
-  //
-  //       this.nextMoveSameRound();
-  //     }
-  //   );
-  // }
-
-  // this.setState({ bestCurrentPlay: move },
-  //   () => {
-  //     return this.nextPlayer();
-  //   }
-  // );
-  // }}
     }
-}
-
-// nextPlayer(){
-//   console.log('next player');
-//   let currentPlayers = [].concat(this.state.currentPlayersInRound);
-//   currentPlayers.push(currentPlayers.shift());
-//   this.setState({ currentPlayersInRound: currentPlayers },
-//     this.nextMoveSameRound()
-//   );
-// }
+  }
 
   run(){
     this.nextMoveSameRound();
-    // game loop
-    // let firstMove = true;
-    // while(this.state.players.length === 4){
-      //round loop
-      // while(this.state.currentPlayersInRound.length > 1){
-      //
-      // }
-      // currentPlayersInRound has just 1 player, add on the rest of the players
-      // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
-      // let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
-      //
-      // this.setState({
-      //   currentPlayersInRound: newRotation,
-      //   bestCurrentPlay: this.resetBestCurrentPlay
-      // });
-
-      // firstMove = false;
-    // }
   }
 
   render(){
@@ -305,13 +173,6 @@ class PlayingFieldComponent extends React.Component {
           key={"card ".concat(card.i).concat(` ${idx}`)} />
       );}
     );
-
-    // let passed = undefined;
-    // if (this.state.passed || this.state.bestCurrentPlay.type === "newRound") {
-    //   passed = <span className="passed">{`Player ${this.state.passed.playerId}`}</span>;
-    // }
-
-    // let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 
     return(
       <section className="playing-field">

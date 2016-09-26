@@ -128,8 +128,6 @@
 	        kicker: {}
 	      }
 	    };
-
-	    window.state = _this.state;
 	    return _this;
 	  }
 
@@ -177,7 +175,6 @@
 	    value: function nextMoveSameRound() {
 	      var _this2 = this;
 
-	      console.log(this.state.currentPlayersInRound);
 	      if (this.state.currentPlayersInRound[0].id !== 0) {
 	        setTimeout(function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
@@ -209,11 +206,9 @@
 	        }, 1000);
 	      } else {
 	        (function () {
-	          console.log('player move');
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
 
 	          currentPlayers[0].makeMove(_this2.state.bestCurrentPlay, function (move) {
-	            console.log('callback fired');
 	            if (move === "pass") {
 	              _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
 	                if (_this2.state.currentPlayersInRound.length > 1) {
@@ -236,141 +231,13 @@
 	              })();
 	            }
 	          });
-
-	          //pass in callback to continue rest of code ^^
-
-	          // if (humanMove) {
-	          //   move = humanMove;
-	          // } else {
-	          //   move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-	          // }
-	          //
-	          // if ((currentPlayers[0] === this.player0) && (move === undefined)) {
-	          //   move = this.waitForPlayerMove();
-	          //   debugger;
-	          //   this.nextMoveSameRound(move);
-	          // }
-
-	          // console.log(currentPlayers);
-	          // console.log(move);
-	          //IF STAFEMENT
-	          //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
-	          //SET MOVE = UNDEFINED
-	          //USE SLEEP TIMER
-	          //CALL HUMANPLAYEROBJ MAKEMOVE
-	          //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
-	          //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
-	          //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
-	          //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
-
-	          //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-	          //DON'T USE THIS MOVE
-	          // if (move !== undefined) {
-	          // if (move === "pass"){
-	          // console.log("pass");
-	          // console.log(currentPlayers.slice(1, currentPlayers.length));
-	          //   this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-	          //   () => {
-	          //     //next round
-	          //     if(this.state.currentPlayersInRound.length > 1){
-	          //       return this.nextMoveSameRound();
-	          //     } else {
-	          //       return this.nextRound();
-	          //     }
-	          //   }
-	          // );
-	          // } else {
-	          // console.log('nextplayer');
-	          // console.log(move);
-	          // if (move === undefined) {
-	          //   //need to wait for human player to move
-	          //   //this is for humanplayer logic
-	          //   this.sleep(1000).then(() => {
-	          //     // console.log('human player logic check in sleep loop');
-	          //     // return move;
-	          //     // return this.nextMoveSameRound();
-	          //     if (move !== undefined) {
-	          //       //move has been made
-	          //       // console.log('move made');
-	          //       if (move === "pass") {
-	          //         this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-	          //         () => {
-	          //           // console.log('pass');
-	          //           //next play or round
-	          //           if(this.state.currentPlayersInRound.length > 1){
-	          //             return this.nextMoveSameRound();
-	          //           } else {
-	          //             return this.nextRound();
-	          //           }
-	          //         }
-	          //       );
-	          //     } else {
-	          //       //move has been made, go to next player
-	          //       // console.log('move has been made');
-	          //       currentPlayers.push(currentPlayers.shift());
-	          //       this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
-	          //         this.nextMoveSameRound()
-	          //       );
-	          //     }
-	          //   }
-	          // });
-	          // } else {
-	          //if someone won
-	          //run through rest of logic for AI
-	          //     let possibleWinner = currentPlayers[0];
-	          //     currentPlayers.push(currentPlayers.shift());
-	          //     this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, () => {
-	          //       if (possibleWinner.hand.cards.length === 0) {
-	          //         alert(`Player ${possibleWinner.id} won!`);
-	          //         return;
-	          //       }
-	          //
-	          //       this.nextMoveSameRound();
-	          //     }
-	          //   );
-	          // }
-
-	          // this.setState({ bestCurrentPlay: move },
-	          //   () => {
-	          //     return this.nextPlayer();
-	          //   }
-	          // );
-	          // }}
 	        })();
 	      }
 	    }
-
-	    // nextPlayer(){
-	    //   console.log('next player');
-	    //   let currentPlayers = [].concat(this.state.currentPlayersInRound);
-	    //   currentPlayers.push(currentPlayers.shift());
-	    //   this.setState({ currentPlayersInRound: currentPlayers },
-	    //     this.nextMoveSameRound()
-	    //   );
-	    // }
-
 	  }, {
 	    key: 'run',
 	    value: function run() {
 	      this.nextMoveSameRound();
-	      // game loop
-	      // let firstMove = true;
-	      // while(this.state.players.length === 4){
-	      //round loop
-	      // while(this.state.currentPlayersInRound.length > 1){
-	      //
-	      // }
-	      // currentPlayersInRound has just 1 player, add on the rest of the players
-	      // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
-	      // let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
-	      //
-	      // this.setState({
-	      //   currentPlayersInRound: newRotation,
-	      //   bestCurrentPlay: this.resetBestCurrentPlay
-	      // });
-
-	      // firstMove = false;
-	      // }
 	    }
 	  }, {
 	    key: 'render',
@@ -389,13 +256,6 @@
 	          idx: idx,
 	          key: "card ".concat(card.i).concat(' ' + idx) });
 	      });
-
-	      // let passed = undefined;
-	      // if (this.state.passed || this.state.bestCurrentPlay.type === "newRound") {
-	      //   passed = <span className="passed">{`Player ${this.state.passed.playerId}`}</span>;
-	      // }
-
-	      // let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 
 	      return _react2.default.createElement(
 	        'section',
@@ -21946,22 +21806,32 @@
 	  }, {
 	    key: 'validPlay',
 	    value: function validPlay() {
-	      if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-	        return false;
-	      }
-
-	      //should rely on HANDOBJ.validPlay(), just like CPU
-	      //will pass back undefined or a currentPlay obj
-	      //translate to true/false for button display
-	      //clicking play runs the same function but will actually 'play' validPlay now
-
-	      var singleCard = new _card_obj2.default(this.state.currentSelection[0]);
-
-	      if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
-	        return false;
-	      } else {
+	      var selectedHand = new _hand2.default(this.state.currentSelection, 0);
+	      if (selectedHand.validPlay(this.currentPlayToBeat) === "pass") {
 	        return true;
+	      } else {
+	        return false;
 	      }
+
+	      // if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
+	      //   return false;
+	      // }
+
+	      //this.props.playerObj.selectedHand
+	      // let singleCard = new CardObj(this.state.currentSelection[0]);
+	      //
+	      // if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
+	      //  return false;
+	      // } else {
+	      //  return true;
+	      // }
+	    }
+	  }, {
+	    key: 'passHandler',
+	    value: function passHandler(e) {
+	      e.preventDefault();
+	      this.props.playerObj.pass = true;
+	      this.props.playerObj.kickout = true;
 	    }
 	  }, {
 	    key: 'render',
@@ -21977,11 +21847,20 @@
 	          this.state.hand,
 	          _react2.default.createElement(
 	            'button',
-	            { disabled: disabled, className: 'play-button', value: 'Play Hand', onClick: this.playCards.bind(this) },
+	            { disabled: disabled, className: 'play-button', onClick: this.playCards.bind(this) },
 	            _react2.default.createElement(
 	              'span',
 	              null,
 	              'Play Hand!'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'pass-button', onClick: this.passHandler.bind(this) },
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'Pass!'
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -22118,21 +21997,11 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	//CPU HAND
-
 	var HandObj = function () {
 	  function HandObj(cardIds, offsetPlayerId) {
 	    _classCallCheck(this, HandObj);
 
 	    var offset = void 0;
-
-	    // .sort((a,b) => (
-	    //   a.kickerRank - b.kickerRank
-	    // ))
-
-	    // .sort((a, b) => (
-	    //   a - b
-	    // ))
 
 	    this.offsetPlayerId = offsetPlayerId;
 	    this.cardIds = cardIds;
@@ -22151,11 +22020,76 @@
 
 	      return new _card_obj2.default(id, offset);
 	    });
+
+	    this.cardsByCount = {};
+	    this.updateCardCount();
 	  }
 
 	  _createClass(HandObj, [{
+	    key: "updateCardCount",
+	    value: function updateCardCount() {
+	      var _this = this;
+
+	      this.cardsByCount = {};
+	      this.cards.forEach(function (card) {
+	        var cardVal = card.val;
+	        _this.cardsByCount[cardVal] = _this.cardsByCount[cardVal] ? {
+	          kickerRank: card.kickerRank > _this.cardsByCount[cardVal].kickerRank ? card.kickerRank : _this.cardsByCount[cardVal].kickerRank,
+	          cards: _this.cardsByCount[cardVal].cards.concat(card)
+	        } : {
+	          kickerRank: card.kickerRank,
+	          val: card.val,
+	          cards: [card]
+	        };
+	      });
+	    }
+	  }, {
+	    key: "bestPlay",
+	    value: function bestPlay(currentPlay) {
+	      switch (currentPlay.type) {
+	        case "n-sequence":
+	          break;
+	        case "quad":
+	          break;
+	        case "trio":
+	          break;
+	        case "pair":
+	          //check all cards in hand
+	          //is there a pair that can beat the current pair in hand?
+	          //returns currentPlay obj
+
+	          break;
+	        case "single":
+	          break;
+	        case "newRound":
+	        //last one, should call bestPlay recursively
+	        //until there is a valid hand obj returned
+	        //returns a currentPlay obj with the best cards
+	        default:
+	          return "pass";
+	      }
+	      //return next best play if there is one
+	      //return "pass" by default
+	      //list from top to bottom, return first
+
+	      //check if "n-sequence"
+	      //if n-sequence .length >= 3 then can only be played
+	      //if newRound is currentPlay.type
+	      //if the n-sequnce can beat currentPlay's n-seq
+	      //check if "four of a kind"
+	      //check if "three of a kind"
+	      //check if "pair"
+	      //check if "single"
+	    }
+	  }, {
 	    key: "validPlay",
 	    value: function validPlay(currentPlay) {
+	      this.updateCardCount();
+	      debugger;
+	      var kickerRank = currentPlay.kicker.kickerRank;
+	      var kickerVal = currentPlay.kicker.val;
+	      var nextPlay = void 0;
+
 	      switch (currentPlay.type) {
 	        case "start":
 	          //return CardObj of 3 spades
@@ -22170,36 +22104,100 @@
 	            playerId: this.offsetPlayerId
 	          };
 
-	          return startingPlay;
+	          if (spades3idx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
+	            return "pass";
+	          } else {
+	            return startingPlay;
+	          }
+	        case "pair":
+	          var checkVals = Array.from(new Array(17 - kickerVal), function (x, i) {
+	            return i + kickerVal;
+	          });
+	          var playableCards = [];
+
+	          for (var i = 0; i < checkVals.length; i++) {
+	            if (this.cardsByCount[checkVals[i]]) {
+	              if (this.cardsByCount[checkVals[i]].cards.length >= 2 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
+	                playableCards = this.cardsByCount[checkVals[i]].cards;
+	                break;
+	              }
+	            }
+	          }
+
+	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && this.cardIds.length == 2) {
+	            var card1 = playableCards.slice(playableCards.length - 1, playableCards.length);
+	            var card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1);
+
+	            var card1idx = this.cards.indexOf(card1[0]);
+	            var card2idx = this.cards.indexOf(card2[0]);
+
+	            this.cards.splice(card1idx, 1);
+	            this.cards.splice(card2idx, 1);
+
+	            nextPlay = {
+	              type: "pair",
+	              cards: [card1, card2],
+	              kicker: card1,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
 	        case "single":
 	          var betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.kickerRank > currentPlay.cards[0].kickerRank;
+	            return card.kickerRank > currentPlay.kicker.kickerRank;
 	          }));
 
-	          if (betterCardIdx === -1) {
+	          if (betterCardIdx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
 	            return "pass";
 	          } else {
 	            var betterCardId = this.cards[betterCardIdx].i;
 
-	            var _nextPlay = {
+	            nextPlay = {
 	              type: "single",
 	              cards: [this.cards[betterCardIdx]],
 	              kicker: this.cards.splice(betterCardIdx, 1)[0],
 	              playerId: this.offsetPlayerId
 	            };
 
-	            return _nextPlay;
+	            return nextPlay;
 	          }
 	        case "newRound":
+	          //call validPlay recursively, passing in every play type
+	          //from best to least (single) until validPlay returns an obj
+	          //pass in "dummy" currentPlay with low vals
 	          //default play
 	          //placeholder -> cpu plays first card in hand for now
-	          var nextPlay = {
-	            type: "single",
-	            cards: [this.cards[0]],
-	            kicker: this.cards.splice(0, 1)[0],
-	            playerId: this.offsetPlayerId
+	          // let possibeCases = ["n-sequence", "quad", "trio", "pair", "single"];
+	          var possibleCases = ["pair", "single"];
+	          var dummyCases = ["pair currentPlay obj", "single play obj"];
+	          var lowKicker = {
+	            val: 0,
+	            kickerRank: 0
 	          };
-	          return nextPlay;
+
+	          for (var _i = 0; _i < possibleCases.length; _i++) {
+	            var dummyPlay = {
+	              type: possibleCases[_i],
+	              cards: [],
+	              kicker: lowKicker,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            nextPlay = this.validPlay(dummyPlay);
+
+	            if (nextPlay !== "pass") {
+	              break;
+	            }
+	          }
+
+	          if (nextPlay !== "pass") {
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
 	        default:
 	          return "pass";
 	      }
@@ -22221,51 +22219,34 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var CardObj = function () {
-	  function CardObj(id, offset) {
-	    _classCallCheck(this, CardObj);
+	var CardObj = function CardObj(id, offset) {
+	  _classCallCheck(this, CardObj);
 
-	    // this.i = this.props.i;
-	    // this.idx = this.props.idx;
-	    var suits = ["spades", "clubs", "diamonds", "hearts"];
-	    this.i = id;
-	    this.rank = " rank".concat(id % 13 + 1);
-	    this.val = id % 13 + 1;
-	    this.kickerRank = id % 13 + (id / 13 | 0);
+	  // this.i = this.props.i;
+	  // this.idx = this.props.idx;
+	  var suits = ["spades", "clubs", "diamonds", "hearts"];
+	  this.i = id;
+	  this.rank = " rank".concat(id % 13 + 1);
+	  this.val = id % 13 + 1;
+	  this.kickerRank = id % 13 + (id / 13 | 0);
 
-	    if (id % 13 === 0) {
-	      //ace
-	      this.kickerRank = 9000 + (id / 13 | 0);
-	    } else if (id % 13 === 1) {
-	      //2
-	      this.kickerRank = 9010 + (id / 13 | 0);
-	    } else {
-	      this.kickerRank = (id % 13 + 1) * 4 + (id / 13 | 0);
-	    }
-
-	    this.suit = suits[id / 13 | 0];
-	    this.offset = offset;
-	    // this.offset = {"left":`calc(30px + ${this.idx * 30}px)`};
+	  if (id % 13 === 0) {
+	    //ace, highest of straight sequence
+	    this.val = 14;
+	    this.kickerRank = 9000 + (id / 13 | 0);
+	  } else if (id % 13 === 1) {
+	    //two, disconnect from straight sequence
+	    this.val = 16;
+	    this.kickerRank = 9010 + (id / 13 | 0);
+	  } else {
+	    this.kickerRank = (id % 13 + 1) * 4 + (id / 13 | 0);
 	  }
 
-	  _createClass(CardObj, [{
-	    key: "info",
-	    value: function info() {
-	      return {
-	        rank: this.rank,
-	        suit: this.suit,
-	        val: this.val,
-	        offset: this.offset
-	      };
-	    }
-	  }]);
-
-	  return CardObj;
-	}();
+	  this.suit = suits[id / 13 | 0];
+	  this.offset = offset;
+	};
 
 	exports.default = CardObj;
 
@@ -22519,7 +22500,7 @@
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -22548,22 +22529,17 @@
 	  }
 
 	  _createClass(HumanPlayerObj, [{
-	    key: 'makeMove',
+	    key: "makeMove",
 	    value: function makeMove(currentPlay, callback) {
 	      var _this = this;
 
-	      var move = void 0;
-	      console.log('human move');
-	      move = setInterval(function () {
-	        console.log('waiting for human input');
+	      var move = setInterval(function () {
 	        if (_this.kickout === true) {
 	          if (_this.pass === true) {
-	            //passing
 	            _this.kickout = false;
 	            _this.pass = false;
-	            console.log('clear');
 	            clearInterval(move);
-	            return "pass";
+	            return callback("pass");
 	          } else {
 	            //valid move made
 	            _this.kickout = false;
@@ -22572,7 +22548,6 @@
 	            //'validPlay' should actually be checked by
 	            //human_player.jsx component on frontend
 	            clearInterval(move);
-	            console.log('clear');
 	            var play = _this.playedCards.validPlay(currentPlay);
 	            return callback(play);
 	          }

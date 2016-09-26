@@ -93,22 +93,31 @@ class HumanPlayer extends React.Component{
   }
 
   validPlay(){
-    if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
+    let selectedHand = new HandObj(this.state.currentSelection, 0);
+    if (selectedHand.validPlay(this.currentPlayToBeat) === "pass") {
+      return true;
+    } else {
       return false;
     }
 
-    //should rely on HANDOBJ.validPlay(), just like CPU
-    //will pass back undefined or a currentPlay obj
-    //translate to true/false for button display
-    //clicking play runs the same function but will actually 'play' validPlay now
+    // if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
+    //   return false;
+    // }
 
-    let singleCard = new CardObj(this.state.currentSelection[0]);
+    //this.props.playerObj.selectedHand
+    // let singleCard = new CardObj(this.state.currentSelection[0]);
+    //
+    // if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
+    //  return false;
+    // } else {
+    //  return true;
+    // }
+  }
 
-    if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
-     return false;
-    } else {
-     return true;
-    }
+  passHandler(e){
+    e.preventDefault();
+    this.props.playerObj.pass = true;
+    this.props.playerObj.kickout = true;
   }
 
   render(){
@@ -118,8 +127,11 @@ class HumanPlayer extends React.Component{
       <div className="human-player">
         <div className="human-player-hand">
           {this.state.hand}
-          <button disabled={disabled} className="play-button" value="Play Hand" onClick={this.playCards.bind(this)}>
+          <button disabled={disabled} className="play-button" onClick={this.playCards.bind(this)}>
             <span>Play Hand!</span>
+          </button>
+          <button className="pass-button" onClick={this.passHandler.bind(this)}>
+            <span>Pass!</span>
           </button>
 
           <div className="human-player-played-hand">

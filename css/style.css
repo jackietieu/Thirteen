@@ -90,8 +90,24 @@
   border: 1px solid black;
 }
 
+button.pass-button {
+  position: absolute;
+  bottom: 20px;
+  right: -57.5px;
+  background: #cef5ce;
+  border: 2px solid #75ca9a;
+  color: black;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+}
+
 button.play-button {
   position: absolute;
+  bottom: 75px;
   right: -75px;
   background: #cef5ce;
   border: 2px solid #75ca9a;
