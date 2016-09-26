@@ -1,14 +1,14 @@
 import React from 'react';
 import HandCard from './hand_card';
-import Hand from './lib/hand';
+import HandObj from './lib/hand';
 import CardObj from './lib/card_obj';
-import PlayerHandObj from './lib/player_hand_obj';
 
 class HumanPlayer extends React.Component{
   constructor(props){
     super(props);
 
     this.currentPlayToBeat = this.props.currentPlayToBeat;
+    this.playerId = 0;
 
     this.state = {
       handCardIds: this.props.playerObj.hand.cardIds,
@@ -47,7 +47,7 @@ class HumanPlayer extends React.Component{
       selectedCardIds.push(parseInt(cardDiv.id))
     ));
 
-    this.props.playerObj.selectedHand = new PlayerHandObj(selectedCardIds);
+    this.props.playerObj.selectedHand = new HandObj(selectedCardIds);
   }
 
   createCards(hand){
@@ -77,8 +77,8 @@ class HumanPlayer extends React.Component{
       }
     });
 
-    let newHand = new PlayerHandObj(newHandCardIds, 0);
-    let playedCards = new PlayerHandObj(removeHandCardIds, 0);
+    let newHand = new HandObj(newHandCardIds, 0);
+    let playedCards = new HandObj(removeHandCardIds, 0);
 
     this.setState({
       handCardIds: newHandCardIds,
@@ -94,16 +94,17 @@ class HumanPlayer extends React.Component{
 
   validPlay(){
     if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-      //human has 3 of spades, first player
       return false;
     }
 
-    //single card selection for now
-    //grab id
+    //should rely on HANDOBJ.validPlay(), just like CPU
+    //will pass back undefined or a currentPlay obj
+    //translate to true/false for button display
+    //clicking play runs the same function but will actually 'play' validPlay now
 
     let singleCard = new CardObj(this.state.currentSelection[0]);
 
-    if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
+    if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
      return false;
     } else {
      return true;

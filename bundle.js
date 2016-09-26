@@ -60,19 +60,19 @@
 
 	var _human_player2 = _interopRequireDefault(_human_player);
 
-	var _computer_player = __webpack_require__(174);
+	var _computer_player = __webpack_require__(176);
 
 	var _computer_player2 = _interopRequireDefault(_computer_player);
 
-	var _computer_player3 = __webpack_require__(181);
+	var _computer_player3 = __webpack_require__(178);
 
 	var _computer_player4 = _interopRequireDefault(_computer_player3);
 
-	var _human_player3 = __webpack_require__(184);
+	var _human_player3 = __webpack_require__(179);
 
 	var _human_player4 = _interopRequireDefault(_human_player3);
 
-	var _hand = __webpack_require__(182);
+	var _hand = __webpack_require__(174);
 
 	var _hand2 = _interopRequireDefault(_hand);
 
@@ -100,8 +100,8 @@
 	    _this.startingRotation = [];
 	    _this.shuffledDeck = _this.shuffleDeck();
 
-	    // this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
-	    _this.player0 = new _computer_player4.default(0, _this.shuffledDeck.slice(0, 13));
+	    _this.player0 = new _human_player4.default(_this.shuffledDeck.slice(0, 13).sort());
+	    // this.player0 = new ComputerPlayerObj(0, this.shuffledDeck.slice(0, 13));
 	    _this.player1 = new _computer_player4.default(1, _this.shuffledDeck.slice(13, 26));
 	    _this.player2 = new _computer_player4.default(2, _this.shuffledDeck.slice(26, 39));
 	    _this.player3 = new _computer_player4.default(3, _this.shuffledDeck.slice(39, 52));
@@ -157,16 +157,8 @@
 	      return shuffled;
 	    }
 	  }, {
-	    key: 'sleep',
-	    value: function sleep(time) {
-	      return new Promise(function (resolve) {
-	        return setTimeout(resolve, time);
-	      });
-	    }
-	  }, {
 	    key: 'nextRound',
 	    value: function nextRound() {
-	      console.log("nextRound thirteenjsx");
 	      var startingPlayerIdx = this.state.players.indexOf(this.state.currentPlayersInRound[0]);
 
 	      var newRoundRotation = this.state.players.slice(startingPlayerIdx, this.state.players.length).concat(this.state.players.slice(0, startingPlayerIdx));
@@ -180,72 +172,113 @@
 	        bestCurrentPlay: this.resetBestCurrentPlay
 	      }, this.nextMoveSameRound());
 	    }
-
-	    // waitForPlayerMove(){
-	    //   this.sleep(500).then(() => {
-	    //     // console.log('waiting');
-	    //   let move = this.state.currentPlayersInRound[0].makeMove(this.state.bestCurrentPlay);
-	    //     if (move === undefined) {
-	    //       return this.waitForPlayerMove();
-	    //     } else {
-	    //       // console.log('returning move', move);
-	    //       this.state.currentPlayersInRound[0].kickout = false;
-	    //       this.state.currentPlayersInRound[0].pass = false;
-	    //       this.state.currentPlayersInRound[0].selectedHand = undefined;
-	    //       this.playedCards = undefined;
-	    //       return move;
-	    //     }
-	    //   });
-	    // }
-
 	  }, {
 	    key: 'nextMoveSameRound',
 	    value: function nextMoveSameRound() {
 	      var _this2 = this;
 
-	      this.sleep(2000).then(function () {
-	        // console.log('nextmove');
-	        var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
-	        var move = currentPlayers[0].makeMove(_this2.state.bestCurrentPlay);
+	      console.log(this.state.currentPlayersInRound);
+	      if (this.state.currentPlayersInRound[0].id !== 0) {
+	        setTimeout(function () {
+	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
+	          var move = currentPlayers[0].makeMove(_this2.state.bestCurrentPlay);
+	          if (move === "pass") {
+	            _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
+	              if (_this2.state.currentPlayersInRound.length > 1) {
+	                return _this2.nextMoveSameRound();
+	              } else {
+	                return _this2.nextRound();
+	              }
+	            });
+	          } else {
+	            (function () {
+	              var possibleWinner = currentPlayers[0];
+	              currentPlayers.push(currentPlayers.shift());
+	              _this2.setState({
+	                currentPlayersInRound: currentPlayers,
+	                bestCurrentPlay: move }, function () {
+	                if (possibleWinner.hand.cards.length === 0) {
+	                  alert('Player ' + possibleWinner.id + ' won!');
+	                  return;
+	                }
 
-	        // if (humanMove) {
-	        //   move = humanMove;
-	        // } else {
-	        //   move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-	        // }
-	        //
-	        // if ((currentPlayers[0] === this.player0) && (move === undefined)) {
-	        //   move = this.waitForPlayerMove();
-	        //   debugger;
-	        //   this.nextMoveSameRound(move);
-	        // }
+	                return _this2.nextMoveSameRound();
+	              });
+	            })();
+	          }
+	        }, 1000);
+	      } else {
+	        (function () {
+	          console.log('player move');
+	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
 
-	        // console.log(currentPlayers);
-	        // console.log(move);
-	        //IF STAFEMENT
-	        //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
-	        //SET MOVE = UNDEFINED
-	        //USE SLEEP TIMER
-	        //CALL HUMANPLAYEROBJ MAKEMOVE
-	        //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
-	        //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
-	        //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
-	        //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
-
-	        //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-	        //DON'T USE THIS MOVE
-	        // if (move !== undefined) {
-	        if (move === "pass") {
-	          // console.log("pass");
-	          // console.log(currentPlayers.slice(1, currentPlayers.length));
-	          _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
-	            //next round
-	            if (_this2.state.currentPlayersInRound.length > 1) {
-	              return _this2.nextMoveSameRound();
+	          currentPlayers[0].makeMove(_this2.state.bestCurrentPlay, function (move) {
+	            console.log('callback fired');
+	            if (move === "pass") {
+	              _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
+	                if (_this2.state.currentPlayersInRound.length > 1) {
+	                  return _this2.nextMoveSameRound();
+	                } else {
+	                  return _this2.nextRound();
+	                }
+	              });
 	            } else {
-	              return _this2.nextRound();
+	              (function () {
+	                var possibleWinner = currentPlayers[0];
+	                currentPlayers.push(currentPlayers.shift());
+	                _this2.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, function () {
+	                  if (possibleWinner.hand.cards.length === 0) {
+	                    alert('Player ' + possibleWinner.id + ' won!');
+	                    return;
+	                  }
+	                  return _this2.nextMoveSameRound();
+	                });
+	              })();
 	            }
 	          });
+
+	          //pass in callback to continue rest of code ^^
+
+	          // if (humanMove) {
+	          //   move = humanMove;
+	          // } else {
+	          //   move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
+	          // }
+	          //
+	          // if ((currentPlayers[0] === this.player0) && (move === undefined)) {
+	          //   move = this.waitForPlayerMove();
+	          //   debugger;
+	          //   this.nextMoveSameRound(move);
+	          // }
+
+	          // console.log(currentPlayers);
+	          // console.log(move);
+	          //IF STAFEMENT
+	          //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
+	          //SET MOVE = UNDEFINED
+	          //USE SLEEP TIMER
+	          //CALL HUMANPLAYEROBJ MAKEMOVE
+	          //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
+	          //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
+	          //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
+	          //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
+
+	          //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
+	          //DON'T USE THIS MOVE
+	          // if (move !== undefined) {
+	          // if (move === "pass"){
+	          // console.log("pass");
+	          // console.log(currentPlayers.slice(1, currentPlayers.length));
+	          //   this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
+	          //   () => {
+	          //     //next round
+	          //     if(this.state.currentPlayersInRound.length > 1){
+	          //       return this.nextMoveSameRound();
+	          //     } else {
+	          //       return this.nextRound();
+	          //     }
+	          //   }
+	          // );
 	          // } else {
 	          // console.log('nextplayer');
 	          // console.log(move);
@@ -281,30 +314,30 @@
 	          //     }
 	          //   }
 	          // });
-	        } else {
-	          (function () {
-	            //if someone won
-	            //run through rest of logic for AI
-	            var possibleWinner = currentPlayers[0];
-	            currentPlayers.push(currentPlayers.shift());
-	            _this2.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, function () {
-	              if (possibleWinner.hand.cards.length === 0) {
-	                alert('Player ' + possibleWinner.id + ' won!');
-	                return;
-	              }
+	          // } else {
+	          //if someone won
+	          //run through rest of logic for AI
+	          //     let possibleWinner = currentPlayers[0];
+	          //     currentPlayers.push(currentPlayers.shift());
+	          //     this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, () => {
+	          //       if (possibleWinner.hand.cards.length === 0) {
+	          //         alert(`Player ${possibleWinner.id} won!`);
+	          //         return;
+	          //       }
+	          //
+	          //       this.nextMoveSameRound();
+	          //     }
+	          //   );
+	          // }
 
-	              _this2.nextMoveSameRound();
-	            });
-	          })();
-	        }
-
-	        // this.setState({ bestCurrentPlay: move },
-	        //   () => {
-	        //     return this.nextPlayer();
-	        //   }
-	        // );
-	        // }}
-	      });
+	          // this.setState({ bestCurrentPlay: move },
+	          //   () => {
+	          //     return this.nextPlayer();
+	          //   }
+	          // );
+	          // }}
+	        })();
+	      }
 	    }
 
 	    // nextPlayer(){
@@ -386,21 +419,17 @@
 	            playerId: 3,
 	            playerObj: this.state.players[3] })
 	        ),
-	        _react2.default.createElement(_computer_player2.default, {
+	        _react2.default.createElement(_human_player2.default, {
 	          playerId: 0,
-	          playerObj: this.state.players[0] })
+	          playerObj: this.state.players[0],
+	          currentPlayToBeat: this.state.bestCurrentPlay,
+	          nextMoveSameRound: this.nextMoveSameRound.bind(this) })
 	      );
 	    }
 	  }]);
 
 	  return PlayingFieldComponent;
 	}(_react2.default.Component);
-
-	// <HumanPlayer
-	//   playerId={0}
-	//   playerObj={this.state.players[0]}
-	//   currentPlayToBeat={this.state.bestCurrentPlay}
-	//   nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
 
 	document.addEventListener('DOMContentLoaded', function () {
 	  _reactDom2.default.render(_react2.default.createElement(PlayingFieldComponent, null), document.getElementById('root'));
@@ -21797,17 +21826,13 @@
 
 	var _hand_card2 = _interopRequireDefault(_hand_card);
 
-	var _hand = __webpack_require__(182);
+	var _hand = __webpack_require__(174);
 
 	var _hand2 = _interopRequireDefault(_hand);
 
-	var _card_obj = __webpack_require__(183);
+	var _card_obj = __webpack_require__(175);
 
 	var _card_obj2 = _interopRequireDefault(_card_obj);
-
-	var _player_hand_obj = __webpack_require__(185);
-
-	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21826,6 +21851,7 @@
 	    var _this = _possibleConstructorReturn(this, (HumanPlayer.__proto__ || Object.getPrototypeOf(HumanPlayer)).call(this, props));
 
 	    _this.currentPlayToBeat = _this.props.currentPlayToBeat;
+	    _this.playerId = 0;
 
 	    _this.state = {
 	      handCardIds: _this.props.playerObj.hand.cardIds,
@@ -21868,7 +21894,7 @@
 	        return selectedCardIds.push(parseInt(cardDiv.id));
 	      });
 
-	      this.props.playerObj.selectedHand = new _player_hand_obj2.default(selectedCardIds);
+	      this.props.playerObj.selectedHand = new _hand2.default(selectedCardIds);
 	    }
 	  }, {
 	    key: 'createCards',
@@ -21904,8 +21930,8 @@
 	        }
 	      });
 
-	      var newHand = new _player_hand_obj2.default(newHandCardIds, 0);
-	      var playedCards = new _player_hand_obj2.default(removeHandCardIds, 0);
+	      var newHand = new _hand2.default(newHandCardIds, 0);
+	      var playedCards = new _hand2.default(removeHandCardIds, 0);
 
 	      this.setState({
 	        handCardIds: newHandCardIds,
@@ -21921,16 +21947,17 @@
 	    key: 'validPlay',
 	    value: function validPlay() {
 	      if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-	        //human has 3 of spades, first player
 	        return false;
 	      }
 
-	      //single card selection for now
-	      //grab id
+	      //should rely on HANDOBJ.validPlay(), just like CPU
+	      //will pass back undefined or a currentPlay obj
+	      //translate to true/false for button display
+	      //clicking play runs the same function but will actually 'play' validPlay now
 
 	      var singleCard = new _card_obj2.default(this.state.currentSelection[0]);
 
-	      if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
+	      if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
 	        return false;
 	      } else {
 	        return true;
@@ -22075,6 +22102,177 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _card_obj = __webpack_require__(175);
+
+	var _card_obj2 = _interopRequireDefault(_card_obj);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	//CPU HAND
+
+	var HandObj = function () {
+	  function HandObj(cardIds, offsetPlayerId) {
+	    _classCallCheck(this, HandObj);
+
+	    var offset = void 0;
+
+	    // .sort((a,b) => (
+	    //   a.kickerRank - b.kickerRank
+	    // ))
+
+	    // .sort((a, b) => (
+	    //   a - b
+	    // ))
+
+	    this.offsetPlayerId = offsetPlayerId;
+	    this.cardIds = cardIds;
+	    this.cards = cardIds.sort(function (a, b) {
+	      return a - b;
+	    }).map(function (id, idx) {
+	      if (offsetPlayerId === 0) {
+	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
+	      } else if (offsetPlayerId === 1) {
+	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "32.5px" };
+	      } else if (offsetPlayerId === 2) {
+	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
+	      } else if (offsetPlayerId === 3) {
+	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "605px" };
+	      }
+
+	      return new _card_obj2.default(id, offset);
+	    });
+	  }
+
+	  _createClass(HandObj, [{
+	    key: "validPlay",
+	    value: function validPlay(currentPlay) {
+	      switch (currentPlay.type) {
+	        case "start":
+	          //return CardObj of 3 spades
+	          var spades3idx = this.cards.indexOf(this.cards.find(function (card) {
+	            return card.i === 2;
+	          }));
+
+	          var startingPlay = {
+	            type: "single",
+	            cards: [new _card_obj2.default(2)],
+	            kicker: this.cards.splice(spades3idx, 1)[0],
+	            playerId: this.offsetPlayerId
+	          };
+
+	          return startingPlay;
+	        case "single":
+	          var betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
+	            return card.kickerRank > currentPlay.cards[0].kickerRank;
+	          }));
+
+	          if (betterCardIdx === -1) {
+	            return "pass";
+	          } else {
+	            var betterCardId = this.cards[betterCardIdx].i;
+
+	            var _nextPlay = {
+	              type: "single",
+	              cards: [this.cards[betterCardIdx]],
+	              kicker: this.cards.splice(betterCardIdx, 1)[0],
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return _nextPlay;
+	          }
+	        case "newRound":
+	          //default play
+	          //placeholder -> cpu plays first card in hand for now
+	          var nextPlay = {
+	            type: "single",
+	            cards: [this.cards[0]],
+	            kicker: this.cards.splice(0, 1)[0],
+	            playerId: this.offsetPlayerId
+	          };
+	          return nextPlay;
+	        default:
+	          return "pass";
+	      }
+	    }
+	  }]);
+
+	  return HandObj;
+	}();
+
+	exports.default = HandObj;
+
+/***/ },
+/* 175 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var CardObj = function () {
+	  function CardObj(id, offset) {
+	    _classCallCheck(this, CardObj);
+
+	    // this.i = this.props.i;
+	    // this.idx = this.props.idx;
+	    var suits = ["spades", "clubs", "diamonds", "hearts"];
+	    this.i = id;
+	    this.rank = " rank".concat(id % 13 + 1);
+	    this.val = id % 13 + 1;
+	    this.kickerRank = id % 13 + (id / 13 | 0);
+
+	    if (id % 13 === 0) {
+	      //ace
+	      this.kickerRank = 9000 + (id / 13 | 0);
+	    } else if (id % 13 === 1) {
+	      //2
+	      this.kickerRank = 9010 + (id / 13 | 0);
+	    } else {
+	      this.kickerRank = (id % 13 + 1) * 4 + (id / 13 | 0);
+	    }
+
+	    this.suit = suits[id / 13 | 0];
+	    this.offset = offset;
+	    // this.offset = {"left":`calc(30px + ${this.idx * 30}px)`};
+	  }
+
+	  _createClass(CardObj, [{
+	    key: "info",
+	    value: function info() {
+	      return {
+	        rank: this.rank,
+	        suit: this.suit,
+	        val: this.val,
+	        offset: this.offset
+	      };
+	    }
+	  }]);
+
+	  return CardObj;
+	}();
+
+	exports.default = CardObj;
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -22087,7 +22285,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _hand = __webpack_require__(182);
+	var _hand = __webpack_require__(174);
 
 	var _hand2 = _interopRequireDefault(_hand);
 
@@ -22140,8 +22338,6 @@
 	exports.default = ComputerPlayer;
 
 /***/ },
-/* 175 */,
-/* 176 */,
 /* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -22236,10 +22432,7 @@
 	exports.default = Hand;
 
 /***/ },
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22250,7 +22443,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _hand = __webpack_require__(182);
+	var _hand = __webpack_require__(174);
 
 	var _hand2 = _interopRequireDefault(_hand);
 
@@ -22323,10 +22516,10 @@
 	exports.default = ComputerPlayerObj;
 
 /***/ },
-/* 182 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -22334,177 +22527,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _card_obj = __webpack_require__(183);
-
-	var _card_obj2 = _interopRequireDefault(_card_obj);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	//CPU HAND
-	var HandObj = function () {
-	  function HandObj(cardIds, offsetPlayerId) {
-	    _classCallCheck(this, HandObj);
-
-	    var offset = void 0;
-
-	    // .sort((a,b) => (
-	    //   a.kickerRank - b.kickerRank
-	    // ))
-
-	    // .sort((a, b) => (
-	    //   a - b
-	    // ))
-
-	    this.offsetPlayerId = offsetPlayerId;
-	    this.cardIds = cardIds;
-	    this.cards = cardIds.sort(function (a, b) {
-	      return a - b;
-	    }).map(function (id, idx) {
-	      if (offsetPlayerId === 0) {
-	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
-	      } else if (offsetPlayerId === 1) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "32.5px" };
-	      } else if (offsetPlayerId === 2) {
-	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
-	      } else if (offsetPlayerId === 3) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "605px" };
-	      }
-
-	      return new _card_obj2.default(id, offset);
-	    });
-	  }
-
-	  _createClass(HandObj, [{
-	    key: "validPlay",
-	    value: function validPlay(currentPlay) {
-	      switch (currentPlay.type) {
-	        case "start":
-	          //return CardObj of 3 spades
-	          var spades3idx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.i === 2;
-	          }));
-
-	          var startingPlay = {
-	            type: "single",
-	            cards: [new _card_obj2.default(2)],
-	            kicker: this.cards.splice(spades3idx, 1)[0],
-	            playerId: this.offsetPlayerId
-	          };
-
-	          return startingPlay;
-	        case "single":
-	          var betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.kickerRank > currentPlay.cards[0].kickerRank;
-	          }));
-
-	          if (betterCardIdx === -1) {
-	            return "pass";
-	          } else {
-	            var betterCardId = this.cards[betterCardIdx].i;
-
-	            var _nextPlay = {
-	              type: "single",
-	              cards: [this.cards[betterCardIdx]],
-	              kicker: this.cards.splice(betterCardIdx, 1)[0],
-	              playerId: this.offsetPlayerId
-	            };
-
-	            return _nextPlay;
-	          }
-	        case "newRound":
-	          //default play
-	          //placeholder -> cpu plays first card in hand for now
-	          var nextPlay = {
-	            type: "single",
-	            cards: [this.cards[0]],
-	            kicker: this.cards.splice(0, 1)[0],
-	            playerId: this.offsetPlayerId
-	          };
-	          return nextPlay;
-	        default:
-	          return "pass";
-	      }
-	    }
-	  }]);
-
-	  return HandObj;
-	}();
-
-	exports.default = HandObj;
-
-/***/ },
-/* 183 */
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var CardObj = function () {
-	  function CardObj(id, offset) {
-	    _classCallCheck(this, CardObj);
-
-	    // this.i = this.props.i;
-	    // this.idx = this.props.idx;
-	    var suits = ["spades", "clubs", "diamonds", "hearts"];
-	    this.i = id;
-	    this.rank = " rank".concat(id % 13 + 1);
-	    this.val = id % 13 + 1;
-	    this.kickerRank = id % 13 + (id / 13 | 0);
-
-	    if (id % 13 === 0) {
-	      //ace
-	      this.kickerRank = 9000 + (id / 13 | 0);
-	    } else if (id % 13 === 1) {
-	      //2
-	      this.kickerRank = 9010 + (id / 13 | 0);
-	    } else {
-	      this.kickerRank = (id % 13 + 1) * 4 + (id / 13 | 0);
-	    }
-
-	    this.suit = suits[id / 13 | 0];
-	    this.offset = offset;
-	    // this.offset = {"left":`calc(30px + ${this.idx * 30}px)`};
-	  }
-
-	  _createClass(CardObj, [{
-	    key: "info",
-	    value: function info() {
-	      return {
-	        rank: this.rank,
-	        suit: this.suit,
-	        val: this.val,
-	        offset: this.offset
-	      };
-	    }
-	  }]);
-
-	  return CardObj;
-	}();
-
-	exports.default = CardObj;
-
-/***/ },
-/* 184 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _player_hand_obj = __webpack_require__(185);
+	var _player_hand_obj = __webpack_require__(180);
 
 	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
 
@@ -22521,57 +22544,40 @@
 	    this.kickout = false;
 	    this.pass = false;
 	    this.playedCards = undefined;
+	    this.id = 0;
 	  }
 
 	  _createClass(HumanPlayerObj, [{
-	    key: "sleep",
-	    value: function sleep(time) {
-	      return new Promise(function (resolve) {
-	        return setTimeout(resolve, time);
-	      });
-	    }
-
-	    // makeMove(currentPlay){
-	    //   console.log('change humanplayerobj makemove from pass');
-	    //   return "pass";
-	    // }
-
-	  }, {
-	    key: "makeMove",
-	    value: function makeMove(currentPlay) {
+	    key: 'makeMove',
+	    value: function makeMove(currentPlay, callback) {
 	      var _this = this;
 
-	      if (this.kickout === true) {
-	        var play = this.playedCards.validPlay(currentPlay);
-	        return play;
-	      }
-
-	      this.sleep(500).then(function () {
-	        if (_this.kickout === false) {
-	          // console.log('waiting for human input');
-	          return _this.makeMove(currentPlay);
-	        } else {
-	          //kickout because pass or cards were played
-	          // console.log('pass');
-
+	      var move = void 0;
+	      console.log('human move');
+	      move = setInterval(function () {
+	        console.log('waiting for human input');
+	        if (_this.kickout === true) {
 	          if (_this.pass === true) {
-	            // this.kickout = false;
-	            // this.pass = false;
+	            //passing
+	            _this.kickout = false;
+	            _this.pass = false;
+	            console.log('clear');
+	            clearInterval(move);
 	            return "pass";
 	          } else {
-	            // this.kickout = false;
-	            // this.pass = false;
-	            //cards were played, return currentPlay obj
-	            // return "pass";
-
+	            //valid move made
+	            _this.kickout = false;
+	            _this.pass = false;
 	            //THIS SHOULD RETURN A CURRENTPLAY OBJECT
 	            //'validPlay' should actually be checked by
 	            //human_player.jsx component on frontend
-	            var _play = _this.playedCards.validPlay(currentPlay);
-	            return _play;
+	            clearInterval(move);
+	            console.log('clear');
+	            var play = _this.playedCards.validPlay(currentPlay);
+	            return callback(play);
 	          }
 	        }
-	      });
+	      }, 200);
 	    }
 	  }]);
 
@@ -22581,7 +22587,7 @@
 	exports.default = HumanPlayerObj;
 
 /***/ },
-/* 185 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22592,7 +22598,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _card_obj = __webpack_require__(183);
+	var _card_obj = __webpack_require__(175);
 
 	var _card_obj2 = _interopRequireDefault(_card_obj);
 
