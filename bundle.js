@@ -247,11 +247,12 @@
 	        null,
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
 	      ) : undefined;
+	      debugger;
 	      var playedCards = this.state.bestCurrentPlay.cards.sort(function (a, b) {
 	        return a.i - b.i;
 	      }).map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
-	          offset: { "left": 'calc(165px + ' + idx + '*10px)' },
+	          offset: { "left": 'calc(165px + ' + idx + '*30px)' },
 	          i: card.i,
 	          idx: idx,
 	          key: "card ".concat(card.i).concat(' ' + idx) });
@@ -22085,7 +22086,6 @@
 	    key: "validPlay",
 	    value: function validPlay(currentPlay) {
 	      this.updateCardCount();
-	      debugger;
 	      var kickerRank = currentPlay.kicker.kickerRank;
 	      var kickerVal = currentPlay.kicker.val;
 	      var nextPlay = void 0;
@@ -22115,6 +22115,7 @@
 	          });
 	          var playableCards = [];
 
+	          debugger;
 	          for (var i = 0; i < checkVals.length; i++) {
 	            if (this.cardsByCount[checkVals[i]]) {
 	              if (this.cardsByCount[checkVals[i]].cards.length >= 2 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
@@ -22124,12 +22125,12 @@
 	            }
 	          }
 
-	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && this.cardIds.length == 2) {
-	            var card1 = playableCards.slice(playableCards.length - 1, playableCards.length);
-	            var card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1);
+	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && playableCards.length == 2) {
+	            var card1 = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
+	            var card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
 
-	            var card1idx = this.cards.indexOf(card1[0]);
-	            var card2idx = this.cards.indexOf(card2[0]);
+	            var card1idx = this.cards.indexOf(card1);
+	            var card2idx = this.cards.indexOf(card2);
 
 	            this.cards.splice(card1idx, 1);
 	            this.cards.splice(card2idx, 1);
@@ -22140,7 +22141,6 @@
 	              kicker: card1,
 	              playerId: this.offsetPlayerId
 	            };
-
 	            return nextPlay;
 	          } else {
 	            return "pass";
@@ -22440,24 +22440,25 @@
 	    this.hand = new _hand2.default(cardIds, id);
 	  }
 
-	  //currentPlayType = single, pair, triple, quad, n-sequence
+	  //currentPlayType = single, pair, trio, quad, n-sequence
 
 
 	  _createClass(ComputerPlayerObj, [{
 	    key: "makeMove",
 	    value: function makeMove(currentPlay) {
+	      var play = void 0;
 	      switch (currentPlay.type) {
-	        //currentPlay is obj with `type` string and `kicker` cardobj properties
 	        case "start":
-	          //will always be able to play 3 of spades
-	          //if else statement
-	          //if (this.hand.validPlay("single"), then return an cardobj
-	          //ALSO MUST UPDATE THIS.HAND TO NEW HAND OBJ, DISCOUNTING THROWN CARDS
-	          //else return "pass"
-	          //because can't play current round
 	          return this.hand.validPlay(currentPlay);
+	        case "pair":
+	          play = this.hand.validPlay(currentPlay);
+	          if (play) {
+	            return play;
+	          } else {
+	            return "pass";
+	          }
 	        case "single":
-	          var play = this.hand.validPlay(currentPlay);
+	          play = this.hand.validPlay(currentPlay);
 	          if (play) {
 	            return play;
 	          } else {
@@ -22465,26 +22466,6 @@
 	          }
 	        case "newRound":
 	          return this.hand.validPlay(currentPlay);
-	        // case "pair":
-	        //   if (this.hand.validPlay("pair")) {
-	        //     return this.hand.validPlay("pair");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "triple":
-	        //   if (this.hand.validPlay("triple")) {
-	        //     return this.hand.validPlay("triple");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "quad":
-	        //   if (this.hand.validPlay("quad")) {
-	        //     return this.hand.validPlay("quad");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "n-sequence":
-	        //   let sequenceLength = parseInt(currentPlayType[0]);
 	        default:
 	          return "pass";
 	      }

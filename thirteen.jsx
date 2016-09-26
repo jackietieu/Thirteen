@@ -162,12 +162,13 @@ class PlayingFieldComponent extends React.Component {
 
   render(){
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : undefined;
+    debugger;
     let playedCards = this.state.bestCurrentPlay.cards.sort((a, b) => (
       a.i - b.i
     )).map((card, idx) => {
       return(
         <HandCard
-          offset={{"left":`calc(165px + ${idx}*10px)`}}
+          offset={{"left":`calc(165px + ${idx}*30px)`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />
