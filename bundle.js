@@ -222,7 +222,6 @@
 	              (function () {
 	                var possibleWinner = currentPlayers[0];
 	                currentPlayers.push(currentPlayers.shift());
-	                console.log('bestcurrentplay', _this2.state.bestCurrentPlay);
 	                _this2.setState({
 	                  currentPlayersInRound: currentPlayers,
 	                  bestCurrentPlay: move }, function () {
@@ -230,8 +229,6 @@
 	                    alert('Player ' + possibleWinner.id + ' won!');
 	                    return;
 	                  }
-	                  console.log('nextmovesameround', move);
-	                  console.log('currentplayers', currentPlayers);
 	                  return _this2.nextMoveSameRound();
 	                });
 	              })();
@@ -21805,7 +21802,6 @@
 	        currentPlay: this.createCards(playedCards.cards),
 	        currentSelection: []
 	      }, function () {
-	        console.log('kickout playedCards', playedCards);
 	        _this3.props.playerObj.playedCards = playedCards;
 	        _this3.props.playerObj.kickout = true;
 	      });
@@ -21820,19 +21816,6 @@
 	      } else {
 	        return false;
 	      }
-
-	      // if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-	      //   return false;
-	      // }
-	      //
-	      // // this.props.playerObj.selectedHand
-	      // let singleCard = new CardObj(this.state.currentSelection[0]);
-	      //
-	      // if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
-	      //  return false;
-	      // } else {
-	      //  return true;
-	      // }
 	    }
 	  }, {
 	    key: 'passHandler',
@@ -22409,7 +22392,7 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -22433,35 +22416,10 @@
 	    this.hand = new _hand2.default(cardIds, id);
 	  }
 
-	  //currentPlayType = single, pair, trio, quad, n-sequence
-
-
 	  _createClass(ComputerPlayerObj, [{
-	    key: "makeMove",
+	    key: 'makeMove',
 	    value: function makeMove(currentPlay) {
-	      var play = void 0;
-	      switch (currentPlay.type) {
-	        case "start":
-	          return this.hand.validPlay(currentPlay);
-	        case "pair":
-	          play = this.hand.validPlay(currentPlay);
-	          if (play) {
-	            return play;
-	          } else {
-	            return "pass";
-	          }
-	        case "single":
-	          play = this.hand.validPlay(currentPlay);
-	          if (play) {
-	            return play;
-	          } else {
-	            return "pass";
-	          }
-	        case "newRound":
-	          return this.hand.validPlay(currentPlay);
-	        default:
-	          return "pass";
-	      }
+	      return this.hand.validPlay(currentPlay);
 	    }
 	  }]);
 

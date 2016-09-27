@@ -144,7 +144,6 @@ class PlayingFieldComponent extends React.Component {
         } else {
           let possibleWinner = currentPlayers[0];
           currentPlayers.push(currentPlayers.shift());
-          console.log('bestcurrentplay', this.state.bestCurrentPlay);
           this.setState({
             currentPlayersInRound: currentPlayers,
             bestCurrentPlay: move }, () => {
@@ -152,8 +151,6 @@ class PlayingFieldComponent extends React.Component {
                 alert(`Player ${possibleWinner.id} won!`);
                 return;
               }
-              console.log('nextmovesameround', move);
-              console.log('currentplayers', currentPlayers);
               return this.nextMoveSameRound();
             }
           );

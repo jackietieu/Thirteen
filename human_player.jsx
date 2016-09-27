@@ -86,7 +86,6 @@ class HumanPlayer extends React.Component{
       currentPlay: this.createCards(playedCards.cards),
       currentSelection: []
     }, () => {
-      console.log('kickout playedCards', playedCards);
       this.props.playerObj.playedCards = playedCards;
       this.props.playerObj.kickout = true;
     }
@@ -101,19 +100,6 @@ class HumanPlayer extends React.Component{
     } else {
       return false;
     }
-
-    // if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-    //   return false;
-    // }
-    //
-    // // this.props.playerObj.selectedHand
-    // let singleCard = new CardObj(this.state.currentSelection[0]);
-    //
-    // if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
-    //  return false;
-    // } else {
-    //  return true;
-    // }
   }
 
   passHandler(e){

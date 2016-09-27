@@ -12,15 +12,12 @@ class HumanPlayerObj{
 
   makeMove(currentPlay, callback){
     let move;
-    console.log('human move');
     move = setInterval(() => {
-      console.log('waiting for human input');
       if (this.kickout === true) {
         if (this.pass === true){
           //passing
           this.kickout = false;
           this.pass = false;
-          console.log('clear');
           clearInterval(move);
           return "pass";
         } else {
@@ -31,7 +28,6 @@ class HumanPlayerObj{
           //'validPlay' should actually be checked by
           //human_player.jsx component on frontend
           clearInterval(move);
-          console.log('clear');
           let play = this.playedCards.validPlay(currentPlay);
           return callback(play);
     }, 200);
