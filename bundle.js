@@ -247,7 +247,6 @@
 	        null,
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
 	      ) : undefined;
-	      debugger;
 	      var playedCards = this.state.bestCurrentPlay.cards.sort(function (a, b) {
 	        return a.i - b.i;
 	      }).map(function (card, idx) {
@@ -22045,50 +22044,16 @@
 	      });
 	    }
 	  }, {
-	    key: "bestPlay",
-	    value: function bestPlay(currentPlay) {
-	      switch (currentPlay.type) {
-	        case "n-sequence":
-	          break;
-	        case "quad":
-	          break;
-	        case "trio":
-	          break;
-	        case "pair":
-	          //check all cards in hand
-	          //is there a pair that can beat the current pair in hand?
-	          //returns currentPlay obj
-
-	          break;
-	        case "single":
-	          break;
-	        case "newRound":
-	        //last one, should call bestPlay recursively
-	        //until there is a valid hand obj returned
-	        //returns a currentPlay obj with the best cards
-	        default:
-	          return "pass";
-	      }
-	      //return next best play if there is one
-	      //return "pass" by default
-	      //list from top to bottom, return first
-
-	      //check if "n-sequence"
-	      //if n-sequence .length >= 3 then can only be played
-	      //if newRound is currentPlay.type
-	      //if the n-sequnce can beat currentPlay's n-seq
-	      //check if "four of a kind"
-	      //check if "three of a kind"
-	      //check if "pair"
-	      //check if "single"
-	    }
-	  }, {
 	    key: "validPlay",
 	    value: function validPlay(currentPlay) {
 	      this.updateCardCount();
-	      var kickerRank = currentPlay.kicker.kickerRank;
-	      var kickerVal = currentPlay.kicker.val;
+	      var kickerRank = currentPlay.kicker.kickerRank === undefined ? 0 : currentPlay.kicker.kickerRank;
+	      var kickerVal = currentPlay.kicker.val === undefined ? 0 : currentPlay.kicker.val;
+	      var playableCards = [];
 	      var nextPlay = void 0;
+	      var checkVals = Array.from(new Array(17 - kickerVal), function (x, i) {
+	        return i + kickerVal;
+	      });
 
 	      switch (currentPlay.type) {
 	        case "start":
@@ -22109,36 +22074,63 @@
 	          } else {
 	            return startingPlay;
 	          }
-	        case "pair":
-	          var checkVals = Array.from(new Array(17 - kickerVal), function (x, i) {
-	            return i + kickerVal;
-	          });
-	          var playableCards = [];
-
+	        case "trio":
 	          debugger;
 	          for (var i = 0; i < checkVals.length; i++) {
 	            if (this.cardsByCount[checkVals[i]]) {
-	              if (this.cardsByCount[checkVals[i]].cards.length >= 2 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
+	              if (this.cardsByCount[checkVals[i]].cards.length >= 3 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
 	                playableCards = this.cardsByCount[checkVals[i]].cards;
 	                break;
 	              }
 	            }
 	          }
 
-	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && playableCards.length == 2) {
+	          if (playableCards.length >= 3 || this.offsetPlayerId === 0 && playableCards.length == 3) {
 	            var card1 = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
 	            var card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+	            var card3 = playableCards.slice(playableCards.length - 3, playableCards.length - 2)[0];
 
 	            var card1idx = this.cards.indexOf(card1);
-	            var card2idx = this.cards.indexOf(card2);
-
 	            this.cards.splice(card1idx, 1);
+	            var card2idx = this.cards.indexOf(card2);
 	            this.cards.splice(card2idx, 1);
+	            var card3idx = this.cards.indexOf(card3);
+	            this.cards.splice(card3idx, 1);
+
+	            nextPlay = {
+	              type: "trio",
+	              cards: [card1, card2, card3],
+	              kicker: card1,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        case "pair":
+	          for (var _i = 0; _i < checkVals.length; _i++) {
+	            if (this.cardsByCount[checkVals[_i]]) {
+	              if (this.cardsByCount[checkVals[_i]].cards.length >= 2 && this.cardsByCount[checkVals[_i]].kickerRank > kickerRank) {
+	                playableCards = this.cardsByCount[checkVals[_i]].cards;
+	                break;
+	              }
+	            }
+	          }
+
+	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && playableCards.length == 2) {
+	            var _card = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
+	            var _card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+
+	            var _card1idx = this.cards.indexOf(_card);
+	            this.cards.splice(_card1idx, 1);
+	            var _card2idx = this.cards.indexOf(_card2);
+	            this.cards.splice(_card2idx, 1);
 
 	            nextPlay = {
 	              type: "pair",
-	              cards: [card1, card2],
-	              kicker: card1,
+	              cards: [_card, _card2],
+	              kicker: _card,
 	              playerId: this.offsetPlayerId
 	            };
 	            return nextPlay;
@@ -22165,22 +22157,15 @@
 	            return nextPlay;
 	          }
 	        case "newRound":
-	          //call validPlay recursively, passing in every play type
-	          //from best to least (single) until validPlay returns an obj
-	          //pass in "dummy" currentPlay with low vals
-	          //default play
-	          //placeholder -> cpu plays first card in hand for now
-	          // let possibeCases = ["n-sequence", "quad", "trio", "pair", "single"];
-	          var possibleCases = ["pair", "single"];
-	          var dummyCases = ["pair currentPlay obj", "single play obj"];
+	          var possibleCases = ["trio", "pair", "single"];
 	          var lowKicker = {
 	            val: 0,
 	            kickerRank: 0
 	          };
 
-	          for (var _i = 0; _i < possibleCases.length; _i++) {
+	          for (var _i2 = 0; _i2 < possibleCases.length; _i2++) {
 	            var dummyPlay = {
-	              type: possibleCases[_i],
+	              type: possibleCases[_i2],
 	              cards: [],
 	              kicker: lowKicker,
 	              playerId: this.offsetPlayerId
@@ -22489,9 +22474,9 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _player_hand_obj = __webpack_require__(180);
+	var _hand = __webpack_require__(174);
 
-	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
+	var _hand2 = _interopRequireDefault(_hand);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22501,7 +22486,7 @@
 	  function HumanPlayerObj(cardIds) {
 	    _classCallCheck(this, HumanPlayerObj);
 
-	    this.hand = new _player_hand_obj2.default(cardIds, 0);
+	    this.hand = new _hand2.default(cardIds, 0);
 	    this.selectedHand = undefined;
 	    this.kickout = false;
 	    this.pass = false;
@@ -22522,12 +22507,8 @@
 	            clearInterval(move);
 	            return callback("pass");
 	          } else {
-	            //valid move made
 	            _this.kickout = false;
 	            _this.pass = false;
-	            //THIS SHOULD RETURN A CURRENTPLAY OBJECT
-	            //'validPlay' should actually be checked by
-	            //human_player.jsx component on frontend
 	            clearInterval(move);
 	            var play = _this.playedCards.validPlay(currentPlay);
 	            return callback(play);
@@ -22541,74 +22522,6 @@
 	}();
 
 	exports.default = HumanPlayerObj;
-
-/***/ },
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _card_obj = __webpack_require__(175);
-
-	var _card_obj2 = _interopRequireDefault(_card_obj);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var PlayerHandObj = function () {
-	  function PlayerHandObj(cardIds, offsetPlayerId) {
-	    _classCallCheck(this, PlayerHandObj);
-
-	    var offset = void 0;
-
-	    this.offsetPlayerId = offsetPlayerId;
-	    this.cardIds = cardIds;
-	    this.cards = cardIds.sort(function (a, b) {
-	      return a - b;
-	    }).map(function (id, idx) {
-	      if (offsetPlayerId === 0) {
-	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
-	      } else if (offsetPlayerId === 1) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "32.5px" };
-	      } else if (offsetPlayerId === 2) {
-	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
-	      } else if (offsetPlayerId === 3) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "605px" };
-	      }
-
-	      return new _card_obj2.default(id, offset);
-	    });
-	  }
-
-	  //REMOVE AI LOGIC, REPLACE WITH LOGIC TO CHECK SELECTEDHAND
-	  //validPlay is called with the selected hand as `this.cards`
-
-	  _createClass(PlayerHandObj, [{
-	    key: "validPlay",
-	    value: function validPlay(currentPlay) {
-	      //human player cards are removed by the front end
-	      var play = {
-	        type: "single",
-	        cards: this.cards,
-	        kicker: this.cards.slice(this.cards.length - 1, this.cards.length),
-	        playerId: this.offsetPlayerId
-	      };
-
-	      return play;
-	    }
-	  }]);
-
-	  return PlayerHandObj;
-	}();
-
-	exports.default = PlayerHandObj;
 
 /***/ }
 /******/ ]);
