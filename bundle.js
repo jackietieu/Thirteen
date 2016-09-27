@@ -169,7 +169,7 @@
 	      this.setState({
 	        currentPlayersInRound: newRoundRotation,
 	        bestCurrentPlay: this.resetBestCurrentPlay
-	      }, this.nextMoveSameRound());
+	      }, this.nextMoveSameRound);
 	    }
 	  }, {
 	    key: 'nextMoveSameRound',
@@ -206,7 +206,7 @@
 	          }
 	        }, 500);
 	      } else {
-	        setTimeout(function () {
+	        (function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
 
 	          currentPlayers[0].makeMove(_this2.state.bestCurrentPlay, function (move) {
@@ -237,7 +237,7 @@
 	              })();
 	            }
 	          });
-	        }, 0);
+	        })();
 	      }
 	    }
 	  }, {
