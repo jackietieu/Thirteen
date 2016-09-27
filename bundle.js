@@ -157,6 +157,7 @@
 	  }, {
 	    key: 'nextRound',
 	    value: function nextRound() {
+	      debugger;
 	      var startingPlayerIdx = this.state.players.indexOf(this.state.currentPlayersInRound[0]);
 
 	      var newRoundRotation = this.state.players.slice(startingPlayerIdx, this.state.players.length).concat(this.state.players.slice(0, startingPlayerIdx));
@@ -203,9 +204,9 @@
 	              });
 	            })();
 	          }
-	        }, 1000);
+	        }, 500);
 	      } else {
-	        (function () {
+	        setTimeout(function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
 
 	          currentPlayers[0].makeMove(_this2.state.bestCurrentPlay, function (move) {
@@ -221,17 +222,22 @@
 	              (function () {
 	                var possibleWinner = currentPlayers[0];
 	                currentPlayers.push(currentPlayers.shift());
-	                _this2.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, function () {
+	                console.log('bestcurrentplay', _this2.state.bestCurrentPlay);
+	                _this2.setState({
+	                  currentPlayersInRound: currentPlayers,
+	                  bestCurrentPlay: move }, function () {
 	                  if (possibleWinner.hand.cards.length === 0) {
 	                    alert('Player ' + possibleWinner.id + ' won!');
 	                    return;
 	                  }
+	                  console.log('nextmovesameround', move);
+	                  console.log('currentplayers', currentPlayers);
 	                  return _this2.nextMoveSameRound();
 	                });
 	              })();
 	            }
 	          });
-	        })();
+	        }, 0);
 	      }
 	    }
 	  }, {
@@ -21799,6 +21805,7 @@
 	        currentPlay: this.createCards(playedCards.cards),
 	        currentSelection: []
 	      }, function () {
+	        console.log('kickout playedCards', playedCards);
 	        _this3.props.playerObj.playedCards = playedCards;
 	        _this3.props.playerObj.kickout = true;
 	      });
@@ -21806,7 +21813,8 @@
 	  }, {
 	    key: 'validPlay',
 	    value: function validPlay() {
-	      var selectedHand = new _hand2.default(this.state.currentSelection, 0);
+	      var selection = [].concat(this.state.currentSelection);
+	      var selectedHand = new _hand2.default(selection, 0);
 	      if (selectedHand.validPlay(this.currentPlayToBeat) === "pass") {
 	        return true;
 	      } else {
@@ -21816,8 +21824,8 @@
 	      // if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
 	      //   return false;
 	      // }
-
-	      //this.props.playerObj.selectedHand
+	      //
+	      // // this.props.playerObj.selectedHand
 	      // let singleCard = new CardObj(this.state.currentSelection[0]);
 	      //
 	      // if (this.currentPlayToBeat && singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
@@ -22075,7 +22083,6 @@
 	            return startingPlay;
 	          }
 	        case "trio":
-	          debugger;
 	          for (var i = 0; i < checkVals.length; i++) {
 	            if (this.cardsByCount[checkVals[i]]) {
 	              if (this.cardsByCount[checkVals[i]].cards.length >= 3 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
@@ -22139,7 +22146,7 @@
 	          }
 	        case "single":
 	          var betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.kickerRank > currentPlay.kicker.kickerRank;
+	            return card.kickerRank >= currentPlay.kicker.kickerRank;
 	          }));
 
 	          if (betterCardIdx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
@@ -22163,6 +22170,8 @@
 	            kickerRank: 0
 	          };
 
+	          var hand = this;
+
 	          for (var _i2 = 0; _i2 < possibleCases.length; _i2++) {
 	            var dummyPlay = {
 	              type: possibleCases[_i2],
@@ -22171,8 +22180,7 @@
 	              playerId: this.offsetPlayerId
 	            };
 
-	            nextPlay = this.validPlay(dummyPlay);
-
+	            nextPlay = hand.validPlay(dummyPlay);
 	            if (nextPlay !== "pass") {
 	              break;
 	            }
@@ -22509,8 +22517,20 @@
 	          } else {
 	            _this.kickout = false;
 	            _this.pass = false;
+	            //PUT DEBUGGERS IN VALIDPLAY
+	            var play = void 0;
+	            if (currentPlay.playerId === 0) {
+	              currentPlay = {
+	                type: "newRound",
+	                cards: [],
+	                kicker: {},
+	                playerId: 0
+	              };
+	              play = _this.playedCards.validPlay(currentPlay);
+	            } else {
+	              play = _this.playedCards.validPlay(currentPlay);
+	            }
 	            clearInterval(move);
-	            var play = _this.playedCards.validPlay(currentPlay);
 	            return callback(play);
 	          }
 	        }

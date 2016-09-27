@@ -72,6 +72,7 @@ class PlayingFieldComponent extends React.Component {
 
 
   nextRound(){
+    debugger;
     let startingPlayerIdx = this.state.players.indexOf(
       this.state.currentPlayersInRound[0]
     );
@@ -126,33 +127,40 @@ class PlayingFieldComponent extends React.Component {
         }
       );
     }
-  }, 1000);
+  }, 500);
     } else {
-      let currentPlayers = [].concat(this.state.currentPlayersInRound);
+      setTimeout(() => {
+        let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
-      currentPlayers[0].makeMove(this.state.bestCurrentPlay, (move) => {
-        if (move === "pass"){
-          this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-          () => {
-            if(this.state.currentPlayersInRound.length > 1){
-              return this.nextMoveSameRound();
-            } else {
-              return this.nextRound();
-            }
-          });
-        } else {
-          let possibleWinner = currentPlayers[0];
-          currentPlayers.push(currentPlayers.shift());
-          this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, () => {
-            if (possibleWinner.hand.cards.length === 0) {
-              alert(`Player ${possibleWinner.id} won!`);
-              return;
-            }
-              return this.nextMoveSameRound();
-            }
-          );
-        }
-      });
+        currentPlayers[0].makeMove(this.state.bestCurrentPlay, (move) => {
+          if (move === "pass"){
+            this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
+            () => {
+              if(this.state.currentPlayersInRound.length > 1){
+                return this.nextMoveSameRound();
+              } else {
+                return this.nextRound();
+              }
+            });
+          } else {
+            let possibleWinner = currentPlayers[0];
+            currentPlayers.push(currentPlayers.shift());
+            console.log('bestcurrentplay', this.state.bestCurrentPlay);
+            this.setState({
+              currentPlayersInRound: currentPlayers,
+              bestCurrentPlay: move }, () => {
+                if (possibleWinner.hand.cards.length === 0) {
+                  alert(`Player ${possibleWinner.id} won!`);
+                  return;
+                }
+                console.log('nextmovesameround', move);
+                console.log('currentplayers', currentPlayers);
+                return this.nextMoveSameRound();
+              }
+            );
+          }
+        });
+      }, 0);
     }
   }
 
