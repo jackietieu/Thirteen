@@ -88,13 +88,13 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var PlayingFieldComponent = function (_React$Component) {
-	  _inherits(PlayingFieldComponent, _React$Component);
+	var Thirteen = function (_React$Component) {
+	  _inherits(Thirteen, _React$Component);
 
-	  function PlayingFieldComponent(props) {
-	    _classCallCheck(this, PlayingFieldComponent);
+	  function Thirteen(props) {
+	    _classCallCheck(this, Thirteen);
 
-	    var _this = _possibleConstructorReturn(this, (PlayingFieldComponent.__proto__ || Object.getPrototypeOf(PlayingFieldComponent)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Thirteen.__proto__ || Object.getPrototypeOf(Thirteen)).call(this, props));
 
 	    _this.rotation = [0, 1, 2, 3];
 	    _this.startingRotation = [];
@@ -131,7 +131,7 @@
 	    return _this;
 	  }
 
-	  _createClass(PlayingFieldComponent, [{
+	  _createClass(Thirteen, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.run();
@@ -157,7 +157,6 @@
 	  }, {
 	    key: 'nextRound',
 	    value: function nextRound() {
-	      debugger;
 	      var startingPlayerIdx = this.state.players.indexOf(this.state.currentPlayersInRound[0]);
 
 	      var newRoundRotation = this.state.players.slice(startingPlayerIdx, this.state.players.length).concat(this.state.players.slice(0, startingPlayerIdx));
@@ -250,9 +249,7 @@
 	        null,
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
 	      ) : undefined;
-	      var playedCards = this.state.bestCurrentPlay.cards.sort(function (a, b) {
-	        return a.i - b.i;
-	      }).map(function (card, idx) {
+	      var playedCards = this.state.bestCurrentPlay.cards.map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
 	          offset: { "left": 'calc(165px + ' + idx + '*30px)' },
 	          i: card.i,
@@ -291,11 +288,11 @@
 	    }
 	  }]);
 
-	  return PlayingFieldComponent;
+	  return Thirteen;
 	}(_react2.default.Component);
 
 	document.addEventListener('DOMContentLoaded', function () {
-	  _reactDom2.default.render(_react2.default.createElement(PlayingFieldComponent, null), document.getElementById('root'));
+	  _reactDom2.default.render(_react2.default.createElement(Thirteen, null), document.getElementById('root'));
 	});
 
 /***/ },
@@ -21978,6 +21975,8 @@
 	  value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _card_obj = __webpack_require__(175);
@@ -21985,6 +21984,8 @@
 	var _card_obj2 = _interopRequireDefault(_card_obj);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -22037,6 +22038,8 @@
 	  }, {
 	    key: "validPlay",
 	    value: function validPlay(currentPlay) {
+	      var _this2 = this;
+
 	      this.updateCardCount();
 	      var kickerRank = currentPlay.kicker.kickerRank === undefined ? 0 : currentPlay.kicker.kickerRank;
 	      var kickerVal = currentPlay.kicker.val === undefined ? 0 : currentPlay.kicker.val;
@@ -22048,7 +22051,6 @@
 
 	      switch (currentPlay.type) {
 	        case "start":
-	          //return CardObj of 3 spades
 	          var spades3idx = this.cards.indexOf(this.cards.find(function (card) {
 	            return card.i === 2;
 	          }));
@@ -22065,20 +22067,145 @@
 	          } else {
 	            return startingPlay;
 	          }
-	        case "trio":
+	        case "sequence":
+	          if (currentPlay.sequenceLength === "n") {
+	            var _ret = function () {
+	              var sequenceValues = _this2.cards.sort(function (card1, card2) {
+	                return card1.val - card2.val;
+	              }).map(function (card) {
+	                return card.val;
+	              });
+	              var uniqueSequenceValues = [].concat(_toConsumableArray(new Set(sequenceValues)));
+	              var maxSequenceLength = uniqueSequenceValues.length;
+	              var subSequenceMin = Math.min.apply(Math, _toConsumableArray(uniqueSequenceValues));
+	              var validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
+	                return k + subSequenceMin;
+	              });
+	              //failsafe
+	              if (_this2.cards.length < 3) {
+	                console.log('failsafe');
+	                return {
+	                  v: "pass"
+	                };
+	              } else if (_this2.offsetPlayerId === 0) {
+	                if (uniqueSequenceValues.toString() !== validSequence.toString()) {
+	                  return {
+	                    v: "pass"
+	                  };
+	                }
+	              }
+
+	              for (var i = maxSequenceLength; i >= 3; i--) {
+	                var _loop = function _loop(j) {
+	                  var subSequence = uniqueSequenceValues.slice(j, j + i);
+	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
+	                  var subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
+	                  var validSequence = Array.from(new Array(i), function (x, k) {
+	                    return k + subSequenceMin;
+	                  });
+
+	                  if (subSequence.toString() === validSequence.toString()) {
+	                    var reversedCards = _this2.cards.sort(function (card1, card2) {
+	                      return card2.val - card1.val;
+	                    });
+	                    var sequenceKicker = reversedCards.find(function (card) {
+	                      return card.val === subSequenceMax;
+	                    });
+
+	                    if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
+	                      return "continue";
+	                    }
+
+	                    subSequence.splice(subSequence.length - 1);
+	                    subSequence.forEach(function (val) {
+	                      var seqCard = _this2.cards.find(function (card) {
+	                        return card.val === val;
+	                      });
+	                      playableCards.push(seqCard);
+	                      var seqCardIdx = _this2.cards.indexOf(seqCard);
+	                      _this2.cards.splice(seqCardIdx, 1);
+	                    });
+
+	                    playableCards.push(sequenceKicker);
+	                    var cardIdx = _this2.cards.indexOf(sequenceKicker);
+	                    _this2.cards.splice(cardIdx, 1);
+	                    debugger;
+	                    return {
+	                      v: {
+	                        v: {
+	                          type: "sequence",
+	                          sequenceLength: i,
+	                          cards: playableCards,
+	                          kicker: sequenceKicker,
+	                          playerId: _this2.offsetPlayerId
+	                        }
+	                      }
+	                    };
+	                  }
+	                };
+
+	                for (var j = 0; j + i <= uniqueSequenceValues.length; j++) {
+	                  var _ret2 = _loop(j);
+
+	                  switch (_ret2) {
+	                    case "continue":
+	                      continue;
+
+	                    default:
+	                      if ((typeof _ret2 === "undefined" ? "undefined" : _typeof(_ret2)) === "object") return _ret2.v;
+	                  }
+	                }
+	              }
+	            }();
+
+	            if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+	          }
+
+	          //SETUP LOGIC FOR PLAY TO CONTINUE AFTER NEW ROUND IS SET
+
+	          //   if (playableCards.length > 0) {
+	          //     return {
+	          //       type: "sequence",
+	          //       sequenceLength: i,
+	          //       cards: playableCards,
+	          //       kicker: playableCards[0],
+	          //       playerId: this.offsetPlayerId
+	          //     };
+	          //   } else {
+	          //     return "pass";
+	          //   }
+	          //   //else, if sequenceLength = n, that means cpu/human is trying to calc
+	          //   //the best sequence it can play on a newRound
+	          //   //logic: should start from cards.length all the way down to 3
+	          //   //for the longest stretch on the first run through,
+	          //   //those become the next play
+	          //   //else return "pass"
+	          //
+	          //   //if (this.offsetPlayerId === 0 &&
+	          //   //sequenceLength !== this.cards.length) return "pass"
+	          // } else {
+	          //   //if sequenceLength is an actual integer x, check for all stretches of
+	          //   //consecutive integers of length x
+	          //   //kicker aka last card in the stretch should have a higher kickerRank
+	          //   //return "pass" if no possiblePlay
+	          // }
+	          //return pass by default if no sequence found
+	          return "pass";
+	        case "quad":
 	          for (var i = 0; i < checkVals.length; i++) {
 	            if (this.cardsByCount[checkVals[i]]) {
-	              if (this.cardsByCount[checkVals[i]].cards.length >= 3 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
+	              if (this.cardsByCount[checkVals[i]].cards.length == 4 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
 	                playableCards = this.cardsByCount[checkVals[i]].cards;
 	                break;
 	              }
 	            }
 	          }
 
-	          if (playableCards.length >= 3 || this.offsetPlayerId === 0 && playableCards.length == 3) {
+	          if (playableCards.length == 4 || this.offsetPlayerId === 0 && playableCards.length == 4) {
 	            var card1 = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
 	            var card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
 	            var card3 = playableCards.slice(playableCards.length - 3, playableCards.length - 2)[0];
+	            var card4 = playableCards.slice(playableCards.length - 4, playableCards.length - 3)[0];
 
 	            var card1idx = this.cards.indexOf(card1);
 	            this.cards.splice(card1idx, 1);
@@ -22086,10 +22213,12 @@
 	            this.cards.splice(card2idx, 1);
 	            var card3idx = this.cards.indexOf(card3);
 	            this.cards.splice(card3idx, 1);
+	            var card4idx = this.cards.indexOf(card4);
+	            this.cards.splice(card4idx, 1);
 
 	            nextPlay = {
-	              type: "trio",
-	              cards: [card1, card2, card3],
+	              type: "quad",
+	              cards: [card1, card2, card3, card4],
 	              kicker: card1,
 	              playerId: this.offsetPlayerId
 	            };
@@ -22098,29 +22227,62 @@
 	          } else {
 	            return "pass";
 	          }
-	        case "pair":
+	        case "trio":
 	          for (var _i = 0; _i < checkVals.length; _i++) {
 	            if (this.cardsByCount[checkVals[_i]]) {
-	              if (this.cardsByCount[checkVals[_i]].cards.length >= 2 && this.cardsByCount[checkVals[_i]].kickerRank > kickerRank) {
+	              if (this.cardsByCount[checkVals[_i]].cards.length >= 3 && this.cardsByCount[checkVals[_i]].kickerRank > kickerRank) {
 	                playableCards = this.cardsByCount[checkVals[_i]].cards;
 	                break;
 	              }
 	            }
 	          }
 
-	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && playableCards.length == 2) {
+	          if (playableCards.length >= 3 || this.offsetPlayerId === 0 && playableCards.length == 3) {
 	            var _card = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
 	            var _card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+	            var _card3 = playableCards.slice(playableCards.length - 3, playableCards.length - 2)[0];
 
 	            var _card1idx = this.cards.indexOf(_card);
 	            this.cards.splice(_card1idx, 1);
 	            var _card2idx = this.cards.indexOf(_card2);
 	            this.cards.splice(_card2idx, 1);
+	            var _card3idx = this.cards.indexOf(_card3);
+	            this.cards.splice(_card3idx, 1);
+
+	            nextPlay = {
+	              type: "trio",
+	              cards: [_card, _card2, _card3],
+	              kicker: _card,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        case "pair":
+	          for (var _i2 = 0; _i2 < checkVals.length; _i2++) {
+	            if (this.cardsByCount[checkVals[_i2]]) {
+	              if (this.cardsByCount[checkVals[_i2]].cards.length >= 2 && this.cardsByCount[checkVals[_i2]].kickerRank > kickerRank) {
+	                playableCards = this.cardsByCount[checkVals[_i2]].cards;
+	                break;
+	              }
+	            }
+	          }
+
+	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && playableCards.length == 2) {
+	            var _card4 = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
+	            var _card5 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+
+	            var _card1idx2 = this.cards.indexOf(_card4);
+	            this.cards.splice(_card1idx2, 1);
+	            var _card2idx2 = this.cards.indexOf(_card5);
+	            this.cards.splice(_card2idx2, 1);
 
 	            nextPlay = {
 	              type: "pair",
-	              cards: [_card, _card2],
-	              kicker: _card,
+	              cards: [_card4, _card5],
+	              kicker: _card4,
 	              playerId: this.offsetPlayerId
 	            };
 	            return nextPlay;
@@ -22147,7 +22309,7 @@
 	            return nextPlay;
 	          }
 	        case "newRound":
-	          var possibleCases = ["trio", "pair", "single"];
+	          var possibleCases = ["sequence", "quad", "trio", "pair", "single"];
 	          var lowKicker = {
 	            val: 0,
 	            kickerRank: 0
@@ -22155,9 +22317,10 @@
 
 	          var hand = this;
 
-	          for (var _i2 = 0; _i2 < possibleCases.length; _i2++) {
+	          for (var _i3 = 0; _i3 < possibleCases.length; _i3++) {
 	            var dummyPlay = {
-	              type: possibleCases[_i2],
+	              type: possibleCases[_i3],
+	              sequenceLength: "n",
 	              cards: [],
 	              kicker: lowKicker,
 	              playerId: this.offsetPlayerId
@@ -22475,19 +22638,7 @@
 	          } else {
 	            _this.kickout = false;
 	            _this.pass = false;
-	            //PUT DEBUGGERS IN VALIDPLAY
-	            var play = void 0;
-	            if (currentPlay.playerId === 0) {
-	              currentPlay = {
-	                type: "newRound",
-	                cards: [],
-	                kicker: {},
-	                playerId: 0
-	              };
-	              play = _this.playedCards.validPlay(currentPlay);
-	            } else {
-	              play = _this.playedCards.validPlay(currentPlay);
-	            }
+	            var play = _this.playedCards.validPlay(currentPlay);
 	            clearInterval(move);
 	            return callback(play);
 	          }

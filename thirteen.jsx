@@ -7,7 +7,7 @@ import HumanPlayerObj from './lib/human_player';
 import HandObj from './lib/hand';
 import HandCard from './hand_card';
 
-class PlayingFieldComponent extends React.Component {
+class Thirteen extends React.Component {
   constructor(props){
     super(props);
     this.rotation = [0, 1, 2, 3];
@@ -72,7 +72,6 @@ class PlayingFieldComponent extends React.Component {
 
 
   nextRound(){
-    debugger;
     let startingPlayerIdx = this.state.players.indexOf(
       this.state.currentPlayersInRound[0]
     );
@@ -165,9 +164,7 @@ class PlayingFieldComponent extends React.Component {
 
   render(){
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : undefined;
-    let playedCards = this.state.bestCurrentPlay.cards.sort((a, b) => (
-      a.i - b.i
-    )).map((card, idx) => {
+    let playedCards = this.state.bestCurrentPlay.cards.map((card, idx) => {
       return(
         <HandCard
           offset={{"left":`calc(165px + ${idx}*30px)`}}
@@ -206,5 +203,5 @@ class PlayingFieldComponent extends React.Component {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<PlayingFieldComponent />, document.getElementById('root'));
+  ReactDOM.render(<Thirteen />, document.getElementById('root'));
 });
