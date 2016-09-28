@@ -22046,25 +22046,52 @@
 	      var checkVals = Array.from(new Array(17 - kickerVal), function (x, i) {
 	        return i + kickerVal;
 	      });
+	      var possibleCases = ["sequence", "quad", "trio", "pair", "single"];
+	      var lowKicker = {
+	        val: 0,
+	        kickerRank: 0
+	      };
 
 	      switch (currentPlay.type) {
 	        case "start":
-	          var spades3idx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.i === 2;
-	          }));
+	          for (var i = 0; i < possibleCases.length; i++) {
+	            var dummyPlay = {
+	              start: true,
+	              type: possibleCases[i],
+	              sequenceLength: "n",
+	              cards: [],
+	              kicker: lowKicker,
+	              playerId: this.offsetPlayerId
+	            };
 
-	          var startingPlay = {
-	            type: "single",
-	            cards: [new _card_obj2.default(2)],
-	            kicker: this.cards.splice(spades3idx, 1)[0],
-	            playerId: this.offsetPlayerId
-	          };
-
-	          if (spades3idx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
-	            return "pass";
-	          } else {
-	            return startingPlay;
+	            nextPlay = this.validPlay(dummyPlay);
+	            if (nextPlay !== "pass") {
+	              nextPlay.start = false;
+	              break;
+	            }
 	          }
+
+	          if (nextPlay !== "pass") {
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        // let spades3idx = this.cards.indexOf(this.cards.find(card => (
+	        //   card.i === 2
+	        // )));
+	        //
+	        // let startingPlay = {
+	        //   type: "single",
+	        //   cards: [new CardObj(2)],
+	        //   kicker: this.cards.splice(spades3idx, 1)[0],
+	        //   playerId: this.offsetPlayerId
+	        // };
+	        //
+	        // if (spades3idx === -1 || (this.offsetPlayerId === 0 && this.cardIds.length > 1)) {
+	        //   return "pass";
+	        // } else {
+	        //   return startingPlay;
+	        // }
 	        case "sequence":
 	          if (currentPlay.sequenceLength === "n") {
 	            var _ret = function () {
@@ -22073,13 +22100,14 @@
 	              }).map(function (card) {
 	                return card.val;
 	              });
+
 	              var uniqueSequenceValues = [].concat(_toConsumableArray(new Set(sequenceValues)));
 	              var maxSequenceLength = uniqueSequenceValues.length;
 	              var subSequenceMin = Math.min.apply(Math, _toConsumableArray(uniqueSequenceValues));
 	              var validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
 	                return k + subSequenceMin;
 	              });
-	              //failsafe
+
 	              if (_this2.cards.length < 3) {
 	                return {
 	                  v: "pass"
@@ -22092,12 +22120,12 @@
 	                }
 	              }
 
-	              for (var i = maxSequenceLength; i >= 3; i--) {
+	              for (var _i = maxSequenceLength; _i >= 3; _i--) {
 	                var _loop = function _loop(j) {
-	                  var subSequence = uniqueSequenceValues.slice(j, j + i);
+	                  var subSequence = uniqueSequenceValues.slice(j, j + _i);
 	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
 	                  subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
-	                  validSequence = Array.from(new Array(i), function (x, k) {
+	                  validSequence = Array.from(new Array(_i), function (x, k) {
 	                    return k + subSequenceMin;
 	                  });
 
@@ -22110,6 +22138,8 @@
 	                    });
 
 	                    if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
+	                      return "continue";
+	                    } else if (currentPlay.start === true && subSequence[0] !== 3) {
 	                      return "continue";
 	                    }
 
@@ -22130,7 +22160,7 @@
 	                      v: {
 	                        v: {
 	                          type: "sequence",
-	                          sequenceLength: i,
+	                          sequenceLength: playableCards.length,
 	                          cards: playableCards,
 	                          kicker: sequenceKicker,
 	                          playerId: _this2.offsetPlayerId
@@ -22140,7 +22170,7 @@
 	                  }
 	                };
 
-	                for (var j = 0; j + i <= uniqueSequenceValues.length; j++) {
+	                for (var j = 0; j + _i <= uniqueSequenceValues.length; j++) {
 	                  var _ret2 = _loop(j);
 
 	                  switch (_ret2) {
@@ -22168,7 +22198,7 @@
 	              var validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
 	                return k + subSequenceMin;
 	              });
-	              //failsafe
+
 	              if (_this2.cards.length < 3) {
 	                return {
 	                  v: "pass"
@@ -22181,12 +22211,12 @@
 	                }
 	              }
 
-	              for (var i = maxSequenceLength; i >= 3; i--) {
+	              for (var _i2 = maxSequenceLength; _i2 >= 3; _i2--) {
 	                var _loop2 = function _loop2(j) {
-	                  var subSequence = uniqueSequenceValues.slice(j, j + i);
+	                  var subSequence = uniqueSequenceValues.slice(j, j + _i2);
 	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
 	                  subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
-	                  validSequence = Array.from(new Array(i), function (x, k) {
+	                  validSequence = Array.from(new Array(_i2), function (x, k) {
 	                    return k + subSequenceMin;
 	                  });
 
@@ -22229,7 +22259,7 @@
 	                  }
 	                };
 
-	                for (var j = 0; j + i <= uniqueSequenceValues.length; j++) {
+	                for (var j = 0; j + _i2 <= uniqueSequenceValues.length; j++) {
 	                  var _ret4 = _loop2(j);
 
 	                  switch (_ret4) {
@@ -22247,10 +22277,10 @@
 	          }
 	          return "pass";
 	        case "quad":
-	          for (var i = 0; i < checkVals.length; i++) {
-	            if (this.cardsByCount[checkVals[i]]) {
-	              if (this.cardsByCount[checkVals[i]].cards.length == 4 && this.cardsByCount[checkVals[i]].kickerRank > kickerRank) {
-	                playableCards = this.cardsByCount[checkVals[i]].cards;
+	          for (var _i3 = 0; _i3 < checkVals.length; _i3++) {
+	            if (this.cardsByCount[checkVals[_i3]]) {
+	              if (this.cardsByCount[checkVals[_i3]].cards.length == 4 && this.cardsByCount[checkVals[_i3]].kickerRank > kickerRank) {
+	                playableCards = this.cardsByCount[checkVals[_i3]].cards;
 	                break;
 	              }
 	            }
@@ -22283,10 +22313,10 @@
 	            return "pass";
 	          }
 	        case "trio":
-	          for (var _i = 0; _i < checkVals.length; _i++) {
-	            if (this.cardsByCount[checkVals[_i]]) {
-	              if (this.cardsByCount[checkVals[_i]].cards.length >= 3 && this.cardsByCount[checkVals[_i]].kickerRank > kickerRank) {
-	                playableCards = this.cardsByCount[checkVals[_i]].cards;
+	          for (var _i4 = 0; _i4 < checkVals.length; _i4++) {
+	            if (this.cardsByCount[checkVals[_i4]]) {
+	              if (this.cardsByCount[checkVals[_i4]].cards.length >= 3 && this.cardsByCount[checkVals[_i4]].kickerRank > kickerRank) {
+	                playableCards = this.cardsByCount[checkVals[_i4]].cards;
 	                break;
 	              }
 	            }
@@ -22316,10 +22346,10 @@
 	            return "pass";
 	          }
 	        case "pair":
-	          for (var _i2 = 0; _i2 < checkVals.length; _i2++) {
-	            if (this.cardsByCount[checkVals[_i2]]) {
-	              if (this.cardsByCount[checkVals[_i2]].cards.length >= 2 && this.cardsByCount[checkVals[_i2]].kickerRank > kickerRank) {
-	                playableCards = this.cardsByCount[checkVals[_i2]].cards;
+	          for (var _i5 = 0; _i5 < checkVals.length; _i5++) {
+	            if (this.cardsByCount[checkVals[_i5]]) {
+	              if (this.cardsByCount[checkVals[_i5]].cards.length >= 2 && this.cardsByCount[checkVals[_i5]].kickerRank > kickerRank) {
+	                playableCards = this.cardsByCount[checkVals[_i5]].cards;
 	                break;
 	              }
 	            }
@@ -22364,24 +22394,16 @@
 	            return nextPlay;
 	          }
 	        case "newRound":
-	          var possibleCases = ["sequence", "quad", "trio", "pair", "single"];
-	          var lowKicker = {
-	            val: 0,
-	            kickerRank: 0
-	          };
-
-	          var hand = this;
-
-	          for (var _i3 = 0; _i3 < possibleCases.length; _i3++) {
-	            var dummyPlay = {
-	              type: possibleCases[_i3],
+	          for (var _i6 = 0; _i6 < possibleCases.length; _i6++) {
+	            var _dummyPlay = {
+	              type: possibleCases[_i6],
 	              sequenceLength: "n",
 	              cards: [],
 	              kicker: lowKicker,
 	              playerId: this.offsetPlayerId
 	            };
 
-	            nextPlay = hand.validPlay(dummyPlay);
+	            nextPlay = this.validPlay(_dummyPlay);
 	            if (nextPlay !== "pass") {
 	              break;
 	            }
