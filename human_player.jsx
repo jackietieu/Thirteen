@@ -1,14 +1,14 @@
 import React from 'react';
 import HandCard from './hand_card';
-import Hand from './lib/hand';
+import HandObj from './lib/hand';
 import CardObj from './lib/card_obj';
-import PlayerHandObj from './lib/player_hand_obj';
 
 class HumanPlayer extends React.Component{
   constructor(props){
     super(props);
 
     this.currentPlayToBeat = this.props.currentPlayToBeat;
+    this.playerId = 0;
 
     this.state = {
       handCardIds: this.props.playerObj.hand.cardIds,
@@ -47,7 +47,7 @@ class HumanPlayer extends React.Component{
       selectedCardIds.push(parseInt(cardDiv.id))
     ));
 
-    this.props.playerObj.selectedHand = new PlayerHandObj(selectedCardIds);
+    this.props.playerObj.selectedHand = new HandObj(selectedCardIds);
   }
 
   createCards(hand){
@@ -77,8 +77,8 @@ class HumanPlayer extends React.Component{
       }
     });
 
-    let newHand = new PlayerHandObj(newHandCardIds, 0);
-    let playedCards = new PlayerHandObj(removeHandCardIds, 0);
+    let newHand = new HandObj(newHandCardIds, 0);
+    let playedCards = new HandObj(removeHandCardIds, 0);
 
     this.setState({
       handCardIds: newHandCardIds,
@@ -93,21 +93,19 @@ class HumanPlayer extends React.Component{
   }
 
   validPlay(){
-    if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-      //human has 3 of spades, first player
+    let selection = [].concat(this.state.currentSelection);
+    let selectedHand = new HandObj(selection, 0);
+    if (selectedHand.validPlay(this.currentPlayToBeat) === "pass") {
+      return true;
+    } else {
       return false;
     }
+  }
 
-    //single card selection for now
-    //grab id
-
-    let singleCard = new CardObj(this.state.currentSelection[0]);
-
-    if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
-     return false;
-    } else {
-     return true;
-    }
+  passHandler(e){
+    e.preventDefault();
+    this.props.playerObj.pass = true;
+    this.props.playerObj.kickout = true;
   }
 
   render(){
@@ -117,17 +115,20 @@ class HumanPlayer extends React.Component{
       <div className="human-player">
         <div className="human-player-hand">
           {this.state.hand}
-          <button disabled={disabled} className="play-button" value="Play Hand" onClick={this.playCards.bind(this)}>
+          <button disabled={disabled} className="play-button" onClick={this.playCards.bind(this)}>
             <span>Play Hand!</span>
           </button>
+          <button className="pass-button" onClick={this.passHandler.bind(this)}>
+            <span>Pass!</span>
+          </button>
 
-          <div className="human-player-played-hand">
-            {this.state.currentPlay}
-          </div>
         </div>
       </div>
     );
   }
 }
+// <div className="human-player-played-hand">
+//   {this.state.currentPlay}
+// </div>
 
 export default HumanPlayer;

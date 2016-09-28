@@ -7,15 +7,14 @@ import HumanPlayerObj from './lib/human_player';
 import HandObj from './lib/hand';
 import HandCard from './hand_card';
 
-class PlayingFieldComponent extends React.Component {
+class Thirteen extends React.Component {
   constructor(props){
     super(props);
     this.rotation = [0, 1, 2, 3];
     this.startingRotation = [];
     this.shuffledDeck = this.shuffleDeck();
 
-    // this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
-    this.player0 = new ComputerPlayerObj(0, this.shuffledDeck.slice(0, 13));
+    this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
     this.player1 = new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26));
     this.player2 = new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39));
     this.player3 = new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52));
@@ -49,8 +48,6 @@ class PlayingFieldComponent extends React.Component {
         kicker: {}
       }
     };
-
-    window.state = this.state;
   }
 
   componentDidMount(){
@@ -72,12 +69,8 @@ class PlayingFieldComponent extends React.Component {
     return shuffled;
   }
 
-  sleep(time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
 
   nextRound(){
-    console.log("nextRound thirteenjsx");
     let startingPlayerIdx = this.state.players.indexOf(
       this.state.currentPlayersInRound[0]
     );
@@ -98,66 +91,18 @@ class PlayingFieldComponent extends React.Component {
       currentPlayersInRound: newRoundRotation,
       bestCurrentPlay: this.resetBestCurrentPlay
     },
-      this.nextMoveSameRound()
+      this.nextMoveSameRound
     );
   }
 
-  // waitForPlayerMove(){
-  //   this.sleep(500).then(() => {
-  //     // console.log('waiting');
-  //   let move = this.state.currentPlayersInRound[0].makeMove(this.state.bestCurrentPlay);
-  //     if (move === undefined) {
-  //       return this.waitForPlayerMove();
-  //     } else {
-  //       // console.log('returning move', move);
-  //       this.state.currentPlayersInRound[0].kickout = false;
-  //       this.state.currentPlayersInRound[0].pass = false;
-  //       this.state.currentPlayersInRound[0].selectedHand = undefined;
-  //       this.playedCards = undefined;
-  //       return move;
-  //     }
-  //   });
-  // }
-
   nextMoveSameRound(){
-    this.sleep(2000).then(() => {
-      // console.log('nextmove');
-      let currentPlayers = [].concat(this.state.currentPlayersInRound);
-      let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-
-      // if (humanMove) {
-      //   move = humanMove;
-      // } else {
-      //   move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-      // }
-      //
-      // if ((currentPlayers[0] === this.player0) && (move === undefined)) {
-      //   move = this.waitForPlayerMove();
-      //   debugger;
-      //   this.nextMoveSameRound(move);
-      // }
-
-      // console.log(currentPlayers);
-      // console.log(move);
-      //IF STAFEMENT
-      //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
-      //SET MOVE = UNDEFINED
-      //USE SLEEP TIMER
-      //CALL HUMANPLAYEROBJ MAKEMOVE
-      //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
-      //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
-      //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
-      //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
-
-      //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-      //DON'T USE THIS MOVE
-      // if (move !== undefined) {
+    if (this.state.currentPlayersInRound[0].id !== 0) {
+      setTimeout(() => {
+        let currentPlayers = [].concat(this.state.currentPlayersInRound);
+        let move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
         if (move === "pass"){
-          // console.log("pass");
-          // console.log(currentPlayers.slice(1, currentPlayers.length));
           this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
           () => {
-            //next round
             if(this.state.currentPlayersInRound.length > 1){
               return this.nextMoveSameRound();
             } else {
@@ -165,119 +110,69 @@ class PlayingFieldComponent extends React.Component {
             }
           }
         );
-      // } else {
-        // console.log('nextplayer');
-        // console.log(move);
-        // if (move === undefined) {
-        //   //need to wait for human player to move
-        //   //this is for humanplayer logic
-        //   this.sleep(1000).then(() => {
-        //     // console.log('human player logic check in sleep loop');
-        //     // return move;
-        //     // return this.nextMoveSameRound();
-        //     if (move !== undefined) {
-        //       //move has been made
-        //       // console.log('move made');
-        //       if (move === "pass") {
-        //         this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-        //         () => {
-        //           // console.log('pass');
-        //           //next play or round
-        //           if(this.state.currentPlayersInRound.length > 1){
-        //             return this.nextMoveSameRound();
-        //           } else {
-        //             return this.nextRound();
-        //           }
-        //         }
-        //       );
-        //     } else {
-        //       //move has been made, go to next player
-        //       // console.log('move has been made');
-        //       currentPlayers.push(currentPlayers.shift());
-        //       this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
-        //         this.nextMoveSameRound()
-        //       );
-        //     }
-        //   }
-        // });
       } else {
-        //if someone won
-        //run through rest of logic for AI
         let possibleWinner = currentPlayers[0];
         currentPlayers.push(currentPlayers.shift());
-        this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, () => {
+        this.setState({
+          currentPlayersInRound: currentPlayers,
+          bestCurrentPlay: move }, () => {
           if (possibleWinner.hand.cards.length === 0) {
             alert(`Player ${possibleWinner.id} won!`);
             return;
           }
 
-          this.nextMoveSameRound();
+          return this.nextMoveSameRound();
         }
-        );
+      );
+    }
+  }, 2500);
+    } else {
+      let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
-      }
-
-      // this.setState({ bestCurrentPlay: move },
-      //   () => {
-      //     return this.nextPlayer();
-      //   }
-      // );
-    // }}
-  });
-
+      currentPlayers[0].makeMove(this.state.bestCurrentPlay, (move) => {
+        if (move === "pass"){
+          this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
+          () => {
+            if(this.state.currentPlayersInRound.length > 1){
+              return this.nextMoveSameRound();
+            } else {
+              return this.nextRound();
+            }
+          });
+        } else {
+          let possibleWinner = currentPlayers[0];
+          currentPlayers.push(currentPlayers.shift());
+          this.setState({
+            currentPlayersInRound: currentPlayers,
+            bestCurrentPlay: move }, () => {
+              if (possibleWinner.hand.cards.length === 0) {
+                alert(`Player ${possibleWinner.id} won!`);
+                return;
+              }
+              return this.nextMoveSameRound();
+            }
+          );
+        }
+      });
+    }
   }
-
-  // nextPlayer(){
-  //   console.log('next player');
-  //   let currentPlayers = [].concat(this.state.currentPlayersInRound);
-  //   currentPlayers.push(currentPlayers.shift());
-  //   this.setState({ currentPlayersInRound: currentPlayers },
-  //     this.nextMoveSameRound()
-  //   );
-  // }
 
   run(){
     this.nextMoveSameRound();
-    // game loop
-    // let firstMove = true;
-    // while(this.state.players.length === 4){
-      //round loop
-      // while(this.state.currentPlayersInRound.length > 1){
-      //
-      // }
-      // currentPlayersInRound has just 1 player, add on the rest of the players
-      // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
-      // let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
-      //
-      // this.setState({
-      //   currentPlayersInRound: newRotation,
-      //   bestCurrentPlay: this.resetBestCurrentPlay
-      // });
-
-      // firstMove = false;
-    // }
   }
 
   render(){
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : undefined;
-    let playedCards = this.state.bestCurrentPlay.cards.sort((a, b) => (
-      a.i - b.i
-    )).map((card, idx) => {
+    let playedCardsLength = this.state.bestCurrentPlay.cards.length;
+    let playedCards = this.state.bestCurrentPlay.cards.map((card, idx) => {
       return(
         <HandCard
-          offset={{"left":`calc(165px + ${idx}*10px)`}}
+          offset={{"left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />
       );}
     );
-
-    // let passed = undefined;
-    // if (this.state.passed || this.state.bestCurrentPlay.type === "newRound") {
-    //   passed = <span className="passed">{`Player ${this.state.passed.playerId}`}</span>;
-    // }
-
-    // let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 
     return(
       <section className="playing-field">
@@ -297,20 +192,16 @@ class PlayingFieldComponent extends React.Component {
             playerObj={this.state.players[3]} />
         </div>
 
-        <ComputerPlayer
+        <HumanPlayer
           playerId={0}
-          playerObj={this.state.players[0]} />
+          playerObj={this.state.players[0]}
+          currentPlayToBeat={this.state.bestCurrentPlay}
+          nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
       </section>
     );
   }
 }
 
-// <HumanPlayer
-//   playerId={0}
-//   playerObj={this.state.players[0]}
-//   currentPlayToBeat={this.state.bestCurrentPlay}
-//   nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
-
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<PlayingFieldComponent />, document.getElementById('root'));
+  ReactDOM.render(<Thirteen />, document.getElementById('root'));
 });

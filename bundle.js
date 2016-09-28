@@ -88,20 +88,19 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var PlayingFieldComponent = function (_React$Component) {
-	  _inherits(PlayingFieldComponent, _React$Component);
+	var Thirteen = function (_React$Component) {
+	  _inherits(Thirteen, _React$Component);
 
-	  function PlayingFieldComponent(props) {
-	    _classCallCheck(this, PlayingFieldComponent);
+	  function Thirteen(props) {
+	    _classCallCheck(this, Thirteen);
 
-	    var _this = _possibleConstructorReturn(this, (PlayingFieldComponent.__proto__ || Object.getPrototypeOf(PlayingFieldComponent)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Thirteen.__proto__ || Object.getPrototypeOf(Thirteen)).call(this, props));
 
 	    _this.rotation = [0, 1, 2, 3];
 	    _this.startingRotation = [];
 	    _this.shuffledDeck = _this.shuffleDeck();
 
-	    // this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
-	    _this.player0 = new _computer_player4.default(0, _this.shuffledDeck.slice(0, 13));
+	    _this.player0 = new _human_player4.default(_this.shuffledDeck.slice(0, 13).sort());
 	    _this.player1 = new _computer_player4.default(1, _this.shuffledDeck.slice(13, 26));
 	    _this.player2 = new _computer_player4.default(2, _this.shuffledDeck.slice(26, 39));
 	    _this.player3 = new _computer_player4.default(3, _this.shuffledDeck.slice(39, 52));
@@ -128,12 +127,10 @@
 	        kicker: {}
 	      }
 	    };
-
-	    window.state = _this.state;
 	    return _this;
 	  }
 
-	  _createClass(PlayingFieldComponent, [{
+	  _createClass(Thirteen, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.run();
@@ -157,16 +154,8 @@
 	      return shuffled;
 	    }
 	  }, {
-	    key: 'sleep',
-	    value: function sleep(time) {
-	      return new Promise(function (resolve) {
-	        return setTimeout(resolve, time);
-	      });
-	    }
-	  }, {
 	    key: 'nextRound',
 	    value: function nextRound() {
-	      console.log("nextRound thirteenjsx");
 	      var startingPlayerIdx = this.state.players.indexOf(this.state.currentPlayersInRound[0]);
 
 	      var newRoundRotation = this.state.players.slice(startingPlayerIdx, this.state.players.length).concat(this.state.players.slice(0, startingPlayerIdx));
@@ -178,166 +167,78 @@
 	      this.setState({
 	        currentPlayersInRound: newRoundRotation,
 	        bestCurrentPlay: this.resetBestCurrentPlay
-	      }, this.nextMoveSameRound());
+	      }, this.nextMoveSameRound);
 	    }
-
-	    // waitForPlayerMove(){
-	    //   this.sleep(500).then(() => {
-	    //     // console.log('waiting');
-	    //   let move = this.state.currentPlayersInRound[0].makeMove(this.state.bestCurrentPlay);
-	    //     if (move === undefined) {
-	    //       return this.waitForPlayerMove();
-	    //     } else {
-	    //       // console.log('returning move', move);
-	    //       this.state.currentPlayersInRound[0].kickout = false;
-	    //       this.state.currentPlayersInRound[0].pass = false;
-	    //       this.state.currentPlayersInRound[0].selectedHand = undefined;
-	    //       this.playedCards = undefined;
-	    //       return move;
-	    //     }
-	    //   });
-	    // }
-
 	  }, {
 	    key: 'nextMoveSameRound',
 	    value: function nextMoveSameRound() {
 	      var _this2 = this;
 
-	      this.sleep(2000).then(function () {
-	        // console.log('nextmove');
-	        var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
-	        var move = currentPlayers[0].makeMove(_this2.state.bestCurrentPlay);
+	      if (this.state.currentPlayersInRound[0].id !== 0) {
+	        setTimeout(function () {
+	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
+	          var move = currentPlayers[0].makeMove(_this2.state.bestCurrentPlay);
+	          if (move === "pass") {
+	            _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
+	              if (_this2.state.currentPlayersInRound.length > 1) {
+	                return _this2.nextMoveSameRound();
+	              } else {
+	                return _this2.nextRound();
+	              }
+	            });
+	          } else {
+	            (function () {
+	              var possibleWinner = currentPlayers[0];
+	              currentPlayers.push(currentPlayers.shift());
+	              _this2.setState({
+	                currentPlayersInRound: currentPlayers,
+	                bestCurrentPlay: move }, function () {
+	                if (possibleWinner.hand.cards.length === 0) {
+	                  alert('Player ' + possibleWinner.id + ' won!');
+	                  return;
+	                }
 
-	        // if (humanMove) {
-	        //   move = humanMove;
-	        // } else {
-	        //   move = currentPlayers[0].makeMove(this.state.bestCurrentPlay);
-	        // }
-	        //
-	        // if ((currentPlayers[0] === this.player0) && (move === undefined)) {
-	        //   move = this.waitForPlayerMove();
-	        //   debugger;
-	        //   this.nextMoveSameRound(move);
-	        // }
+	                return _this2.nextMoveSameRound();
+	              });
+	            })();
+	          }
+	        }, 2500);
+	      } else {
+	        (function () {
+	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
 
-	        // console.log(currentPlayers);
-	        // console.log(move);
-	        //IF STAFEMENT
-	        //IF CURRENTPLAYERS[0] === THIS.PLAYER[0]
-	        //SET MOVE = UNDEFINED
-	        //USE SLEEP TIMER
-	        //CALL HUMANPLAYEROBJ MAKEMOVE
-	        //IF MAKEMOVE RETURNS UNDEFINED, RETURN MAKEMOVE AGAIN AND REDEFINE
-	        //ELSE IF MAKEMOVE RETURNS PASS, PASS TO NEXT PLAYER
-	        //ELSE IF MAKEMOVE RETURNS WITH AN OBJ, PLAY THE CARDS AND GO TO NEXTPLAYER
-	        //ELSE, RUN THE REST OF THE CODE IN AN ELSE BLOCK FOR CPUS
-
-	        //IMPLEMENT MAKEMOVE FOR HUMAN AND CPU PLAYER
-	        //DON'T USE THIS MOVE
-	        // if (move !== undefined) {
-	        if (move === "pass") {
-	          // console.log("pass");
-	          // console.log(currentPlayers.slice(1, currentPlayers.length));
-	          _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
-	            //next round
-	            if (_this2.state.currentPlayersInRound.length > 1) {
-	              return _this2.nextMoveSameRound();
+	          currentPlayers[0].makeMove(_this2.state.bestCurrentPlay, function (move) {
+	            if (move === "pass") {
+	              _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
+	                if (_this2.state.currentPlayersInRound.length > 1) {
+	                  return _this2.nextMoveSameRound();
+	                } else {
+	                  return _this2.nextRound();
+	                }
+	              });
 	            } else {
-	              return _this2.nextRound();
+	              (function () {
+	                var possibleWinner = currentPlayers[0];
+	                currentPlayers.push(currentPlayers.shift());
+	                _this2.setState({
+	                  currentPlayersInRound: currentPlayers,
+	                  bestCurrentPlay: move }, function () {
+	                  if (possibleWinner.hand.cards.length === 0) {
+	                    alert('Player ' + possibleWinner.id + ' won!');
+	                    return;
+	                  }
+	                  return _this2.nextMoveSameRound();
+	                });
+	              })();
 	            }
 	          });
-	          // } else {
-	          // console.log('nextplayer');
-	          // console.log(move);
-	          // if (move === undefined) {
-	          //   //need to wait for human player to move
-	          //   //this is for humanplayer logic
-	          //   this.sleep(1000).then(() => {
-	          //     // console.log('human player logic check in sleep loop');
-	          //     // return move;
-	          //     // return this.nextMoveSameRound();
-	          //     if (move !== undefined) {
-	          //       //move has been made
-	          //       // console.log('move made');
-	          //       if (move === "pass") {
-	          //         this.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length)},
-	          //         () => {
-	          //           // console.log('pass');
-	          //           //next play or round
-	          //           if(this.state.currentPlayersInRound.length > 1){
-	          //             return this.nextMoveSameRound();
-	          //           } else {
-	          //             return this.nextRound();
-	          //           }
-	          //         }
-	          //       );
-	          //     } else {
-	          //       //move has been made, go to next player
-	          //       // console.log('move has been made');
-	          //       currentPlayers.push(currentPlayers.shift());
-	          //       this.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move },
-	          //         this.nextMoveSameRound()
-	          //       );
-	          //     }
-	          //   }
-	          // });
-	        } else {
-	          (function () {
-	            //if someone won
-	            //run through rest of logic for AI
-	            var possibleWinner = currentPlayers[0];
-	            currentPlayers.push(currentPlayers.shift());
-	            _this2.setState({ currentPlayersInRound: currentPlayers, bestCurrentPlay: move }, function () {
-	              if (possibleWinner.hand.cards.length === 0) {
-	                alert('Player ' + possibleWinner.id + ' won!');
-	                return;
-	              }
-
-	              _this2.nextMoveSameRound();
-	            });
-	          })();
-	        }
-
-	        // this.setState({ bestCurrentPlay: move },
-	        //   () => {
-	        //     return this.nextPlayer();
-	        //   }
-	        // );
-	        // }}
-	      });
+	        })();
+	      }
 	    }
-
-	    // nextPlayer(){
-	    //   console.log('next player');
-	    //   let currentPlayers = [].concat(this.state.currentPlayersInRound);
-	    //   currentPlayers.push(currentPlayers.shift());
-	    //   this.setState({ currentPlayersInRound: currentPlayers },
-	    //     this.nextMoveSameRound()
-	    //   );
-	    // }
-
 	  }, {
 	    key: 'run',
 	    value: function run() {
 	      this.nextMoveSameRound();
-	      // game loop
-	      // let firstMove = true;
-	      // while(this.state.players.length === 4){
-	      //round loop
-	      // while(this.state.currentPlayersInRound.length > 1){
-	      //
-	      // }
-	      // currentPlayersInRound has just 1 player, add on the rest of the players
-	      // let firstPlayerIdx = this.rotation.indexOf(this.state.currentPlayersInRound[0]);
-	      // let newRotation = this.rotation.slice(firstPlayerIdx, this.rotation.length).concat(this.rotation.slice(0, firstPlayerIdx));
-	      //
-	      // this.setState({
-	      //   currentPlayersInRound: newRotation,
-	      //   bestCurrentPlay: this.resetBestCurrentPlay
-	      // });
-
-	      // firstMove = false;
-	      // }
 	    }
 	  }, {
 	    key: 'render',
@@ -347,22 +248,14 @@
 	        null,
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
 	      ) : undefined;
-	      var playedCards = this.state.bestCurrentPlay.cards.sort(function (a, b) {
-	        return a.i - b.i;
-	      }).map(function (card, idx) {
+	      var playedCardsLength = this.state.bestCurrentPlay.cards.length;
+	      var playedCards = this.state.bestCurrentPlay.cards.map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
-	          offset: { "left": 'calc(165px + ' + idx + '*10px)' },
+	          offset: { "left": 'calc((175px - ' + playedCardsLength + '*15px) + ' + idx + '*(30px))' },
 	          i: card.i,
 	          idx: idx,
 	          key: "card ".concat(card.i).concat(' ' + idx) });
 	      });
-
-	      // let passed = undefined;
-	      // if (this.state.passed || this.state.bestCurrentPlay.type === "newRound") {
-	      //   passed = <span className="passed">{`Player ${this.state.passed.playerId}`}</span>;
-	      // }
-
-	      // let yourTurn = (this.state.currentPlayersInRound[0] === 0) ? <p>It's your turn!</p> : undefined;
 
 	      return _react2.default.createElement(
 	        'section',
@@ -386,24 +279,20 @@
 	            playerId: 3,
 	            playerObj: this.state.players[3] })
 	        ),
-	        _react2.default.createElement(_computer_player2.default, {
+	        _react2.default.createElement(_human_player2.default, {
 	          playerId: 0,
-	          playerObj: this.state.players[0] })
+	          playerObj: this.state.players[0],
+	          currentPlayToBeat: this.state.bestCurrentPlay,
+	          nextMoveSameRound: this.nextMoveSameRound.bind(this) })
 	      );
 	    }
 	  }]);
 
-	  return PlayingFieldComponent;
+	  return Thirteen;
 	}(_react2.default.Component);
 
-	// <HumanPlayer
-	//   playerId={0}
-	//   playerObj={this.state.players[0]}
-	//   currentPlayToBeat={this.state.bestCurrentPlay}
-	//   nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
-
 	document.addEventListener('DOMContentLoaded', function () {
-	  _reactDom2.default.render(_react2.default.createElement(PlayingFieldComponent, null), document.getElementById('root'));
+	  _reactDom2.default.render(_react2.default.createElement(Thirteen, null), document.getElementById('root'));
 	});
 
 /***/ },
@@ -21805,10 +21694,6 @@
 
 	var _card_obj2 = _interopRequireDefault(_card_obj);
 
-	var _player_hand_obj = __webpack_require__(180);
-
-	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21826,6 +21711,7 @@
 	    var _this = _possibleConstructorReturn(this, (HumanPlayer.__proto__ || Object.getPrototypeOf(HumanPlayer)).call(this, props));
 
 	    _this.currentPlayToBeat = _this.props.currentPlayToBeat;
+	    _this.playerId = 0;
 
 	    _this.state = {
 	      handCardIds: _this.props.playerObj.hand.cardIds,
@@ -21868,7 +21754,7 @@
 	        return selectedCardIds.push(parseInt(cardDiv.id));
 	      });
 
-	      this.props.playerObj.selectedHand = new _player_hand_obj2.default(selectedCardIds);
+	      this.props.playerObj.selectedHand = new _hand2.default(selectedCardIds);
 	    }
 	  }, {
 	    key: 'createCards',
@@ -21904,8 +21790,8 @@
 	        }
 	      });
 
-	      var newHand = new _player_hand_obj2.default(newHandCardIds, 0);
-	      var playedCards = new _player_hand_obj2.default(removeHandCardIds, 0);
+	      var newHand = new _hand2.default(newHandCardIds, 0);
+	      var playedCards = new _hand2.default(removeHandCardIds, 0);
 
 	      this.setState({
 	        handCardIds: newHandCardIds,
@@ -21920,21 +21806,20 @@
 	  }, {
 	    key: 'validPlay',
 	    value: function validPlay() {
-	      if (this.state.currentSelection.includes(2) && this.state.currentSelection.length === 1) {
-	        //human has 3 of spades, first player
-	        return false;
-	      }
-
-	      //single card selection for now
-	      //grab id
-
-	      var singleCard = new _card_obj2.default(this.state.currentSelection[0]);
-
-	      if (singleCard.kickerRank > this.currentPlayToBeat.kicker.kickerRank) {
-	        return false;
-	      } else {
+	      var selection = [].concat(this.state.currentSelection);
+	      var selectedHand = new _hand2.default(selection, 0);
+	      if (selectedHand.validPlay(this.currentPlayToBeat) === "pass") {
 	        return true;
+	      } else {
+	        return false;
 	      }
+	    }
+	  }, {
+	    key: 'passHandler',
+	    value: function passHandler(e) {
+	      e.preventDefault();
+	      this.props.playerObj.pass = true;
+	      this.props.playerObj.kickout = true;
 	    }
 	  }, {
 	    key: 'render',
@@ -21950,7 +21835,7 @@
 	          this.state.hand,
 	          _react2.default.createElement(
 	            'button',
-	            { disabled: disabled, className: 'play-button', value: 'Play Hand', onClick: this.playCards.bind(this) },
+	            { disabled: disabled, className: 'play-button', onClick: this.playCards.bind(this) },
 	            _react2.default.createElement(
 	              'span',
 	              null,
@@ -21958,9 +21843,13 @@
 	            )
 	          ),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'human-player-played-hand' },
-	            this.state.currentPlay
+	            'button',
+	            { className: 'pass-button', onClick: this.passHandler.bind(this) },
+	            _react2.default.createElement(
+	              'span',
+	              null,
+	              'Pass!'
+	            )
 	          )
 	        )
 	      );
@@ -21969,6 +21858,9 @@
 
 	  return HumanPlayer;
 	}(_react2.default.Component);
+	// <div className="human-player-played-hand">
+	//   {this.state.currentPlay}
+	// </div>
 
 	exports.default = HumanPlayer;
 
@@ -22081,6 +21973,8 @@
 	  value: true
 	});
 
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _card_obj = __webpack_require__(175);
@@ -22089,22 +21983,15 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	//CPU HAND
 	var HandObj = function () {
 	  function HandObj(cardIds, offsetPlayerId) {
 	    _classCallCheck(this, HandObj);
 
 	    var offset = void 0;
-
-	    // .sort((a,b) => (
-	    //   a.kickerRank - b.kickerRank
-	    // ))
-
-	    // .sort((a, b) => (
-	    //   a - b
-	    // ))
 
 	    this.offsetPlayerId = offsetPlayerId;
 	    this.cardIds = cardIds;
@@ -22123,55 +22010,434 @@
 
 	      return new _card_obj2.default(id, offset);
 	    });
+
+	    this.cardsByCount = {};
+	    this.updateCardCount();
 	  }
 
 	  _createClass(HandObj, [{
+	    key: "updateCardCount",
+	    value: function updateCardCount() {
+	      var _this = this;
+
+	      this.cardsByCount = {};
+	      this.cards.forEach(function (card) {
+	        var cardVal = card.val;
+	        _this.cardsByCount[cardVal] = _this.cardsByCount[cardVal] ? {
+	          kickerRank: card.kickerRank > _this.cardsByCount[cardVal].kickerRank ? card.kickerRank : _this.cardsByCount[cardVal].kickerRank,
+	          cards: _this.cardsByCount[cardVal].cards.concat(card)
+	        } : {
+	          kickerRank: card.kickerRank,
+	          val: card.val,
+	          cards: [card]
+	        };
+	      });
+	    }
+	  }, {
 	    key: "validPlay",
 	    value: function validPlay(currentPlay) {
+	      var _this2 = this;
+
+	      this.updateCardCount();
+	      var kickerRank = currentPlay.kicker.kickerRank === undefined ? 0 : currentPlay.kicker.kickerRank;
+	      var kickerVal = currentPlay.kicker.val === undefined ? 0 : currentPlay.kicker.val;
+	      var playableCards = [];
+	      var nextPlay = void 0;
+	      var checkVals = Array.from(new Array(17 - kickerVal), function (x, i) {
+	        return i + kickerVal;
+	      });
+	      var possibleCases = ["sequence", "quad", "trio", "pair", "single"];
+	      var lowKicker = {
+	        val: 0,
+	        kickerRank: 0
+	      };
+
 	      switch (currentPlay.type) {
 	        case "start":
-	          //return CardObj of 3 spades
-	          var spades3idx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.i === 2;
-	          }));
-
-	          var startingPlay = {
-	            type: "single",
-	            cards: [new _card_obj2.default(2)],
-	            kicker: this.cards.splice(spades3idx, 1)[0],
-	            playerId: this.offsetPlayerId
-	          };
-
-	          return startingPlay;
-	        case "single":
-	          var betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.kickerRank > currentPlay.cards[0].kickerRank;
-	          }));
-
-	          if (betterCardIdx === -1) {
-	            return "pass";
-	          } else {
-	            var betterCardId = this.cards[betterCardIdx].i;
-
-	            var _nextPlay = {
-	              type: "single",
-	              cards: [this.cards[betterCardIdx]],
-	              kicker: this.cards.splice(betterCardIdx, 1)[0],
+	          for (var i = 0; i < possibleCases.length; i++) {
+	            var dummyPlay = {
+	              start: true,
+	              type: possibleCases[i],
+	              sequenceLength: "n",
+	              cards: [],
+	              kicker: lowKicker,
 	              playerId: this.offsetPlayerId
 	            };
 
-	            return _nextPlay;
+	            nextPlay = this.validPlay(dummyPlay);
+	            if (nextPlay !== "pass") {
+	              nextPlay.start = false;
+	              break;
+	            }
+	          }
+
+	          if (nextPlay !== "pass") {
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        case "sequence":
+	          if (currentPlay.sequenceLength === "n") {
+	            var _ret = function () {
+	              var sequenceValues = _this2.cards.sort(function (card1, card2) {
+	                return card1.val - card2.val;
+	              }).map(function (card) {
+	                return card.val;
+	              });
+
+	              var uniqueSequenceValues = [].concat(_toConsumableArray(new Set(sequenceValues)));
+	              var maxSequenceLength = uniqueSequenceValues.length;
+	              var subSequenceMin = Math.min.apply(Math, _toConsumableArray(uniqueSequenceValues));
+	              var validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
+	                return k + subSequenceMin;
+	              });
+
+	              if (_this2.cards.length < 3) {
+	                return {
+	                  v: "pass"
+	                };
+	              } else if (_this2.offsetPlayerId === 0) {
+	                if (uniqueSequenceValues.toString() !== validSequence.toString()) {
+	                  return {
+	                    v: "pass"
+	                  };
+	                }
+	              }
+
+	              for (var _i = maxSequenceLength; _i >= 3; _i--) {
+	                var _loop = function _loop(j) {
+	                  var subSequence = uniqueSequenceValues.slice(j, j + _i);
+	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
+	                  subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
+	                  validSequence = Array.from(new Array(_i), function (x, k) {
+	                    return k + subSequenceMin;
+	                  });
+
+	                  if (subSequence.toString() === validSequence.toString()) {
+	                    var reversedCards = _this2.cards.sort(function (card1, card2) {
+	                      return card2.val - card1.val;
+	                    });
+	                    var sequenceKicker = reversedCards.find(function (card) {
+	                      return card.val === subSequenceMax;
+	                    });
+
+	                    if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
+	                      return "continue";
+	                    } else if (currentPlay.start === true && subSequence[0] !== 3) {
+	                      return "continue";
+	                    }
+
+	                    subSequence.splice(subSequence.length - 1);
+	                    subSequence.forEach(function (val) {
+	                      var seqCard = _this2.cards.find(function (card) {
+	                        return card.val === val;
+	                      });
+	                      playableCards.push(seqCard);
+	                      var seqCardIdx = _this2.cards.indexOf(seqCard);
+	                      _this2.cards.splice(seqCardIdx, 1);
+	                    });
+
+	                    playableCards.push(sequenceKicker);
+	                    var cardIdx = _this2.cards.indexOf(sequenceKicker);
+	                    _this2.cards.splice(cardIdx, 1);
+	                    return {
+	                      v: {
+	                        v: {
+	                          type: "sequence",
+	                          sequenceLength: playableCards.length,
+	                          cards: playableCards,
+	                          kicker: sequenceKicker,
+	                          playerId: _this2.offsetPlayerId
+	                        }
+	                      }
+	                    };
+	                  }
+	                };
+
+	                for (var j = 0; j + _i <= uniqueSequenceValues.length; j++) {
+	                  var _ret2 = _loop(j);
+
+	                  switch (_ret2) {
+	                    case "continue":
+	                      continue;
+
+	                    default:
+	                      if ((typeof _ret2 === "undefined" ? "undefined" : _typeof(_ret2)) === "object") return _ret2.v;
+	                  }
+	                }
+	              }
+	            }();
+
+	            if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+	          } else {
+	            var _ret3 = function () {
+	              var sequenceValues = _this2.cards.sort(function (card1, card2) {
+	                return card1.val - card2.val;
+	              }).map(function (card) {
+	                return card.val;
+	              });
+	              var uniqueSequenceValues = [].concat(_toConsumableArray(new Set(sequenceValues)));
+	              var maxSequenceLength = currentPlay.sequenceLength;
+	              var subSequenceMin = Math.min.apply(Math, _toConsumableArray(uniqueSequenceValues));
+	              var validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
+	                return k + subSequenceMin;
+	              });
+
+	              if (_this2.cards.length < 3) {
+	                return {
+	                  v: "pass"
+	                };
+	              } else if (_this2.offsetPlayerId === 0) {
+	                if (uniqueSequenceValues.toString() !== validSequence.toString()) {
+	                  return {
+	                    v: "pass"
+	                  };
+	                }
+	              }
+
+	              var _loop2 = function _loop2(j) {
+	                var subSequence = uniqueSequenceValues.slice(j, j + maxSequenceLength);
+	                var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
+	                subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
+	                validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
+	                  return k + subSequenceMin;
+	                });
+
+	                if (subSequence.toString() === validSequence.toString()) {
+	                  var reversedCards = _this2.cards.sort(function (card1, card2) {
+	                    return card2.val - card1.val;
+	                  });
+	                  var sequenceKicker = reversedCards.find(function (card) {
+	                    return card.val === subSequenceMax;
+	                  });
+
+	                  if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
+	                    return "continue";
+	                  }
+
+	                  subSequence.splice(subSequence.length - 1);
+	                  subSequence.forEach(function (val) {
+	                    var seqCard = _this2.cards.find(function (card) {
+	                      return card.val === val;
+	                    });
+	                    playableCards.push(seqCard);
+	                    var seqCardIdx = _this2.cards.indexOf(seqCard);
+	                    _this2.cards.splice(seqCardIdx, 1);
+	                  });
+
+	                  playableCards.push(sequenceKicker);
+	                  var cardIdx = _this2.cards.indexOf(sequenceKicker);
+	                  _this2.cards.splice(cardIdx, 1);
+	                  return {
+	                    v: {
+	                      v: {
+	                        type: "sequence",
+	                        sequenceLength: playableCards.length,
+	                        cards: playableCards,
+	                        kicker: sequenceKicker,
+	                        playerId: _this2.offsetPlayerId
+	                      }
+	                    }
+	                  };
+	                }
+	              };
+
+	              for (var j = 0; j + maxSequenceLength <= uniqueSequenceValues.length; j++) {
+	                var _ret4 = _loop2(j);
+
+	                switch (_ret4) {
+	                  case "continue":
+	                    continue;
+
+	                  default:
+	                    if ((typeof _ret4 === "undefined" ? "undefined" : _typeof(_ret4)) === "object") return _ret4.v;
+	                }
+	              }
+	            }();
+
+	            if ((typeof _ret3 === "undefined" ? "undefined" : _typeof(_ret3)) === "object") return _ret3.v;
+	          }
+	          return "pass";
+	        case "quad":
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 4) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 4) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            for (var _i2 = 0; _i2 < checkVals.length; _i2++) {
+	              if (this.cardsByCount[checkVals[_i2]]) {
+	                if (this.cardsByCount[checkVals[_i2]].cards.length == 4 && this.cardsByCount[checkVals[_i2]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i2]].cards;
+	                  break;
+	                }
+	              }
+	            }
+	          }
+
+	          if (playableCards.length == 4 || this.offsetPlayerId === 0 && playableCards.length == 4) {
+	            var card1 = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
+	            var card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+	            var card3 = playableCards.slice(playableCards.length - 3, playableCards.length - 2)[0];
+	            var card4 = playableCards.slice(playableCards.length - 4, playableCards.length - 3)[0];
+
+	            var card1idx = this.cards.indexOf(card1);
+	            this.cards.splice(card1idx, 1);
+	            var card2idx = this.cards.indexOf(card2);
+	            this.cards.splice(card2idx, 1);
+	            var card3idx = this.cards.indexOf(card3);
+	            this.cards.splice(card3idx, 1);
+	            var card4idx = this.cards.indexOf(card4);
+	            this.cards.splice(card4idx, 1);
+
+	            nextPlay = {
+	              type: "quad",
+	              cards: [card1, card2, card3, card4],
+	              kicker: card1,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        case "trio":
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 3) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 3) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            for (var _i3 = 0; _i3 < checkVals.length; _i3++) {
+	              if (this.cardsByCount[checkVals[_i3]]) {
+	                if (this.cardsByCount[checkVals[_i3]].cards.length >= 3 && this.cardsByCount[checkVals[_i3]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i3]].cards;
+	                  break;
+	                }
+	              }
+	            }
+	          }
+
+	          if (playableCards.length >= 3 || this.offsetPlayerId === 0 && playableCards.length == 3) {
+	            var _card = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
+	            var _card2 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+	            var _card3 = playableCards.slice(playableCards.length - 3, playableCards.length - 2)[0];
+
+	            var _card1idx = this.cards.indexOf(_card);
+	            this.cards.splice(_card1idx, 1);
+	            var _card2idx = this.cards.indexOf(_card2);
+	            this.cards.splice(_card2idx, 1);
+	            var _card3idx = this.cards.indexOf(_card3);
+	            this.cards.splice(_card3idx, 1);
+
+	            nextPlay = {
+	              type: "trio",
+	              cards: [_card, _card2, _card3],
+	              kicker: _card,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        case "pair":
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 2) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 2) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            for (var _i4 = 0; _i4 < checkVals.length; _i4++) {
+	              if (this.cardsByCount[checkVals[_i4]]) {
+	                if (this.cardsByCount[checkVals[_i4]].cards.length >= 2 && this.cardsByCount[checkVals[_i4]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i4]].cards;
+	                  break;
+	                }
+	              }
+	            }
+	          }
+
+	          if (playableCards.length >= 2 || this.offsetPlayerId === 0 && playableCards.length == 2) {
+	            var _card4 = playableCards.slice(playableCards.length - 1, playableCards.length)[0];
+	            var _card5 = playableCards.slice(playableCards.length - 2, playableCards.length - 1)[0];
+
+	            var _card1idx2 = this.cards.indexOf(_card4);
+	            this.cards.splice(_card1idx2, 1);
+	            var _card2idx2 = this.cards.indexOf(_card5);
+	            this.cards.splice(_card2idx2, 1);
+
+	            nextPlay = {
+	              type: "pair",
+	              cards: [_card4, _card5],
+	              kicker: _card4,
+	              playerId: this.offsetPlayerId
+	            };
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
+	        case "single":
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 1) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 1) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            var betterCard = this.cards.sort(function (card1, card2) {
+	              return card1.val - card2.val;
+	            }).find(function (card) {
+	              return card.kickerRank >= currentPlay.kicker.kickerRank;
+	            });
+
+	            playableCards = [betterCard];
+	          }
+
+	          if (this.cards.length === 0) {
+	            return "pass";
+	          }
+
+	          var betterCardIdx = this.cards.indexOf(playableCards[0]);
+
+	          debugger;
+	          if (betterCardIdx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
+	            return "pass";
+	          } else {
+	            this.cards.splice(betterCardIdx, 1);
+	            nextPlay = {
+	              type: "single",
+	              cards: playableCards,
+	              kicker: playableCards[0],
+	              playerId: this.offsetPlayerId
+	            };
+
+	            return nextPlay;
 	          }
 	        case "newRound":
-	          //default play
-	          //placeholder -> cpu plays first card in hand for now
-	          var nextPlay = {
-	            type: "single",
-	            cards: [this.cards[0]],
-	            kicker: this.cards.splice(0, 1)[0],
-	            playerId: this.offsetPlayerId
-	          };
-	          return nextPlay;
+	          for (var _i5 = 0; _i5 < possibleCases.length; _i5++) {
+	            var _dummyPlay = {
+	              type: possibleCases[_i5],
+	              sequenceLength: "n",
+	              cards: [],
+	              kicker: lowKicker,
+	              playerId: this.offsetPlayerId
+	            };
+
+	            nextPlay = this.validPlay(_dummyPlay);
+	            if (nextPlay !== "pass") {
+	              break;
+	            }
+	          }
+
+	          if (nextPlay !== "pass") {
+	            return nextPlay;
+	          } else {
+	            return "pass";
+	          }
 	        default:
 	          return "pass";
 	      }
@@ -22193,51 +22459,34 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var CardObj = function () {
-	  function CardObj(id, offset) {
-	    _classCallCheck(this, CardObj);
+	var CardObj = function CardObj(id, offset) {
+	  _classCallCheck(this, CardObj);
 
-	    // this.i = this.props.i;
-	    // this.idx = this.props.idx;
-	    var suits = ["spades", "clubs", "diamonds", "hearts"];
-	    this.i = id;
-	    this.rank = " rank".concat(id % 13 + 1);
-	    this.val = id % 13 + 1;
-	    this.kickerRank = id % 13 + (id / 13 | 0);
+	  // this.i = this.props.i;
+	  // this.idx = this.props.idx;
+	  var suits = ["spades", "clubs", "diamonds", "hearts"];
+	  this.i = id;
+	  this.rank = " rank".concat(id % 13 + 1);
+	  this.val = id % 13 + 1;
+	  this.kickerRank = id % 13 + (id / 13 | 0);
 
-	    if (id % 13 === 0) {
-	      //ace
-	      this.kickerRank = 9000 + (id / 13 | 0);
-	    } else if (id % 13 === 1) {
-	      //2
-	      this.kickerRank = 9010 + (id / 13 | 0);
-	    } else {
-	      this.kickerRank = (id % 13 + 1) * 4 + (id / 13 | 0);
-	    }
-
-	    this.suit = suits[id / 13 | 0];
-	    this.offset = offset;
-	    // this.offset = {"left":`calc(30px + ${this.idx * 30}px)`};
+	  if (id % 13 === 0) {
+	    //ace, highest of straight sequence
+	    this.val = 14;
+	    this.kickerRank = 9000 + (id / 13 | 0);
+	  } else if (id % 13 === 1) {
+	    //two, disconnect from straight sequence
+	    this.val = 16;
+	    this.kickerRank = 9010 + (id / 13 | 0);
+	  } else {
+	    this.kickerRank = (id % 13 + 1) * 4 + (id / 13 | 0);
 	  }
 
-	  _createClass(CardObj, [{
-	    key: "info",
-	    value: function info() {
-	      return {
-	        rank: this.rank,
-	        suit: this.suit,
-	        val: this.val,
-	        offset: this.offset
-	      };
-	    }
-	  }]);
-
-	  return CardObj;
-	}();
+	  this.suit = suits[id / 13 | 0];
+	  this.offset = offset;
+	};
 
 	exports.default = CardObj;
 
@@ -22407,7 +22656,7 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -22431,54 +22680,10 @@
 	    this.hand = new _hand2.default(cardIds, id);
 	  }
 
-	  //currentPlayType = single, pair, triple, quad, n-sequence
-
-
 	  _createClass(ComputerPlayerObj, [{
-	    key: "makeMove",
+	    key: 'makeMove',
 	    value: function makeMove(currentPlay) {
-	      switch (currentPlay.type) {
-	        //currentPlay is obj with `type` string and `kicker` cardobj properties
-	        case "start":
-	          //will always be able to play 3 of spades
-	          //if else statement
-	          //if (this.hand.validPlay("single"), then return an cardobj
-	          //ALSO MUST UPDATE THIS.HAND TO NEW HAND OBJ, DISCOUNTING THROWN CARDS
-	          //else return "pass"
-	          //because can't play current round
-	          return this.hand.validPlay(currentPlay);
-	        case "single":
-	          var play = this.hand.validPlay(currentPlay);
-	          if (play) {
-	            return play;
-	          } else {
-	            return "pass";
-	          }
-	        case "newRound":
-	          return this.hand.validPlay(currentPlay);
-	        // case "pair":
-	        //   if (this.hand.validPlay("pair")) {
-	        //     return this.hand.validPlay("pair");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "triple":
-	        //   if (this.hand.validPlay("triple")) {
-	        //     return this.hand.validPlay("triple");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "quad":
-	        //   if (this.hand.validPlay("quad")) {
-	        //     return this.hand.validPlay("quad");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "n-sequence":
-	        //   let sequenceLength = parseInt(currentPlayType[0]);
-	        default:
-	          return "pass";
-	      }
+	      return this.hand.validPlay(currentPlay);
 	    }
 	  }]);
 
@@ -22499,9 +22704,9 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _player_hand_obj = __webpack_require__(180);
+	var _hand = __webpack_require__(174);
 
-	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
+	var _hand2 = _interopRequireDefault(_hand);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22511,62 +22716,35 @@
 	  function HumanPlayerObj(cardIds) {
 	    _classCallCheck(this, HumanPlayerObj);
 
-	    this.hand = new _player_hand_obj2.default(cardIds, 0);
+	    this.hand = new _hand2.default(cardIds, 0);
 	    this.selectedHand = undefined;
 	    this.kickout = false;
 	    this.pass = false;
 	    this.playedCards = undefined;
+	    this.id = 0;
 	  }
 
 	  _createClass(HumanPlayerObj, [{
-	    key: "sleep",
-	    value: function sleep(time) {
-	      return new Promise(function (resolve) {
-	        return setTimeout(resolve, time);
-	      });
-	    }
-
-	    // makeMove(currentPlay){
-	    //   console.log('change humanplayerobj makemove from pass');
-	    //   return "pass";
-	    // }
-
-	  }, {
 	    key: "makeMove",
-	    value: function makeMove(currentPlay) {
+	    value: function makeMove(currentPlay, callback) {
 	      var _this = this;
 
-	      if (this.kickout === true) {
-	        var play = this.playedCards.validPlay(currentPlay);
-	        return play;
-	      }
-
-	      this.sleep(500).then(function () {
-	        if (_this.kickout === false) {
-	          // console.log('waiting for human input');
-	          return _this.makeMove(currentPlay);
-	        } else {
-	          //kickout because pass or cards were played
-	          // console.log('pass');
-
+	      var move = setInterval(function () {
+	        if (_this.kickout === true) {
 	          if (_this.pass === true) {
-	            // this.kickout = false;
-	            // this.pass = false;
-	            return "pass";
+	            _this.kickout = false;
+	            _this.pass = false;
+	            clearInterval(move);
+	            return callback("pass");
 	          } else {
-	            // this.kickout = false;
-	            // this.pass = false;
-	            //cards were played, return currentPlay obj
-	            // return "pass";
-
-	            //THIS SHOULD RETURN A CURRENTPLAY OBJECT
-	            //'validPlay' should actually be checked by
-	            //human_player.jsx component on frontend
-	            var _play = _this.playedCards.validPlay(currentPlay);
-	            return _play;
+	            _this.kickout = false;
+	            _this.pass = false;
+	            var play = _this.playedCards.validPlay(currentPlay);
+	            clearInterval(move);
+	            return callback(play);
 	          }
 	        }
-	      });
+	      }, 200);
 	    }
 	  }]);
 
@@ -22574,74 +22752,6 @@
 	}();
 
 	exports.default = HumanPlayerObj;
-
-/***/ },
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _card_obj = __webpack_require__(175);
-
-	var _card_obj2 = _interopRequireDefault(_card_obj);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var PlayerHandObj = function () {
-	  function PlayerHandObj(cardIds, offsetPlayerId) {
-	    _classCallCheck(this, PlayerHandObj);
-
-	    var offset = void 0;
-
-	    this.offsetPlayerId = offsetPlayerId;
-	    this.cardIds = cardIds;
-	    this.cards = cardIds.sort(function (a, b) {
-	      return a - b;
-	    }).map(function (id, idx) {
-	      if (offsetPlayerId === 0) {
-	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
-	      } else if (offsetPlayerId === 1) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "32.5px" };
-	      } else if (offsetPlayerId === 2) {
-	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
-	      } else if (offsetPlayerId === 3) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "605px" };
-	      }
-
-	      return new _card_obj2.default(id, offset);
-	    });
-	  }
-
-	  //REMOVE AI LOGIC, REPLACE WITH LOGIC TO CHECK SELECTEDHAND
-	  //validPlay is called with the selected hand as `this.cards`
-
-	  _createClass(PlayerHandObj, [{
-	    key: "validPlay",
-	    value: function validPlay(currentPlay) {
-	      //human player cards are removed by the front end
-	      var play = {
-	        type: "single",
-	        cards: this.cards,
-	        kicker: this.cards.slice(this.cards.length - 1, this.cards.length),
-	        playerId: this.offsetPlayerId
-	      };
-
-	      return play;
-	    }
-	  }]);
-
-	  return PlayerHandObj;
-	}();
-
-	exports.default = PlayerHandObj;
 
 /***/ }
 /******/ ]);
