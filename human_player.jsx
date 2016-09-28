@@ -122,13 +122,13 @@ class HumanPlayer extends React.Component{
             <span>Pass!</span>
           </button>
 
-          <div className="human-player-played-hand">
-            {this.state.currentPlay}
-          </div>
         </div>
       </div>
     );
   }
 }
+// <div className="human-player-played-hand">
+//   {this.state.currentPlay}
+// </div>
 
 export default HumanPlayer;

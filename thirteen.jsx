@@ -15,7 +15,6 @@ class Thirteen extends React.Component {
     this.shuffledDeck = this.shuffleDeck();
 
     this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
-    // this.player0 = new ComputerPlayerObj(0, this.shuffledDeck.slice(0, 13));
     this.player1 = new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26));
     this.player2 = new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39));
     this.player3 = new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52));
@@ -164,10 +163,11 @@ class Thirteen extends React.Component {
 
   render(){
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : undefined;
+    let playedCardsLength = this.state.bestCurrentPlay.cards.length;
     let playedCards = this.state.bestCurrentPlay.cards.map((card, idx) => {
       return(
         <HandCard
-          offset={{"left":`calc(165px + ${idx}*30px)`}}
+          offset={{"left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />

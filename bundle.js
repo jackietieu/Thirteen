@@ -101,7 +101,6 @@
 	    _this.shuffledDeck = _this.shuffleDeck();
 
 	    _this.player0 = new _human_player4.default(_this.shuffledDeck.slice(0, 13).sort());
-	    // this.player0 = new ComputerPlayerObj(0, this.shuffledDeck.slice(0, 13));
 	    _this.player1 = new _computer_player4.default(1, _this.shuffledDeck.slice(13, 26));
 	    _this.player2 = new _computer_player4.default(2, _this.shuffledDeck.slice(26, 39));
 	    _this.player3 = new _computer_player4.default(3, _this.shuffledDeck.slice(39, 52));
@@ -249,9 +248,10 @@
 	        null,
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
 	      ) : undefined;
+	      var playedCardsLength = this.state.bestCurrentPlay.cards.length;
 	      var playedCards = this.state.bestCurrentPlay.cards.map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
-	          offset: { "left": 'calc(165px + ' + idx + '*30px)' },
+	          offset: { "left": 'calc((175px - ' + playedCardsLength + '*15px) + ' + idx + '*(30px))' },
 	          i: card.i,
 	          idx: idx,
 	          key: "card ".concat(card.i).concat(' ' + idx) });
@@ -21850,11 +21850,6 @@
 	              null,
 	              'Pass!'
 	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'human-player-played-hand' },
-	            this.state.currentPlay
 	          )
 	        )
 	      );
@@ -21863,6 +21858,9 @@
 
 	  return HumanPlayer;
 	}(_react2.default.Component);
+	// <div className="human-player-played-hand">
+	//   {this.state.currentPlay}
+	// </div>
 
 	exports.default = HumanPlayer;
 
@@ -22083,7 +22081,6 @@
 	              });
 	              //failsafe
 	              if (_this2.cards.length < 3) {
-	                console.log('failsafe');
 	                return {
 	                  v: "pass"
 	                };
@@ -22099,8 +22096,8 @@
 	                var _loop = function _loop(j) {
 	                  var subSequence = uniqueSequenceValues.slice(j, j + i);
 	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
-	                  var subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
-	                  var validSequence = Array.from(new Array(i), function (x, k) {
+	                  subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
+	                  validSequence = Array.from(new Array(i), function (x, k) {
 	                    return k + subSequenceMin;
 	                  });
 
@@ -22129,7 +22126,6 @@
 	                    playableCards.push(sequenceKicker);
 	                    var cardIdx = _this2.cards.indexOf(sequenceKicker);
 	                    _this2.cards.splice(cardIdx, 1);
-	                    debugger;
 	                    return {
 	                      v: {
 	                        v: {
@@ -22159,37 +22155,96 @@
 	            }();
 
 	            if ((typeof _ret === "undefined" ? "undefined" : _typeof(_ret)) === "object") return _ret.v;
+	          } else {
+	            var _ret3 = function () {
+	              var sequenceValues = _this2.cards.sort(function (card1, card2) {
+	                return card1.val - card2.val;
+	              }).map(function (card) {
+	                return card.val;
+	              });
+	              var uniqueSequenceValues = [].concat(_toConsumableArray(new Set(sequenceValues)));
+	              var maxSequenceLength = currentPlay.sequenceLength;
+	              var subSequenceMin = Math.min.apply(Math, _toConsumableArray(uniqueSequenceValues));
+	              var validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
+	                return k + subSequenceMin;
+	              });
+	              //failsafe
+	              if (_this2.cards.length < 3) {
+	                return {
+	                  v: "pass"
+	                };
+	              } else if (_this2.offsetPlayerId === 0) {
+	                if (uniqueSequenceValues.toString() !== validSequence.toString()) {
+	                  return {
+	                    v: "pass"
+	                  };
+	                }
+	              }
+
+	              for (var i = maxSequenceLength; i >= 3; i--) {
+	                var _loop2 = function _loop2(j) {
+	                  var subSequence = uniqueSequenceValues.slice(j, j + i);
+	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
+	                  subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
+	                  validSequence = Array.from(new Array(i), function (x, k) {
+	                    return k + subSequenceMin;
+	                  });
+
+	                  if (subSequence.toString() === validSequence.toString()) {
+	                    var reversedCards = _this2.cards.sort(function (card1, card2) {
+	                      return card2.val - card1.val;
+	                    });
+	                    var sequenceKicker = reversedCards.find(function (card) {
+	                      return card.val === subSequenceMax;
+	                    });
+
+	                    if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
+	                      return "continue";
+	                    }
+
+	                    subSequence.splice(subSequence.length - 1);
+	                    subSequence.forEach(function (val) {
+	                      var seqCard = _this2.cards.find(function (card) {
+	                        return card.val === val;
+	                      });
+	                      playableCards.push(seqCard);
+	                      var seqCardIdx = _this2.cards.indexOf(seqCard);
+	                      _this2.cards.splice(seqCardIdx, 1);
+	                    });
+
+	                    playableCards.push(sequenceKicker);
+	                    var cardIdx = _this2.cards.indexOf(sequenceKicker);
+	                    _this2.cards.splice(cardIdx, 1);
+	                    return {
+	                      v: {
+	                        v: {
+	                          type: "sequence",
+	                          sequenceLength: playableCards.length,
+	                          cards: playableCards,
+	                          kicker: sequenceKicker,
+	                          playerId: _this2.offsetPlayerId
+	                        }
+	                      }
+	                    };
+	                  }
+	                };
+
+	                for (var j = 0; j + i <= uniqueSequenceValues.length; j++) {
+	                  var _ret4 = _loop2(j);
+
+	                  switch (_ret4) {
+	                    case "continue":
+	                      continue;
+
+	                    default:
+	                      if ((typeof _ret4 === "undefined" ? "undefined" : _typeof(_ret4)) === "object") return _ret4.v;
+	                  }
+	                }
+	              }
+	            }();
+
+	            if ((typeof _ret3 === "undefined" ? "undefined" : _typeof(_ret3)) === "object") return _ret3.v;
 	          }
-
-	          //SETUP LOGIC FOR PLAY TO CONTINUE AFTER NEW ROUND IS SET
-
-	          //   if (playableCards.length > 0) {
-	          //     return {
-	          //       type: "sequence",
-	          //       sequenceLength: i,
-	          //       cards: playableCards,
-	          //       kicker: playableCards[0],
-	          //       playerId: this.offsetPlayerId
-	          //     };
-	          //   } else {
-	          //     return "pass";
-	          //   }
-	          //   //else, if sequenceLength = n, that means cpu/human is trying to calc
-	          //   //the best sequence it can play on a newRound
-	          //   //logic: should start from cards.length all the way down to 3
-	          //   //for the longest stretch on the first run through,
-	          //   //those become the next play
-	          //   //else return "pass"
-	          //
-	          //   //if (this.offsetPlayerId === 0 &&
-	          //   //sequenceLength !== this.cards.length) return "pass"
-	          // } else {
-	          //   //if sequenceLength is an actual integer x, check for all stretches of
-	          //   //consecutive integers of length x
-	          //   //kicker aka last card in the stretch should have a higher kickerRank
-	          //   //return "pass" if no possiblePlay
-	          // }
-	          //return pass by default if no sequence found
 	          return "pass";
 	        case "quad":
 	          for (var i = 0; i < checkVals.length; i++) {
