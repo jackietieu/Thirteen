@@ -202,7 +202,7 @@
 	              });
 	            })();
 	          }
-	        }, 500);
+	        }, 2500);
 	      } else {
 	        (function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
@@ -22076,22 +22076,6 @@
 	          } else {
 	            return "pass";
 	          }
-	        // let spades3idx = this.cards.indexOf(this.cards.find(card => (
-	        //   card.i === 2
-	        // )));
-	        //
-	        // let startingPlay = {
-	        //   type: "single",
-	        //   cards: [new CardObj(2)],
-	        //   kicker: this.cards.splice(spades3idx, 1)[0],
-	        //   playerId: this.offsetPlayerId
-	        // };
-	        //
-	        // if (spades3idx === -1 || (this.offsetPlayerId === 0 && this.cardIds.length > 1)) {
-	        //   return "pass";
-	        // } else {
-	        //   return startingPlay;
-	        // }
 	        case "sequence":
 	          if (currentPlay.sequenceLength === "n") {
 	            var _ret = function () {
@@ -22211,64 +22195,62 @@
 	                }
 	              }
 
-	              for (var _i2 = maxSequenceLength; _i2 >= 3; _i2--) {
-	                var _loop2 = function _loop2(j) {
-	                  var subSequence = uniqueSequenceValues.slice(j, j + _i2);
-	                  var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
-	                  subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
-	                  validSequence = Array.from(new Array(_i2), function (x, k) {
-	                    return k + subSequenceMin;
+	              var _loop2 = function _loop2(j) {
+	                var subSequence = uniqueSequenceValues.slice(j, j + maxSequenceLength);
+	                var subSequenceMax = Math.max.apply(Math, _toConsumableArray(subSequence));
+	                subSequenceMin = Math.min.apply(Math, _toConsumableArray(subSequence));
+	                validSequence = Array.from(new Array(maxSequenceLength), function (x, k) {
+	                  return k + subSequenceMin;
+	                });
+
+	                if (subSequence.toString() === validSequence.toString()) {
+	                  var reversedCards = _this2.cards.sort(function (card1, card2) {
+	                    return card2.val - card1.val;
+	                  });
+	                  var sequenceKicker = reversedCards.find(function (card) {
+	                    return card.val === subSequenceMax;
 	                  });
 
-	                  if (subSequence.toString() === validSequence.toString()) {
-	                    var reversedCards = _this2.cards.sort(function (card1, card2) {
-	                      return card2.val - card1.val;
-	                    });
-	                    var sequenceKicker = reversedCards.find(function (card) {
-	                      return card.val === subSequenceMax;
-	                    });
+	                  if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
+	                    return "continue";
+	                  }
 
-	                    if (sequenceKicker.kickerRank < currentPlay.kicker.kickerRank) {
-	                      return "continue";
-	                    }
-
-	                    subSequence.splice(subSequence.length - 1);
-	                    subSequence.forEach(function (val) {
-	                      var seqCard = _this2.cards.find(function (card) {
-	                        return card.val === val;
-	                      });
-	                      playableCards.push(seqCard);
-	                      var seqCardIdx = _this2.cards.indexOf(seqCard);
-	                      _this2.cards.splice(seqCardIdx, 1);
+	                  subSequence.splice(subSequence.length - 1);
+	                  subSequence.forEach(function (val) {
+	                    var seqCard = _this2.cards.find(function (card) {
+	                      return card.val === val;
 	                    });
+	                    playableCards.push(seqCard);
+	                    var seqCardIdx = _this2.cards.indexOf(seqCard);
+	                    _this2.cards.splice(seqCardIdx, 1);
+	                  });
 
-	                    playableCards.push(sequenceKicker);
-	                    var cardIdx = _this2.cards.indexOf(sequenceKicker);
-	                    _this2.cards.splice(cardIdx, 1);
-	                    return {
+	                  playableCards.push(sequenceKicker);
+	                  var cardIdx = _this2.cards.indexOf(sequenceKicker);
+	                  _this2.cards.splice(cardIdx, 1);
+	                  return {
+	                    v: {
 	                      v: {
-	                        v: {
-	                          type: "sequence",
-	                          sequenceLength: playableCards.length,
-	                          cards: playableCards,
-	                          kicker: sequenceKicker,
-	                          playerId: _this2.offsetPlayerId
-	                        }
+	                        type: "sequence",
+	                        sequenceLength: playableCards.length,
+	                        cards: playableCards,
+	                        kicker: sequenceKicker,
+	                        playerId: _this2.offsetPlayerId
 	                      }
-	                    };
-	                  }
-	                };
+	                    }
+	                  };
+	                }
+	              };
 
-	                for (var j = 0; j + _i2 <= uniqueSequenceValues.length; j++) {
-	                  var _ret4 = _loop2(j);
+	              for (var j = 0; j + maxSequenceLength <= uniqueSequenceValues.length; j++) {
+	                var _ret4 = _loop2(j);
 
-	                  switch (_ret4) {
-	                    case "continue":
-	                      continue;
+	                switch (_ret4) {
+	                  case "continue":
+	                    continue;
 
-	                    default:
-	                      if ((typeof _ret4 === "undefined" ? "undefined" : _typeof(_ret4)) === "object") return _ret4.v;
-	                  }
+	                  default:
+	                    if ((typeof _ret4 === "undefined" ? "undefined" : _typeof(_ret4)) === "object") return _ret4.v;
 	                }
 	              }
 	            }();
@@ -22284,10 +22266,10 @@
 	              playableCards = this.cardsByCount[3].cards;
 	            }
 	          } else {
-	            for (var _i3 = 0; _i3 < checkVals.length; _i3++) {
-	              if (this.cardsByCount[checkVals[_i3]]) {
-	                if (this.cardsByCount[checkVals[_i3]].cards.length == 4 && this.cardsByCount[checkVals[_i3]].kickerRank > kickerRank) {
-	                  playableCards = this.cardsByCount[checkVals[_i3]].cards;
+	            for (var _i2 = 0; _i2 < checkVals.length; _i2++) {
+	              if (this.cardsByCount[checkVals[_i2]]) {
+	                if (this.cardsByCount[checkVals[_i2]].cards.length == 4 && this.cardsByCount[checkVals[_i2]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i2]].cards;
 	                  break;
 	                }
 	              }
@@ -22328,10 +22310,10 @@
 	              playableCards = this.cardsByCount[3].cards;
 	            }
 	          } else {
-	            for (var _i4 = 0; _i4 < checkVals.length; _i4++) {
-	              if (this.cardsByCount[checkVals[_i4]]) {
-	                if (this.cardsByCount[checkVals[_i4]].cards.length >= 3 && this.cardsByCount[checkVals[_i4]].kickerRank > kickerRank) {
-	                  playableCards = this.cardsByCount[checkVals[_i4]].cards;
+	            for (var _i3 = 0; _i3 < checkVals.length; _i3++) {
+	              if (this.cardsByCount[checkVals[_i3]]) {
+	                if (this.cardsByCount[checkVals[_i3]].cards.length >= 3 && this.cardsByCount[checkVals[_i3]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i3]].cards;
 	                  break;
 	                }
 	              }
@@ -22369,10 +22351,10 @@
 	              playableCards = this.cardsByCount[3].cards;
 	            }
 	          } else {
-	            for (var _i5 = 0; _i5 < checkVals.length; _i5++) {
-	              if (this.cardsByCount[checkVals[_i5]]) {
-	                if (this.cardsByCount[checkVals[_i5]].cards.length >= 2 && this.cardsByCount[checkVals[_i5]].kickerRank > kickerRank) {
-	                  playableCards = this.cardsByCount[checkVals[_i5]].cards;
+	            for (var _i4 = 0; _i4 < checkVals.length; _i4++) {
+	              if (this.cardsByCount[checkVals[_i4]]) {
+	                if (this.cardsByCount[checkVals[_i4]].cards.length >= 2 && this.cardsByCount[checkVals[_i4]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i4]].cards;
 	                  break;
 	                }
 	              }
@@ -22399,7 +22381,6 @@
 	            return "pass";
 	          }
 	        case "single":
-	          var betterCardIdx = void 0;
 	          if (currentPlay.start === true) {
 	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 1) {
 	              return "pass";
@@ -22407,15 +22388,26 @@
 	              playableCards = this.cardsByCount[3].cards;
 	            }
 	          } else {
-	            betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
+	            var betterCard = this.cards.sort(function (card1, card2) {
+	              return card1.val - card2.val;
+	            }).find(function (card) {
 	              return card.kickerRank >= currentPlay.kicker.kickerRank;
-	            }));
-	            playableCards = this.cards.splice(betterCardIdx, 1);
+	            });
+
+	            playableCards = [betterCard];
 	          }
 
+	          if (this.cards.length === 0) {
+	            return "pass";
+	          }
+
+	          var betterCardIdx = this.cards.indexOf(playableCards[0]);
+
+	          debugger;
 	          if (betterCardIdx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
 	            return "pass";
 	          } else {
+	            this.cards.splice(betterCardIdx, 1);
 	            nextPlay = {
 	              type: "single",
 	              cards: playableCards,
@@ -22426,9 +22418,9 @@
 	            return nextPlay;
 	          }
 	        case "newRound":
-	          for (var _i6 = 0; _i6 < possibleCases.length; _i6++) {
+	          for (var _i5 = 0; _i5 < possibleCases.length; _i5++) {
 	            var _dummyPlay = {
-	              type: possibleCases[_i6],
+	              type: possibleCases[_i5],
 	              sequenceLength: "n",
 	              cards: [],
 	              kicker: lowKicker,
