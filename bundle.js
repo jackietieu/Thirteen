@@ -22277,11 +22277,19 @@
 	          }
 	          return "pass";
 	        case "quad":
-	          for (var _i3 = 0; _i3 < checkVals.length; _i3++) {
-	            if (this.cardsByCount[checkVals[_i3]]) {
-	              if (this.cardsByCount[checkVals[_i3]].cards.length == 4 && this.cardsByCount[checkVals[_i3]].kickerRank > kickerRank) {
-	                playableCards = this.cardsByCount[checkVals[_i3]].cards;
-	                break;
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 4) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 4) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            for (var _i3 = 0; _i3 < checkVals.length; _i3++) {
+	              if (this.cardsByCount[checkVals[_i3]]) {
+	                if (this.cardsByCount[checkVals[_i3]].cards.length == 4 && this.cardsByCount[checkVals[_i3]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i3]].cards;
+	                  break;
+	                }
 	              }
 	            }
 	          }
@@ -22313,11 +22321,19 @@
 	            return "pass";
 	          }
 	        case "trio":
-	          for (var _i4 = 0; _i4 < checkVals.length; _i4++) {
-	            if (this.cardsByCount[checkVals[_i4]]) {
-	              if (this.cardsByCount[checkVals[_i4]].cards.length >= 3 && this.cardsByCount[checkVals[_i4]].kickerRank > kickerRank) {
-	                playableCards = this.cardsByCount[checkVals[_i4]].cards;
-	                break;
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 3) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 3) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            for (var _i4 = 0; _i4 < checkVals.length; _i4++) {
+	              if (this.cardsByCount[checkVals[_i4]]) {
+	                if (this.cardsByCount[checkVals[_i4]].cards.length >= 3 && this.cardsByCount[checkVals[_i4]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i4]].cards;
+	                  break;
+	                }
 	              }
 	            }
 	          }
@@ -22346,11 +22362,19 @@
 	            return "pass";
 	          }
 	        case "pair":
-	          for (var _i5 = 0; _i5 < checkVals.length; _i5++) {
-	            if (this.cardsByCount[checkVals[_i5]]) {
-	              if (this.cardsByCount[checkVals[_i5]].cards.length >= 2 && this.cardsByCount[checkVals[_i5]].kickerRank > kickerRank) {
-	                playableCards = this.cardsByCount[checkVals[_i5]].cards;
-	                break;
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 2) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 2) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            for (var _i5 = 0; _i5 < checkVals.length; _i5++) {
+	              if (this.cardsByCount[checkVals[_i5]]) {
+	                if (this.cardsByCount[checkVals[_i5]].cards.length >= 2 && this.cardsByCount[checkVals[_i5]].kickerRank > kickerRank) {
+	                  playableCards = this.cardsByCount[checkVals[_i5]].cards;
+	                  break;
+	                }
 	              }
 	            }
 	          }
@@ -22375,19 +22399,27 @@
 	            return "pass";
 	          }
 	        case "single":
-	          var betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
-	            return card.kickerRank >= currentPlay.kicker.kickerRank;
-	          }));
+	          var betterCardIdx = void 0;
+	          if (currentPlay.start === true) {
+	            if (this.cardsByCount[3] && this.cardsByCount[3].cards.length !== 1) {
+	              return "pass";
+	            } else if (this.cardsByCount[3] && this.cardsByCount[3].cards.length === 1) {
+	              playableCards = this.cardsByCount[3].cards;
+	            }
+	          } else {
+	            betterCardIdx = this.cards.indexOf(this.cards.find(function (card) {
+	              return card.kickerRank >= currentPlay.kicker.kickerRank;
+	            }));
+	            playableCards = this.cards.splice(betterCardIdx, 1);
+	          }
 
 	          if (betterCardIdx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
 	            return "pass";
 	          } else {
-	            var betterCardId = this.cards[betterCardIdx].i;
-
 	            nextPlay = {
 	              type: "single",
-	              cards: [this.cards[betterCardIdx]],
-	              kicker: this.cards.splice(betterCardIdx, 1)[0],
+	              cards: playableCards,
+	              kicker: playableCards[0],
 	              playerId: this.offsetPlayerId
 	            };
 
