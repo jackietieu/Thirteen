@@ -60,19 +60,19 @@
 
 	var _human_player2 = _interopRequireDefault(_human_player);
 
-	var _computer_player = __webpack_require__(174);
+	var _computer_player = __webpack_require__(176);
 
 	var _computer_player2 = _interopRequireDefault(_computer_player);
 
-	var _computer_player3 = __webpack_require__(181);
+	var _computer_player3 = __webpack_require__(178);
 
 	var _computer_player4 = _interopRequireDefault(_computer_player3);
 
-	var _human_player3 = __webpack_require__(184);
+	var _human_player3 = __webpack_require__(179);
 
 	var _human_player4 = _interopRequireDefault(_human_player3);
 
-	var _hand = __webpack_require__(182);
+	var _hand = __webpack_require__(174);
 
 	var _hand2 = _interopRequireDefault(_hand);
 
@@ -21797,15 +21797,15 @@
 
 	var _hand_card2 = _interopRequireDefault(_hand_card);
 
-	var _hand = __webpack_require__(182);
+	var _hand = __webpack_require__(174);
 
 	var _hand2 = _interopRequireDefault(_hand);
 
-	var _card_obj = __webpack_require__(183);
+	var _card_obj = __webpack_require__(175);
 
 	var _card_obj2 = _interopRequireDefault(_card_obj);
 
-	var _player_hand_obj = __webpack_require__(185);
+	var _player_hand_obj = __webpack_require__(180);
 
 	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
 
@@ -22075,173 +22075,6 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _hand = __webpack_require__(182);
-
-	var _hand2 = _interopRequireDefault(_hand);
-
-	var _hand3 = __webpack_require__(177);
-
-	var _hand4 = _interopRequireDefault(_hand3);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ComputerPlayer = function (_React$Component) {
-	  _inherits(ComputerPlayer, _React$Component);
-
-	  function ComputerPlayer(props) {
-	    _classCallCheck(this, ComputerPlayer);
-
-	    var _this = _possibleConstructorReturn(this, (ComputerPlayer.__proto__ || Object.getPrototypeOf(ComputerPlayer)).call(this, props));
-
-	    _this.state = {
-	      hand: _this.props.playerObj.hand.cards,
-	      currentPlay: []
-	    };
-	    return _this;
-	  }
-
-	  _createClass(ComputerPlayer, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: "CPU-player".concat(this.props.playerId) },
-	        _react2.default.createElement(_hand4.default, { hand: this.state.hand, playerId: this.props.playerId }),
-	        _react2.default.createElement(
-	          'div',
-	          { className: "CPU-player-played-hand".concat(this.props.playerId) },
-	          this.state.currentPlay
-	        )
-	      );
-	    }
-	  }]);
-
-	  return ComputerPlayer;
-	}(_react2.default.Component);
-
-	exports.default = ComputerPlayer;
-
-/***/ },
-/* 175 */,
-/* 176 */,
-/* 177 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _hand_card = __webpack_require__(173);
-
-	var _hand_card2 = _interopRequireDefault(_hand_card);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Hand = function (_React$Component) {
-	  _inherits(Hand, _React$Component);
-
-	  function Hand(props) {
-	    _classCallCheck(this, Hand);
-
-	    var _this = _possibleConstructorReturn(this, (Hand.__proto__ || Object.getPrototypeOf(Hand)).call(this, props));
-
-	    _this.hand = _this.props.hand;
-	    return _this;
-	  }
-
-	  // createCards(){
-	  //   const suits = ["spades", "clubs", "diamonds", "hearts"];
-	  //
-	  //   return(
-	  //     this.hand.map((i, idx) => {
-	  //       let rank = " rank".concat(i % 13 + 1);
-	  //       let suit = suits[i / 13 | 0];
-	  //       let offset;
-	  //       if (this.props.playerId === 2) {
-	  //         offset = {"left":`calc(140px + ${idx * 30}px)`};
-	  //       } else if (this.props.playerId === 1) {
-	  //         offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"32.5px"};
-	  //       } else if (this.props.playerId === 3) {
-	  //         offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"605px"};
-	  //       }
-	  //
-	  //       return(
-	  //         <div
-	  //           style={offset}
-	  //           key={"card ".concat(suit).concat(rank)}
-	  //           className={"card ".concat(suit).concat(rank)}>
-	  //           <div key={"face ".concat(suit).concat(rank)} className="face"></div>
-	  //         </div>
-	  //       );
-	  //     })
-	  //   );
-	  // }
-
-	  _createClass(Hand, [{
-	    key: 'render',
-	    value: function render() {
-	      var cards = this.hand.sort(function (a, b) {
-	        return a.i - b.i;
-	      }).map(function (card, idx) {
-	        return _react2.default.createElement(_hand_card2.default, {
-	          offset: card.offset,
-	          i: card.i,
-	          idx: idx,
-	          key: "card ".concat(card.i).concat(' ' + idx) });
-	      });
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: "CPU-player-hand".concat(this.props.playerId) },
-	        cards
-	      );
-	    }
-	  }]);
-
-	  return Hand;
-	}(_react2.default.Component);
-
-	exports.default = Hand;
-
-/***/ },
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */
-/***/ function(module, exports, __webpack_require__) {
-
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -22250,91 +22083,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _hand = __webpack_require__(182);
-
-	var _hand2 = _interopRequireDefault(_hand);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	var ComputerPlayerObj = function () {
-	  function ComputerPlayerObj(id, cardIds) {
-	    _classCallCheck(this, ComputerPlayerObj);
-
-	    this.id = id;
-	    this.hand = new _hand2.default(cardIds, id);
-	  }
-
-	  //currentPlayType = single, pair, triple, quad, n-sequence
-
-
-	  _createClass(ComputerPlayerObj, [{
-	    key: "makeMove",
-	    value: function makeMove(currentPlay) {
-	      switch (currentPlay.type) {
-	        //currentPlay is obj with `type` string and `kicker` cardobj properties
-	        case "start":
-	          //will always be able to play 3 of spades
-	          //if else statement
-	          //if (this.hand.validPlay("single"), then return an cardobj
-	          //ALSO MUST UPDATE THIS.HAND TO NEW HAND OBJ, DISCOUNTING THROWN CARDS
-	          //else return "pass"
-	          //because can't play current round
-	          return this.hand.validPlay(currentPlay);
-	        case "single":
-	          var play = this.hand.validPlay(currentPlay);
-	          if (play) {
-	            return play;
-	          } else {
-	            return "pass";
-	          }
-	        case "newRound":
-	          return this.hand.validPlay(currentPlay);
-	        // case "pair":
-	        //   if (this.hand.validPlay("pair")) {
-	        //     return this.hand.validPlay("pair");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "triple":
-	        //   if (this.hand.validPlay("triple")) {
-	        //     return this.hand.validPlay("triple");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "quad":
-	        //   if (this.hand.validPlay("quad")) {
-	        //     return this.hand.validPlay("quad");
-	        //   } else {
-	        //     return "pass";
-	        //   }
-	        // case "n-sequence":
-	        //   let sequenceLength = parseInt(currentPlayType[0]);
-	        default:
-	          return "pass";
-	      }
-	    }
-	  }]);
-
-	  return ComputerPlayerObj;
-	}();
-
-	exports.default = ComputerPlayerObj;
-
-/***/ },
-/* 182 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _card_obj = __webpack_require__(183);
+	var _card_obj = __webpack_require__(175);
 
 	var _card_obj2 = _interopRequireDefault(_card_obj);
 
@@ -22435,7 +22184,7 @@
 	exports.default = HandObj;
 
 /***/ },
-/* 183 */
+/* 175 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22493,7 +22242,169 @@
 	exports.default = CardObj;
 
 /***/ },
-/* 184 */
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _hand = __webpack_require__(174);
+
+	var _hand2 = _interopRequireDefault(_hand);
+
+	var _hand3 = __webpack_require__(177);
+
+	var _hand4 = _interopRequireDefault(_hand3);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ComputerPlayer = function (_React$Component) {
+	  _inherits(ComputerPlayer, _React$Component);
+
+	  function ComputerPlayer(props) {
+	    _classCallCheck(this, ComputerPlayer);
+
+	    var _this = _possibleConstructorReturn(this, (ComputerPlayer.__proto__ || Object.getPrototypeOf(ComputerPlayer)).call(this, props));
+
+	    _this.state = {
+	      hand: _this.props.playerObj.hand.cards,
+	      currentPlay: []
+	    };
+	    return _this;
+	  }
+
+	  _createClass(ComputerPlayer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: "CPU-player".concat(this.props.playerId) },
+	        _react2.default.createElement(_hand4.default, { hand: this.state.hand, playerId: this.props.playerId }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: "CPU-player-played-hand".concat(this.props.playerId) },
+	          this.state.currentPlay
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ComputerPlayer;
+	}(_react2.default.Component);
+
+	exports.default = ComputerPlayer;
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _hand_card = __webpack_require__(173);
+
+	var _hand_card2 = _interopRequireDefault(_hand_card);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Hand = function (_React$Component) {
+	  _inherits(Hand, _React$Component);
+
+	  function Hand(props) {
+	    _classCallCheck(this, Hand);
+
+	    var _this = _possibleConstructorReturn(this, (Hand.__proto__ || Object.getPrototypeOf(Hand)).call(this, props));
+
+	    _this.hand = _this.props.hand;
+	    return _this;
+	  }
+
+	  // createCards(){
+	  //   const suits = ["spades", "clubs", "diamonds", "hearts"];
+	  //
+	  //   return(
+	  //     this.hand.map((i, idx) => {
+	  //       let rank = " rank".concat(i % 13 + 1);
+	  //       let suit = suits[i / 13 | 0];
+	  //       let offset;
+	  //       if (this.props.playerId === 2) {
+	  //         offset = {"left":`calc(140px + ${idx * 30}px)`};
+	  //       } else if (this.props.playerId === 1) {
+	  //         offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"32.5px"};
+	  //       } else if (this.props.playerId === 3) {
+	  //         offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"605px"};
+	  //       }
+	  //
+	  //       return(
+	  //         <div
+	  //           style={offset}
+	  //           key={"card ".concat(suit).concat(rank)}
+	  //           className={"card ".concat(suit).concat(rank)}>
+	  //           <div key={"face ".concat(suit).concat(rank)} className="face"></div>
+	  //         </div>
+	  //       );
+	  //     })
+	  //   );
+	  // }
+
+	  _createClass(Hand, [{
+	    key: 'render',
+	    value: function render() {
+	      var cards = this.hand.sort(function (a, b) {
+	        return a.i - b.i;
+	      }).map(function (card, idx) {
+	        return _react2.default.createElement(_hand_card2.default, {
+	          offset: card.offset,
+	          i: card.i,
+	          idx: idx,
+	          key: "card ".concat(card.i).concat(' ' + idx) });
+	      });
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: "CPU-player-hand".concat(this.props.playerId) },
+	        cards
+	      );
+	    }
+	  }]);
+
+	  return Hand;
+	}(_react2.default.Component);
+
+	exports.default = Hand;
+
+/***/ },
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22504,7 +22415,91 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _player_hand_obj = __webpack_require__(185);
+	var _hand = __webpack_require__(174);
+
+	var _hand2 = _interopRequireDefault(_hand);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var ComputerPlayerObj = function () {
+	  function ComputerPlayerObj(id, cardIds) {
+	    _classCallCheck(this, ComputerPlayerObj);
+
+	    this.id = id;
+	    this.hand = new _hand2.default(cardIds, id);
+	  }
+
+	  //currentPlayType = single, pair, triple, quad, n-sequence
+
+
+	  _createClass(ComputerPlayerObj, [{
+	    key: "makeMove",
+	    value: function makeMove(currentPlay) {
+	      switch (currentPlay.type) {
+	        //currentPlay is obj with `type` string and `kicker` cardobj properties
+	        case "start":
+	          //will always be able to play 3 of spades
+	          //if else statement
+	          //if (this.hand.validPlay("single"), then return an cardobj
+	          //ALSO MUST UPDATE THIS.HAND TO NEW HAND OBJ, DISCOUNTING THROWN CARDS
+	          //else return "pass"
+	          //because can't play current round
+	          return this.hand.validPlay(currentPlay);
+	        case "single":
+	          var play = this.hand.validPlay(currentPlay);
+	          if (play) {
+	            return play;
+	          } else {
+	            return "pass";
+	          }
+	        case "newRound":
+	          return this.hand.validPlay(currentPlay);
+	        // case "pair":
+	        //   if (this.hand.validPlay("pair")) {
+	        //     return this.hand.validPlay("pair");
+	        //   } else {
+	        //     return "pass";
+	        //   }
+	        // case "triple":
+	        //   if (this.hand.validPlay("triple")) {
+	        //     return this.hand.validPlay("triple");
+	        //   } else {
+	        //     return "pass";
+	        //   }
+	        // case "quad":
+	        //   if (this.hand.validPlay("quad")) {
+	        //     return this.hand.validPlay("quad");
+	        //   } else {
+	        //     return "pass";
+	        //   }
+	        // case "n-sequence":
+	        //   let sequenceLength = parseInt(currentPlayType[0]);
+	        default:
+	          return "pass";
+	      }
+	    }
+	  }]);
+
+	  return ComputerPlayerObj;
+	}();
+
+	exports.default = ComputerPlayerObj;
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _player_hand_obj = __webpack_require__(180);
 
 	var _player_hand_obj2 = _interopRequireDefault(_player_hand_obj);
 
@@ -22581,7 +22576,7 @@
 	exports.default = HumanPlayerObj;
 
 /***/ },
-/* 185 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22592,7 +22587,7 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _card_obj = __webpack_require__(183);
+	var _card_obj = __webpack_require__(175);
 
 	var _card_obj2 = _interopRequireDefault(_card_obj);
 
