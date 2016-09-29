@@ -9,7 +9,8 @@ class History extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if ((this.currentPlay.kicker.kickerRank !== undefined) || (nextProps.currentPlay.kicker.kickerRank !== this.currentPlay.kicker.kickerRank)) {
+    if ((nextProps.currentPlay.kicker.kickerRank !== this.currentPlay.kicker.kickerRank)) {
+      this.currentPlay = nextProps.currentPlay;
       this.log.unshift(<HistoryItem key={'history item '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank)} play={nextProps.currentPlay} />);
     }
   }
