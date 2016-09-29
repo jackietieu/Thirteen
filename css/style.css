@@ -2,6 +2,41 @@ html {
   background: whitesmoke;
 }
 
+.play-history li {
+  position: relative;
+  border: 1px solid black;
+  border-top: none;
+  height: 100px;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.play-history li:first-child {
+  border: 1px solid black;
+}
+
+.game {
+  display: flex;
+}
+
+ul {
+  padding: 0;
+}
+
+.play-history {
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 10px;
+  width: 350px;
+  height: 700px;
+  overflow-y: scroll;
+  background: whitesmoke;
+}
+
 .playing-field {
   background: lightgreen;
   display: flex;
@@ -480,4 +515,30 @@ button:hover:enabled {
   html {
     font-size: 125%;
   }
+}
+
+.play-history .card {
+  border: 1px solid black;
+  position: absolute;
+  display: inline-block;
+  width: 2.1rem;
+  height: 3rem;
+  background-color: #fff;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  cursor: default;
+}
+
+.play-history .card:before,
+.play-history .card:after {
+  position: absolute;
+  font-size: 0.35rem;
+  text-align: center;
+  line-height: 0.35rem;
+  font-family: 'Ubuntu Condensed', sans-serif;
+  white-space: pre-line;
+  width: 0.225rem;
+  letter-spacing: -0.05rem;
 }

@@ -6,6 +6,7 @@ import ComputerPlayerObj from './lib/computer_player';
 import HumanPlayerObj from './lib/human_player';
 import HandObj from './lib/hand';
 import HandCard from './hand_card';
+import History from './history';
 
 class Thirteen extends React.Component {
   constructor(props){
@@ -162,12 +163,12 @@ class Thirteen extends React.Component {
   }
 
   render(){
-    let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p style={{"color":"transparent"}}>placeholder</p>;
+    let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p>New Round!</p>;
     let playedCardsLength = this.state.bestCurrentPlay.cards.length;
     let playedCards = this.state.bestCurrentPlay.cards.map((card, idx) => {
       return(
         <HandCard
-          offset={{"left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
+          offset={{"top":"155px", "left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />
@@ -193,33 +194,36 @@ class Thirteen extends React.Component {
     }
 
     return(
-      <section className="playing-field">
-        <ComputerPlayer
-          playerId={2}
-          playerObj={this.state.players[2]} />
-        <div className="left-right players">
+      <section className="game">
+        <section className="playing-field">
           <ComputerPlayer
-            playerId={1}
-            playerObj={this.state.players[1]} />
-          <div
-            className="played-cards"
-            style={currentPlayerHighlight}>
-            <div className="played-cards-container">
-              {playedCardsOwner}
-              {playedCards}
+            playerId={2}
+            playerObj={this.state.players[2]} />
+          <div className="left-right players">
+            <ComputerPlayer
+              playerId={1}
+              playerObj={this.state.players[1]} />
+            <div
+              className="played-cards"
+              style={currentPlayerHighlight}>
+              <div className="played-cards-container">
+                {playedCardsOwner}
+                {playedCards}
+              </div>
+              {currentPlayerSpan}
             </div>
-            {currentPlayerSpan}
+            <ComputerPlayer
+              playerId={3}
+              playerObj={this.state.players[3]} />
           </div>
-          <ComputerPlayer
-            playerId={3}
-            playerObj={this.state.players[3]} />
-        </div>
 
-        <HumanPlayer
-          playerId={0}
-          playerObj={this.state.players[0]}
-          currentPlayToBeat={this.state.bestCurrentPlay}
-          nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+          <HumanPlayer
+            playerId={0}
+            playerObj={this.state.players[0]}
+            currentPlayToBeat={this.state.bestCurrentPlay}
+            nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+        </section>
+        <History currentPlay={this.state.bestCurrentPlay} />
       </section>
     );
   }

@@ -80,6 +80,10 @@
 
 	var _hand_card2 = _interopRequireDefault(_hand_card);
 
+	var _history = __webpack_require__(181);
+
+	var _history2 = _interopRequireDefault(_history);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -249,13 +253,13 @@
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
 	      ) : _react2.default.createElement(
 	        'p',
-	        { style: { "color": "transparent" } },
-	        'placeholder'
+	        null,
+	        'New Round!'
 	      );
 	      var playedCardsLength = this.state.bestCurrentPlay.cards.length;
 	      var playedCards = this.state.bestCurrentPlay.cards.map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
-	          offset: { "left": 'calc((175px - ' + playedCardsLength + '*15px) + ' + idx + '*(30px))' },
+	          offset: { "top": "155px", "left": 'calc((175px - ' + playedCardsLength + '*15px) + ' + idx + '*(30px))' },
 	          i: card.i,
 	          idx: idx,
 	          key: "card ".concat(card.i).concat(' ' + idx) });
@@ -291,38 +295,43 @@
 
 	      return _react2.default.createElement(
 	        'section',
-	        { className: 'playing-field' },
-	        _react2.default.createElement(_computer_player2.default, {
-	          playerId: 2,
-	          playerObj: this.state.players[2] }),
+	        { className: 'game' },
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'left-right players' },
+	          'section',
+	          { className: 'playing-field' },
 	          _react2.default.createElement(_computer_player2.default, {
-	            playerId: 1,
-	            playerObj: this.state.players[1] }),
+	            playerId: 2,
+	            playerObj: this.state.players[2] }),
 	          _react2.default.createElement(
 	            'div',
-	            {
-	              className: 'played-cards',
-	              style: currentPlayerHighlight },
+	            { className: 'left-right players' },
+	            _react2.default.createElement(_computer_player2.default, {
+	              playerId: 1,
+	              playerObj: this.state.players[1] }),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'played-cards-container' },
-	              playedCardsOwner,
-	              playedCards
+	              {
+	                className: 'played-cards',
+	                style: currentPlayerHighlight },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'played-cards-container' },
+	                playedCardsOwner,
+	                playedCards
+	              ),
+	              currentPlayerSpan
 	            ),
-	            currentPlayerSpan
+	            _react2.default.createElement(_computer_player2.default, {
+	              playerId: 3,
+	              playerObj: this.state.players[3] })
 	          ),
-	          _react2.default.createElement(_computer_player2.default, {
-	            playerId: 3,
-	            playerObj: this.state.players[3] })
+	          _react2.default.createElement(_human_player2.default, {
+	            playerId: 0,
+	            playerObj: this.state.players[0],
+	            currentPlayToBeat: this.state.bestCurrentPlay,
+	            nextMoveSameRound: this.nextMoveSameRound.bind(this) })
 	        ),
-	        _react2.default.createElement(_human_player2.default, {
-	          playerId: 0,
-	          playerObj: this.state.players[0],
-	          currentPlayToBeat: this.state.bestCurrentPlay,
-	          nextMoveSameRound: this.nextMoveSameRound.bind(this) })
+	        _react2.default.createElement(_history2.default, { currentPlay: this.state.bestCurrentPlay })
 	      );
 	    }
 	  }]);
@@ -22742,6 +22751,209 @@
 	}();
 
 	exports.default = HumanPlayerObj;
+
+/***/ },
+/* 180 */,
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _history_item = __webpack_require__(182);
+
+	var _history_item2 = _interopRequireDefault(_history_item);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var History = function (_React$Component) {
+	  _inherits(History, _React$Component);
+
+	  function History(props) {
+	    _classCallCheck(this, History);
+
+	    var _this = _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
+
+	    _this.currentPlay = _this.props.currentPlay;
+	    _this.log = [];
+	    return _this;
+	  }
+
+	  _createClass(History, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (this.currentPlay.kicker.kickerRank !== undefined || nextProps.currentPlay.kicker.kickerRank !== this.currentPlay.kicker.kickerRank) {
+	        this.log.unshift(_react2.default.createElement(_history_item2.default, { key: 'history item '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank), play: nextProps.currentPlay }));
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'ul',
+	        { className: 'play-history' },
+	        this.log
+	      );
+	    }
+	  }]);
+
+	  return History;
+	}(_react2.default.Component);
+
+	exports.default = History;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _hand_card = __webpack_require__(173);
+
+	var _hand_card2 = _interopRequireDefault(_hand_card);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var HistoryItem = function (_React$Component) {
+	  _inherits(HistoryItem, _React$Component);
+
+	  function HistoryItem(props) {
+	    _classCallCheck(this, HistoryItem);
+
+	    var _this = _possibleConstructorReturn(this, (HistoryItem.__proto__ || Object.getPrototypeOf(HistoryItem)).call(this, props));
+
+	    _this.play = _this.props.play;
+	    _this.item = undefined;
+
+	    _this.scaledCards = _this.scaleCards();
+	    _this.insertPlay();
+	    return _this;
+	  }
+
+	  _createClass(HistoryItem, [{
+	    key: 'scaleCards',
+	    value: function scaleCards() {
+	      var _this2 = this;
+
+	      if (this.play.cards.length === 0) {
+	        return [];
+	      } else {
+	        var cards = this.play.cards.map(function (card, idx) {
+	          return _react2.default.createElement(_hand_card2.default, {
+	            offset: { "top": "27.5px", "left": 'calc(' + (idx + 1) * 44 + 'px - ' + (13 - _this2.play.cards.length) * 3 + 'px)' },
+	            i: card.i,
+	            idx: idx,
+	            key: "card ".concat(card.i).concat(' ' + idx) });
+	        });
+
+	        var cardContainer = _react2.default.createElement(
+	          'div',
+	          null,
+	          cards
+	        );
+	        return cardContainer;
+	      }
+	    }
+	  }, {
+	    key: 'insertPlay',
+	    value: function insertPlay() {
+	      var currentPlayerId = this.play.playerId;
+
+	      switch (this.play.type) {
+	        case "start":
+	          this.item = "New Game!";
+	          break;
+	        case "newRound":
+	          this.item = "New Round!";
+	          break;
+	        case "sequence":
+	          if (currentPlayerId === 0) {
+	            this.item = 'You played';
+	          } else {
+	            this.item = 'Player ' + currentPlayerId + ' played';
+	          }
+	          break;
+	        case "quad":
+	          if (currentPlayerId === 0) {
+	            this.item = 'You played';
+	          } else {
+	            this.item = 'Player ' + currentPlayerId + ' played';
+	          }
+	          break;
+	        case "trio":
+	          if (currentPlayerId === 0) {
+	            this.item = 'You played';
+	          } else {
+	            this.item = 'Player ' + currentPlayerId + ' played';
+	          }
+	          break;
+	        case "pair":
+	          if (currentPlayerId === 0) {
+	            this.item = 'You played';
+	          } else {
+	            this.item = 'Player ' + currentPlayerId + ' played';
+	          }
+	          break;
+	        case "single":
+	          if (currentPlayerId === 0) {
+	            this.item = 'You played';
+	          } else {
+	            debugger;
+	            this.item = 'Player ' + currentPlayerId + ' played';
+	          }
+	          break;
+	        default:
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        null,
+	        this.item,
+	        ': ',
+	        this.scaledCards
+	      );
+	    }
+	  }]);
+
+	  return HistoryItem;
+	}(_react2.default.Component);
+
+	exports.default = HistoryItem;
 
 /***/ }
 /******/ ]);
