@@ -29,6 +29,7 @@
 }
 
 .played-cards {
+  border: 10px solid transparent;
   /*display: flex;
   flex-direction: column;*/
   /*justify-content: space-between;*/
