@@ -32,8 +32,6 @@ class History extends React.Component {
         player.id
       ));
 
-      debugger;
-
       for (let i = 0; i < 4; i++) {
         if ((this.pass.indexOf(i) === -1) && (this.currentPlayerIds.indexOf(i) === -1)) {
           this.pass.push(i);

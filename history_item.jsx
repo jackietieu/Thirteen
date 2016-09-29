@@ -69,7 +69,6 @@ class HistoryItem extends React.Component {
         if (currentPlayerId === 0) {
           this.item = `You played`;
         } else {
-          debugger;
           this.item = `Player ${currentPlayerId} played`;
         }
         break;

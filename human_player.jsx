@@ -130,8 +130,5 @@ class HumanPlayer extends React.Component{
     );
   }
 }
-// <div className="human-player-played-hand">
-//   {this.state.currentPlay}
-// </div>
 
 export default HumanPlayer;

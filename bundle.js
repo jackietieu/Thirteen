@@ -206,7 +206,7 @@
 	              });
 	            })();
 	          }
-	        }, 1500);
+	        }, 200);
 	      } else {
 	        (function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
@@ -221,19 +221,17 @@
 	                }
 	              });
 	            } else {
-	              (function () {
-	                var possibleWinner = currentPlayers[0];
-	                currentPlayers.push(currentPlayers.shift());
-	                _this2.setState({
-	                  currentPlayersInRound: currentPlayers,
-	                  bestCurrentPlay: move }, function () {
-	                  if (possibleWinner.hand.cards.length === 0) {
-	                    alert('Player ' + possibleWinner.id + ' won!');
-	                    return;
-	                  }
-	                  return _this2.nextMoveSameRound();
-	                });
-	              })();
+	              currentPlayers.push(currentPlayers.shift());
+	              _this2.setState({
+	                currentPlayersInRound: currentPlayers,
+	                bestCurrentPlay: move }, function () {
+	                if (document.querySelectorAll('.human-player-hand .card').length === 0) {
+	                  alert('You won!');
+	                  return;
+	                }
+
+	                return _this2.nextMoveSameRound();
+	              });
 	            }
 	          });
 	        })();
@@ -21912,9 +21910,6 @@
 
 	  return HumanPlayer;
 	}(_react2.default.Component);
-	// <div className="human-player-played-hand">
-	//   {this.state.currentPlay}
-	// </div>
 
 	exports.default = HumanPlayer;
 
@@ -22823,8 +22818,6 @@
 	          return player.id;
 	        });
 
-	        debugger;
-
 	        for (var i = 0; i < 4; i++) {
 	          if (this.pass.indexOf(i) === -1 && this.currentPlayerIds.indexOf(i) === -1) {
 	            this.pass.push(i);
@@ -22970,7 +22963,6 @@
 	          if (currentPlayerId === 0) {
 	            this.item = 'You played';
 	          } else {
-	            debugger;
 	            this.item = 'Player ' + currentPlayerId + ' played';
 	          }
 	          break;

@@ -126,7 +126,7 @@ class Thirteen extends React.Component {
         }
       );
     }
-  }, 1500);
+  }, 200);
     } else {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
@@ -141,15 +141,15 @@ class Thirteen extends React.Component {
             }
           });
         } else {
-          let possibleWinner = currentPlayers[0];
           currentPlayers.push(currentPlayers.shift());
           this.setState({
             currentPlayersInRound: currentPlayers,
             bestCurrentPlay: move }, () => {
-              if (possibleWinner.hand.cards.length === 0) {
-                alert(`Player ${possibleWinner.id} won!`);
+              if (document.querySelectorAll('.human-player-hand .card').length === 0) {
+                alert(`You won!`);
                 return;
               }
+
               return this.nextMoveSameRound();
             }
           );
