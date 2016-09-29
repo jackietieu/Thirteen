@@ -14,7 +14,7 @@ class History extends React.Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if (this.currentPlay.type === "newRound") {
+    if (nextProps.currentPlay.type === "newRound") {
       this.pass = [];
       this.log.unshift(<span key={'newRound '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank)} className="log-item">New Round!</span>);
     } else if ((nextProps.currentPlay.kicker.kickerRank !== this.currentPlay.kicker.kickerRank)) {

@@ -22803,7 +22803,7 @@
 	  _createClass(History, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      if (this.currentPlay.type === "newRound") {
+	      if (nextProps.currentPlay.type === "newRound") {
 	        this.pass = [];
 	        this.log.unshift(_react2.default.createElement(
 	          'span',
@@ -22938,12 +22938,12 @@
 	      var currentPlayerId = this.play.playerId;
 
 	      switch (this.play.type) {
-	        case "start":
-	          this.item = "New Game!";
-	          break;
-	        case "newRound":
-	          this.item = "New Round!";
-	          break;
+	        // case "start":
+	        //   this.item = "New Game!";
+	        //   break;
+	        // case "newRound":
+	        //   this.item = "New Round!";
+	        //   break;
 	        case "sequence":
 	          if (currentPlayerId === 0) {
 	            this.item = 'You played';

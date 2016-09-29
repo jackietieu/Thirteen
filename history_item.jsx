@@ -37,12 +37,12 @@ class HistoryItem extends React.Component {
     let currentPlayerId = this.play.playerId;
 
     switch (this.play.type) {
-      case "start":
-        this.item = "New Game!";
-        break;
-      case "newRound":
-        this.item = "New Round!";
-        break;
+      // case "start":
+      //   this.item = "New Game!";
+      //   break;
+      // case "newRound":
+      //   this.item = "New Round!";
+      //   break;
       case "sequence":
         if (currentPlayerId === 0) {
           this.item = `You played`;
