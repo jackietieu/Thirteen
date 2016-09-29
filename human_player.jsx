@@ -121,7 +121,7 @@ class HumanPlayer extends React.Component{
           <button disabled={disabled} className="play-button" onClick={this.playCards.bind(this)}>
             <span>Play Hand!</span>
           </button>
-          <button className="pass-button" onClick={this.passHandler.bind(this)}>
+          <button disabled={!disabled} className="pass-button" onClick={this.passHandler.bind(this)}>
             <span>Pass!</span>
           </button>
 

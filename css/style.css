@@ -181,6 +181,10 @@ button:hover:enabled {
   background: #e1ffe1;
 }
 
+button:disabled {
+  background: rgba(255, 255, 255, 0.9);
+}
+
 .CPU-player-hand1, .CPU-player-hand3 {
   position: relative;
   /*display: flex;

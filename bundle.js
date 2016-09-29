@@ -206,7 +206,7 @@
 	              });
 	            })();
 	          }
-	        }, 200);
+	        }, 1750);
 	      } else {
 	        (function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
@@ -21896,7 +21896,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'button',
-	            { className: 'pass-button', onClick: this.passHandler.bind(this) },
+	            { disabled: !disabled, className: 'pass-button', onClick: this.passHandler.bind(this) },
 	            _react2.default.createElement(
 	              'span',
 	              null,
