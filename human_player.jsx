@@ -50,19 +50,26 @@ class HumanPlayer extends React.Component{
     this.props.playerObj.selectedHand = new HandObj(selectedCardIds);
   }
 
-  createCards(hand){
-    let cards = hand.sort((a, b) => (
+  createCards(cards){
+    let overlap = (13 - cards.length) * 15;
+    let newHand = cards.sort((a, b) => (
       a.val - b.val
-    )).map((card, idx) => (
-      <HandCard
+    )).map((card, idx) => {
+      let offset = {"left":`calc(${(idx + 1) * 30}px + ${(13 - cards.length) * 15}px)`};
+      return <HandCard
         i={card.i}
         idx={idx}
         key={"card ".concat(card.i).concat(` ${idx}`)}
-        offset={{"left":`calc(30px + ${idx * 30}px)`}}
-        selectCard={this.selectCard.bind(this)} />
-    ));
-
-    return cards;
+        offset={offset}
+        selectCard={this.selectCard.bind(this)} />;
+    });
+    //"left":`calc(${((idx + 1) * 30)}px)`
+    // {((idx + 1) * 30) + (13-cards.length)*15}px
+    //{"left":`calc(${(idx + 1) * 30}px + ${(13 - cards.length) * 15}px)`}
+    //{"left":`calc(${((idx + 1) * 30) + (13-cards.length)*15}px + ${(13 - cards.length) * 15}px)`}
+    //{"left":`calc(225px - ${hand.length * 15}px + ${idx * 30}px)`}
+    // offset={{"left":`calc((175px - ${this.state.hand.length}*15px) + ${idx}*(30px))`}}
+    return newHand;
   }
 
   playCards(e){
@@ -71,7 +78,7 @@ class HumanPlayer extends React.Component{
     let removeHandCardIds = this.state.currentSelection;
     let newHandCardIds = [];
 
-    oldHandCardIds.map(id => {
+    oldHandCardIds.forEach(id => {
       if (!removeHandCardIds.includes(id)) {
         newHandCardIds.push(id);
       }
@@ -81,15 +88,18 @@ class HumanPlayer extends React.Component{
     let playedCards = new HandObj(removeHandCardIds, 0);
 
     this.setState({
-      handCardIds: newHandCardIds,
-      hand: this.createCards(newHand.cards),
-      currentPlay: this.createCards(playedCards.cards),
-      currentSelection: []
+      hand: []
     }, () => {
-      this.props.playerObj.playedCards = playedCards;
-      this.props.playerObj.kickout = true;
-    }
-  );
+      this.setState({
+        handCardIds: newHandCardIds,
+        hand: this.createCards(newHand.cards),
+        // currentPlay: this.createCards(playedCards.cards),
+        currentSelection: []
+      }, () => {
+        this.props.playerObj.playedCards = playedCards;
+        this.props.playerObj.kickout = true;
+      });
+    });
   }
 
   validPlay(){

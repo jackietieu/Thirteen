@@ -39,7 +39,6 @@ class HandCard extends React.Component{
     // let suit = suits[this.i / 13 | 0];
     // let offset = {"left":`calc(30px + ${this.idx * 30}px)`};
     // let key = (play === "play") ? " play" : " hand";
-
     return(
       <div
         id={this.i}

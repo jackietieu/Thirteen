@@ -202,7 +202,7 @@
 	              });
 	            })();
 	          }
-	        }, 2500);
+	        }, 1500);
 	      } else {
 	        (function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
@@ -21758,21 +21758,28 @@
 	    }
 	  }, {
 	    key: 'createCards',
-	    value: function createCards(hand) {
+	    value: function createCards(cards) {
 	      var _this2 = this;
 
-	      var cards = hand.sort(function (a, b) {
+	      var overlap = (13 - cards.length) * 15;
+	      var newHand = cards.sort(function (a, b) {
 	        return a.val - b.val;
 	      }).map(function (card, idx) {
+	        var offset = { "left": 'calc(' + (idx + 1) * 30 + 'px + ' + (13 - cards.length) * 15 + 'px)' };
 	        return _react2.default.createElement(_hand_card2.default, {
 	          i: card.i,
 	          idx: idx,
 	          key: "card ".concat(card.i).concat(' ' + idx),
-	          offset: { "left": 'calc(30px + ' + idx * 30 + 'px)' },
+	          offset: offset,
 	          selectCard: _this2.selectCard.bind(_this2) });
 	      });
-
-	      return cards;
+	      //"left":`calc(${((idx + 1) * 30)}px)`
+	      // {((idx + 1) * 30) + (13-cards.length)*15}px
+	      //{"left":`calc(${(idx + 1) * 30}px + ${(13 - cards.length) * 15}px)`}
+	      //{"left":`calc(${((idx + 1) * 30) + (13-cards.length)*15}px + ${(13 - cards.length) * 15}px)`}
+	      //{"left":`calc(225px - ${hand.length * 15}px + ${idx * 30}px)`}
+	      // offset={{"left":`calc((175px - ${this.state.hand.length}*15px) + ${idx}*(30px))`}}
+	      return newHand;
 	    }
 	  }, {
 	    key: 'playCards',
@@ -21784,7 +21791,7 @@
 	      var removeHandCardIds = this.state.currentSelection;
 	      var newHandCardIds = [];
 
-	      oldHandCardIds.map(function (id) {
+	      oldHandCardIds.forEach(function (id) {
 	        if (!removeHandCardIds.includes(id)) {
 	          newHandCardIds.push(id);
 	        }
@@ -21794,13 +21801,17 @@
 	      var playedCards = new _hand2.default(removeHandCardIds, 0);
 
 	      this.setState({
-	        handCardIds: newHandCardIds,
-	        hand: this.createCards(newHand.cards),
-	        currentPlay: this.createCards(playedCards.cards),
-	        currentSelection: []
+	        hand: []
 	      }, function () {
-	        _this3.props.playerObj.playedCards = playedCards;
-	        _this3.props.playerObj.kickout = true;
+	        _this3.setState({
+	          handCardIds: newHandCardIds,
+	          hand: _this3.createCards(newHand.cards),
+	          // currentPlay: this.createCards(playedCards.cards),
+	          currentSelection: []
+	        }, function () {
+	          _this3.props.playerObj.playedCards = playedCards;
+	          _this3.props.playerObj.kickout = true;
+	        });
 	      });
 	    }
 	  }, {
@@ -21934,7 +21945,6 @@
 	      // let suit = suits[this.i / 13 | 0];
 	      // let offset = {"left":`calc(30px + ${this.idx * 30}px)`};
 	      // let key = (play === "play") ? " play" : " hand";
-
 	      return _react2.default.createElement(
 	        "div",
 	        {
@@ -22597,34 +22607,6 @@
 	    _this.hand = _this.props.hand;
 	    return _this;
 	  }
-
-	  // createCards(){
-	  //   const suits = ["spades", "clubs", "diamonds", "hearts"];
-	  //
-	  //   return(
-	  //     this.hand.map((i, idx) => {
-	  //       let rank = " rank".concat(i % 13 + 1);
-	  //       let suit = suits[i / 13 | 0];
-	  //       let offset;
-	  //       if (this.props.playerId === 2) {
-	  //         offset = {"left":`calc(140px + ${idx * 30}px)`};
-	  //       } else if (this.props.playerId === 1) {
-	  //         offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"32.5px"};
-	  //       } else if (this.props.playerId === 3) {
-	  //         offset = {"top":`calc(120px + ${idx * 30}px)`, "left":"605px"};
-	  //       }
-	  //
-	  //       return(
-	  //         <div
-	  //           style={offset}
-	  //           key={"card ".concat(suit).concat(rank)}
-	  //           className={"card ".concat(suit).concat(rank)}>
-	  //           <div key={"face ".concat(suit).concat(rank)} className="face"></div>
-	  //         </div>
-	  //       );
-	  //     })
-	  //   );
-	  // }
 
 	  _createClass(Hand, [{
 	    key: 'render',

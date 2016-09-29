@@ -125,7 +125,7 @@ class Thirteen extends React.Component {
         }
       );
     }
-  }, 2500);
+  }, 1500);
     } else {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
