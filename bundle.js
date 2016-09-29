@@ -331,7 +331,9 @@
 	            currentPlayToBeat: this.state.bestCurrentPlay,
 	            nextMoveSameRound: this.nextMoveSameRound.bind(this) })
 	        ),
-	        _react2.default.createElement(_history2.default, { currentPlay: this.state.bestCurrentPlay })
+	        _react2.default.createElement(_history2.default, {
+	          currentPlay: this.state.bestCurrentPlay,
+	          currentPlayers: this.state.currentPlayersInRound })
 	      );
 	    }
 	  }]);
@@ -22420,7 +22422,6 @@
 
 	          var betterCardIdx = this.cards.indexOf(playableCards[0]);
 
-	          debugger;
 	          if (betterCardIdx === -1 || this.offsetPlayerId === 0 && this.cardIds.length > 1) {
 	            return "pass";
 	          } else {
@@ -22790,16 +22791,61 @@
 	    var _this = _possibleConstructorReturn(this, (History.__proto__ || Object.getPrototypeOf(History)).call(this, props));
 
 	    _this.currentPlay = _this.props.currentPlay;
+	    _this.currentPlayers = _this.props.currentPlayers;
+	    _this.currentPlayerIds = _this.currentPlayers.map(function (player) {
+	      return player.id;
+	    });
 	    _this.log = [];
+	    _this.pass = [];
 	    return _this;
 	  }
 
 	  _createClass(History, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      if (nextProps.currentPlay.kicker.kickerRank !== this.currentPlay.kicker.kickerRank) {
+	      if (this.currentPlay.type === "newRound") {
+	        this.pass = [];
+	        this.log.unshift(_react2.default.createElement(
+	          'span',
+	          { key: 'newRound '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank), className: 'log-item' },
+	          'New Round!'
+	        ));
+	      } else if (nextProps.currentPlay.kicker.kickerRank !== this.currentPlay.kicker.kickerRank) {
 	        this.currentPlay = nextProps.currentPlay;
-	        this.log.unshift(_react2.default.createElement(_history_item2.default, { key: 'history item '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank), play: nextProps.currentPlay }));
+
+	        this.log.unshift(_react2.default.createElement(_history_item2.default, {
+	          key: 'history item '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank),
+	          play: nextProps.currentPlay }));
+	      } else {
+	        this.currentPlay = nextProps.currentPlay;
+	        this.currentPlayers = nextProps.currentPlayers;
+	        this.currentPlayerIds = this.currentPlayers.map(function (player) {
+	          return player.id;
+	        });
+
+	        debugger;
+
+	        for (var i = 0; i < 4; i++) {
+	          if (this.pass.indexOf(i) === -1 && this.currentPlayerIds.indexOf(i) === -1) {
+	            this.pass.push(i);
+	            if (i === 0) {
+	              this.log.unshift(_react2.default.createElement(
+	                'span',
+	                { key: 'pass '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank), className: 'log-item' },
+	                'You passed!'
+	              ));
+	            } else {
+	              this.log.unshift(_react2.default.createElement(
+	                'span',
+	                { key: 'pass '.concat(this.log.length).concat(nextProps.currentPlay.kicker.kickerRank), className: 'log-item' },
+	                'Player ',
+	                i,
+	                ' passed!'
+	              ));
+	            }
+	            break;
+	          }
+	        }
 	      }
 	    }
 	  }, {

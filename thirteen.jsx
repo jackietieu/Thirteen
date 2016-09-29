@@ -223,7 +223,9 @@ class Thirteen extends React.Component {
             currentPlayToBeat={this.state.bestCurrentPlay}
             nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
         </section>
-        <History currentPlay={this.state.bestCurrentPlay} />
+        <History
+          currentPlay={this.state.bestCurrentPlay}
+          currentPlayers={this.state.currentPlayersInRound} />
       </section>
     );
   }
