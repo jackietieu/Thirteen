@@ -22020,11 +22020,11 @@
 	      if (offsetPlayerId === 0) {
 	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
 	      } else if (offsetPlayerId === 1) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "32.5px" };
+	        offset = { "top": "calc(15px + " + idx * 30 + "px)", "left": "23px" };
 	      } else if (offsetPlayerId === 2) {
 	        offset = { "left": "calc(30px + " + idx * 30 + "px)" };
 	      } else if (offsetPlayerId === 3) {
-	        offset = { "top": "calc(120px + " + idx * 30 + "px)", "left": "605px" };
+	        offset = { "top": "calc(15px + " + idx * 30 + "px)", "left": "23px" };
 	      }
 
 	      return new _card_obj2.default(id, offset);
@@ -22938,12 +22938,6 @@
 	      var currentPlayerId = this.play.playerId;
 
 	      switch (this.play.type) {
-	        // case "start":
-	        //   this.item = "New Game!";
-	        //   break;
-	        // case "newRound":
-	        //   this.item = "New Round!";
-	        //   break;
 	        case "sequence":
 	          if (currentPlayerId === 0) {
 	            this.item = 'You played';

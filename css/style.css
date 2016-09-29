@@ -26,6 +26,7 @@ html {
 
 .game {
   display: flex;
+  justify-content: center;
 }
 
 ul {
@@ -46,6 +47,7 @@ ul {
 }
 
 .playing-field {
+  min-width: 700px;
   background: lightgreen;
   display: flex;
   flex-direction: column;
@@ -175,7 +177,7 @@ button:hover:enabled {
 }
 
 .CPU-player-hand1, .CPU-player-hand3 {
-  /*position: relative;*/
+  position: relative;
   /*display: flex;
   flex-direction: column;*/
   /*justify-content: space-between;
