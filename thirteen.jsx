@@ -162,7 +162,7 @@ class Thirteen extends React.Component {
   }
 
   render(){
-    let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : undefined;
+    let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p style={{"color":"transparent"}}>placeholder</p>;
     let playedCardsLength = this.state.bestCurrentPlay.cards.length;
     let playedCards = this.state.bestCurrentPlay.cards.map((card, idx) => {
       return(
@@ -176,6 +176,12 @@ class Thirteen extends React.Component {
 
     let currentPlayerHighlight;
     let currentPlayer = this.state.currentPlayersInRound[0].id;
+    let currentPlayerSpan;
+    if (currentPlayer === 0) {
+      currentPlayerSpan = <span>It's Your Turn!</span>
+    } else {
+      currentPlayerSpan = <span>Player {currentPlayer}'s Turn!</span>
+    }
     if (currentPlayer === 0){
       currentPlayerHighlight = {"borderBottom":"10px solid mediumseagreen"};
     } else if (currentPlayer === 1){
@@ -198,8 +204,11 @@ class Thirteen extends React.Component {
           <div
             className="played-cards"
             style={currentPlayerHighlight}>
-            {playedCardsOwner}
-            {playedCards}
+            <div className="played-cards-container">
+              {playedCardsOwner}
+              {playedCards}
+            </div>
+            {currentPlayerSpan}
           </div>
           <ComputerPlayer
             playerId={3}

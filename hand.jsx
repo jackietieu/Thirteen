@@ -11,15 +11,16 @@ class Hand extends React.Component{
     let cards = this.hand.sort((a, b) => (
       a.i - b.i
     )).map((card, idx) => {
-    return(
-      <HandCard
-        offset={card.offset}
-        i={card.i}
-        idx={idx}
-        key={"card ".concat(card.i).concat(` ${idx}`)} />
-    );
-    }
-    );
+      return(
+        <div
+          id={card.i}
+          style={card.offset}
+          key={"card ".concat(card.suit).concat(card.rank)}
+          className={"card"}>
+          <div key={"back ".concat(card.suit).concat(card.rank)} className="back"></div>
+        </div>
+      );
+    });
 
     return(
       <div className={"CPU-player-hand".concat(this.props.playerId)}>
@@ -28,5 +29,11 @@ class Hand extends React.Component{
     );
   }
 }
+
+// return(
+//   <div className={"CPU-player-hand".concat(this.props.playerId)}>
+//     {cards}
+//   </div>
+// );
 
 export default Hand;

@@ -247,7 +247,11 @@
 	        'p',
 	        null,
 	        'Player ' + this.state.bestCurrentPlay.playerId + ' played this!'
-	      ) : undefined;
+	      ) : _react2.default.createElement(
+	        'p',
+	        { style: { "color": "transparent" } },
+	        'placeholder'
+	      );
 	      var playedCardsLength = this.state.bestCurrentPlay.cards.length;
 	      var playedCards = this.state.bestCurrentPlay.cards.map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
@@ -259,6 +263,22 @@
 
 	      var currentPlayerHighlight = void 0;
 	      var currentPlayer = this.state.currentPlayersInRound[0].id;
+	      var currentPlayerSpan = void 0;
+	      if (currentPlayer === 0) {
+	        currentPlayerSpan = _react2.default.createElement(
+	          'span',
+	          null,
+	          'It\'s Your Turn!'
+	        );
+	      } else {
+	        currentPlayerSpan = _react2.default.createElement(
+	          'span',
+	          null,
+	          'Player ',
+	          currentPlayer,
+	          '\'s Turn!'
+	        );
+	      }
 	      if (currentPlayer === 0) {
 	        currentPlayerHighlight = { "borderBottom": "10px solid mediumseagreen" };
 	      } else if (currentPlayer === 1) {
@@ -286,8 +306,13 @@
 	            {
 	              className: 'played-cards',
 	              style: currentPlayerHighlight },
-	            playedCardsOwner,
-	            playedCards
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'played-cards-container' },
+	              playedCardsOwner,
+	              playedCards
+	            ),
+	            currentPlayerSpan
 	          ),
 	          _react2.default.createElement(_computer_player2.default, {
 	            playerId: 3,
@@ -22587,11 +22612,15 @@
 	      var cards = this.hand.sort(function (a, b) {
 	        return a.i - b.i;
 	      }).map(function (card, idx) {
-	        return _react2.default.createElement(_hand_card2.default, {
-	          offset: card.offset,
-	          i: card.i,
-	          idx: idx,
-	          key: "card ".concat(card.i).concat(' ' + idx) });
+	        return _react2.default.createElement(
+	          'div',
+	          {
+	            id: card.i,
+	            style: card.offset,
+	            key: "card ".concat(card.suit).concat(card.rank),
+	            className: "card" },
+	          _react2.default.createElement('div', { key: "back ".concat(card.suit).concat(card.rank), className: 'back' })
+	        );
 	      });
 
 	      return _react2.default.createElement(
@@ -22604,6 +22633,12 @@
 
 	  return Hand;
 	}(_react2.default.Component);
+
+	// return(
+	//   <div className={"CPU-player-hand".concat(this.props.playerId)}>
+	//     {cards}
+	//   </div>
+	// );
 
 	exports.default = Hand;
 
