@@ -1,3 +1,7 @@
+html {
+  background: whitesmoke;
+}
+
 .playing-field {
   background: lightgreen;
   display: flex;
