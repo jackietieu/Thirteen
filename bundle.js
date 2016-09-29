@@ -21716,8 +21716,7 @@
 	    _this.state = {
 	      handCardIds: _this.props.playerObj.hand.cardIds,
 	      hand: _this.createCards(_this.props.playerObj.hand.cards),
-	      currentSelection: [],
-	      currentPlay: []
+	      currentSelection: []
 	    };
 	    return _this;
 	  }
@@ -21773,12 +21772,7 @@
 	          offset: offset,
 	          selectCard: _this2.selectCard.bind(_this2) });
 	      });
-	      //"left":`calc(${((idx + 1) * 30)}px)`
-	      // {((idx + 1) * 30) + (13-cards.length)*15}px
-	      //{"left":`calc(${(idx + 1) * 30}px + ${(13 - cards.length) * 15}px)`}
-	      //{"left":`calc(${((idx + 1) * 30) + (13-cards.length)*15}px + ${(13 - cards.length) * 15}px)`}
-	      //{"left":`calc(225px - ${hand.length * 15}px + ${idx * 30}px)`}
-	      // offset={{"left":`calc((175px - ${this.state.hand.length}*15px) + ${idx}*(30px))`}}
+
 	      return newHand;
 	    }
 	  }, {
@@ -21806,7 +21800,6 @@
 	        _this3.setState({
 	          handCardIds: newHandCardIds,
 	          hand: _this3.createCards(newHand.cards),
-	          // currentPlay: this.createCards(playedCards.cards),
 	          currentSelection: []
 	        }, function () {
 	          _this3.props.playerObj.playedCards = playedCards;
@@ -21918,33 +21911,9 @@
 	    return _this;
 	  }
 
-	  // selectCard(e){
-	  //   e.preventDefault();
-	  //
-	  //   if (!e.currentTarget.classList.contains('selected')) {
-	  //     this.setState({
-	  //       currentSelection: this.state.currentSelection.concat(parseInt(e.currentTarget.id))
-	  //     });
-	  //   } else {
-	  //     let idx = this.state.currentSelection.indexOf(e.currentTarget.id);
-	  //     let tempSelection = this.state.currentSelection;
-	  //     tempSelection.splice(idx, 1);
-	  //     this.setState({
-	  //       currentSelection: tempSelection
-	  //     });
-	  //   }
-	  //
-	  //   e.currentTarget.classList.toggle('selected');
-	  // }
-
 	  _createClass(HandCard, [{
 	    key: "render",
 	    value: function render() {
-	      // const suits = ["spades", "clubs", "diamonds", "hearts"];
-	      // let rank = " rank".concat(this.i % 13 + 1);
-	      // let suit = suits[this.i / 13 | 0];
-	      // let offset = {"left":`calc(30px + ${this.idx * 30}px)`};
-	      // let key = (play === "play") ? " play" : " hand";
 	      return _react2.default.createElement(
 	        "div",
 	        {
@@ -21960,16 +21929,6 @@
 
 	  return HandCard;
 	}(_react2.default.Component);
-
-	// <div
-	//   id={this.i}
-	//   style={offset}
-	//   key={"card ".concat(suit).concat(rank)}
-	//   className={"card ".concat(suit).concat(rank)}
-	//   onClick={this.selectCard.bind(this)}>
-	// <div key={"face ".concat(suit).concat(rank)} className="face"></div>
-	// </div>
-
 
 	exports.default = HandCard;
 

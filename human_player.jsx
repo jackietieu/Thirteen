@@ -13,8 +13,7 @@ class HumanPlayer extends React.Component{
     this.state = {
       handCardIds: this.props.playerObj.hand.cardIds,
       hand: this.createCards(this.props.playerObj.hand.cards),
-      currentSelection: [],
-      currentPlay: []
+      currentSelection: []
     };
   }
 
@@ -63,12 +62,7 @@ class HumanPlayer extends React.Component{
         offset={offset}
         selectCard={this.selectCard.bind(this)} />;
     });
-    //"left":`calc(${((idx + 1) * 30)}px)`
-    // {((idx + 1) * 30) + (13-cards.length)*15}px
-    //{"left":`calc(${(idx + 1) * 30}px + ${(13 - cards.length) * 15}px)`}
-    //{"left":`calc(${((idx + 1) * 30) + (13-cards.length)*15}px + ${(13 - cards.length) * 15}px)`}
-    //{"left":`calc(225px - ${hand.length * 15}px + ${idx * 30}px)`}
-    // offset={{"left":`calc((175px - ${this.state.hand.length}*15px) + ${idx}*(30px))`}}
+
     return newHand;
   }
 
@@ -93,7 +87,6 @@ class HumanPlayer extends React.Component{
       this.setState({
         handCardIds: newHandCardIds,
         hand: this.createCards(newHand.cards),
-        // currentPlay: this.createCards(playedCards.cards),
         currentSelection: []
       }, () => {
         this.props.playerObj.playedCards = playedCards;
