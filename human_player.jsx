@@ -112,16 +112,23 @@ class HumanPlayer extends React.Component{
   }
 
   render(){
-    let disabled = this.validPlay();
+    let disabledPlay, disabledPass;
+    if (this.props.currentPlayers[0].id !== 0) {
+      disabledPlay = true;
+      disabledPass = true;
+    } else {
+      disabledPlay = this.validPlay();
+      disabledPass = !disabledPlay;
+    }
 
     return (
       <div className="human-player">
         <div className="human-player-hand">
           {this.state.hand}
-          <button disabled={disabled} className="play-button" onClick={this.playCards.bind(this)}>
+          <button disabled={disabledPlay} className="play-button" onClick={this.playCards.bind(this)}>
             <span>Play Hand!</span>
           </button>
-          <button disabled={!disabled} className="pass-button" onClick={this.passHandler.bind(this)}>
+          <button disabled={disabledPass} className="pass-button" onClick={this.passHandler.bind(this)}>
             <span>Pass!</span>
           </button>
 

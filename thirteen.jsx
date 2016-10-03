@@ -41,6 +41,7 @@ class Thirteen extends React.Component {
     };
 
     this.state = {
+      start: true,
       players: this.initialPlayers,
       currentPlayersInRound: this.startingRotation,
       bestCurrentPlay: {
@@ -51,8 +52,11 @@ class Thirteen extends React.Component {
     };
   }
 
-  componentDidMount(){
-    this.run();
+  clickToStart(e){
+    e.preventDefault();
+    this.setState({
+      start: false
+    }, this.run.bind(this));
   }
 
   shuffleDeck(){
@@ -126,7 +130,7 @@ class Thirteen extends React.Component {
         }
       );
     }
-  }, 1750);
+  }, 2000);
     } else {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
@@ -192,42 +196,52 @@ class Thirteen extends React.Component {
     } else if (currentPlayer === 3){
       currentPlayerHighlight = {"borderRight":"10px solid mediumseagreen"};
     }
-
-    return(
-      <section className="game">
-        <section className="playing-field">
-          <ComputerPlayer
-            playerId={2}
-            playerObj={this.state.players[2]} />
-          <div className="left-right players">
+    if (this.state.start === false) {
+      return(
+        <section className="game">
+          <section className="playing-field">
             <ComputerPlayer
-              playerId={1}
-              playerObj={this.state.players[1]} />
-            <div
-              className="played-cards"
-              style={currentPlayerHighlight}>
-              <div className="played-cards-container">
-                {playedCardsOwner}
-                {playedCards}
+              playerId={2}
+              playerObj={this.state.players[2]} />
+            <div className="left-right players">
+              <ComputerPlayer
+                playerId={1}
+                playerObj={this.state.players[1]} />
+              <div
+                className="played-cards"
+                style={currentPlayerHighlight}>
+                <div className="played-cards-container">
+                  {playedCardsOwner}
+                  {playedCards}
+                </div>
+                {currentPlayerSpan}
               </div>
-              {currentPlayerSpan}
+              <ComputerPlayer
+                playerId={3}
+                playerObj={this.state.players[3]} />
             </div>
-            <ComputerPlayer
-              playerId={3}
-              playerObj={this.state.players[3]} />
-          </div>
 
-          <HumanPlayer
-            playerId={0}
-            playerObj={this.state.players[0]}
-            currentPlayToBeat={this.state.bestCurrentPlay}
-            nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+            <HumanPlayer
+              playerId={0}
+              playerObj={this.state.players[0]}
+              currentPlayToBeat={this.state.bestCurrentPlay}
+              currentPlayers={this.state.currentPlayersInRound}
+              nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+          </section>
+          <History
+            currentPlay={this.state.bestCurrentPlay}
+            currentPlayers={this.state.currentPlayersInRound} />
         </section>
-        <History
-          currentPlay={this.state.bestCurrentPlay}
-          currentPlayers={this.state.currentPlayersInRound} />
-      </section>
-    );
+      );
+    } else {
+      return(
+        <section className="game">
+          <section className="playing-field">
+            <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+          </section>
+        </section>
+      );
+    }
   }
 }
 

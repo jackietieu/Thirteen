@@ -11,6 +11,9 @@ class HistoryItem extends React.Component {
     this.insertPlay();
   }
 
+  //offset={{"top":"27.5px", "left":`calc(${(idx + 1) * 44}px - ${(13 - this.play.cards.length) * 3}px)`}}
+
+
   scaleCards(){
     if (this.play.cards.length === 0) {
       return [];
@@ -18,7 +21,7 @@ class HistoryItem extends React.Component {
       let cards = this.play.cards.map((card, idx) => {
         return(
           <HandCard
-            offset={{"top":"27.5px", "left":`calc(${(idx + 1) * 44}px - ${(13 - this.play.cards.length) * 3}px)`}}
+            offset={{"top":"27.5px", "left":`calc(${((idx + 1) * 45) - 33}px)`}}
             i={card.i}
             idx={idx}
             key={"card ".concat(card.i).concat(` ${idx}`)} />

@@ -123,6 +123,7 @@
 	    };
 
 	    _this.state = {
+	      start: true,
 	      players: _this.initialPlayers,
 	      currentPlayersInRound: _this.startingRotation,
 	      bestCurrentPlay: {
@@ -135,9 +136,12 @@
 	  }
 
 	  _createClass(Thirteen, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.run();
+	    key: 'clickToStart',
+	    value: function clickToStart(e) {
+	      e.preventDefault();
+	      this.setState({
+	        start: false
+	      }, this.run.bind(this));
 	    }
 	  }, {
 	    key: 'shuffleDeck',
@@ -206,7 +210,7 @@
 	              });
 	            })();
 	          }
-	        }, 1750);
+	        }, 2000);
 	      } else {
 	        (function () {
 	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
@@ -290,49 +294,65 @@
 	      } else if (currentPlayer === 3) {
 	        currentPlayerHighlight = { "borderRight": "10px solid mediumseagreen" };
 	      }
-
-	      return _react2.default.createElement(
-	        'section',
-	        { className: 'game' },
-	        _react2.default.createElement(
+	      if (this.state.start === false) {
+	        return _react2.default.createElement(
 	          'section',
-	          { className: 'playing-field' },
-	          _react2.default.createElement(_computer_player2.default, {
-	            playerId: 2,
-	            playerObj: this.state.players[2] }),
+	          { className: 'game' },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'left-right players' },
+	            'section',
+	            { className: 'playing-field' },
 	            _react2.default.createElement(_computer_player2.default, {
-	              playerId: 1,
-	              playerObj: this.state.players[1] }),
+	              playerId: 2,
+	              playerObj: this.state.players[2] }),
 	            _react2.default.createElement(
 	              'div',
-	              {
-	                className: 'played-cards',
-	                style: currentPlayerHighlight },
+	              { className: 'left-right players' },
+	              _react2.default.createElement(_computer_player2.default, {
+	                playerId: 1,
+	                playerObj: this.state.players[1] }),
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'played-cards-container' },
-	                playedCardsOwner,
-	                playedCards
+	                {
+	                  className: 'played-cards',
+	                  style: currentPlayerHighlight },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'played-cards-container' },
+	                  playedCardsOwner,
+	                  playedCards
+	                ),
+	                currentPlayerSpan
 	              ),
-	              currentPlayerSpan
+	              _react2.default.createElement(_computer_player2.default, {
+	                playerId: 3,
+	                playerObj: this.state.players[3] })
 	            ),
-	            _react2.default.createElement(_computer_player2.default, {
-	              playerId: 3,
-	              playerObj: this.state.players[3] })
+	            _react2.default.createElement(_human_player2.default, {
+	              playerId: 0,
+	              playerObj: this.state.players[0],
+	              currentPlayToBeat: this.state.bestCurrentPlay,
+	              currentPlayers: this.state.currentPlayersInRound,
+	              nextMoveSameRound: this.nextMoveSameRound.bind(this) })
 	          ),
-	          _react2.default.createElement(_human_player2.default, {
-	            playerId: 0,
-	            playerObj: this.state.players[0],
-	            currentPlayToBeat: this.state.bestCurrentPlay,
-	            nextMoveSameRound: this.nextMoveSameRound.bind(this) })
-	        ),
-	        _react2.default.createElement(_history2.default, {
-	          currentPlay: this.state.bestCurrentPlay,
-	          currentPlayers: this.state.currentPlayersInRound })
-	      );
+	          _react2.default.createElement(_history2.default, {
+	            currentPlay: this.state.bestCurrentPlay,
+	            currentPlayers: this.state.currentPlayersInRound })
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'section',
+	          { className: 'game' },
+	          _react2.default.createElement(
+	            'section',
+	            { className: 'playing-field' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'start', onClick: this.clickToStart.bind(this) },
+	              ' Click to Start! '
+	            )
+	          )
+	        );
+	      }
 	    }
 	  }]);
 
@@ -21876,7 +21896,15 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var disabled = this.validPlay();
+	      var disabledPlay = void 0,
+	          disabledPass = void 0;
+	      if (this.props.currentPlayers[0].id !== 0) {
+	        disabledPlay = true;
+	        disabledPass = true;
+	      } else {
+	        disabledPlay = this.validPlay();
+	        disabledPass = !disabledPlay;
+	      }
 
 	      return _react2.default.createElement(
 	        'div',
@@ -21887,7 +21915,7 @@
 	          this.state.hand,
 	          _react2.default.createElement(
 	            'button',
-	            { disabled: disabled, className: 'play-button', onClick: this.playCards.bind(this) },
+	            { disabled: disabledPlay, className: 'play-button', onClick: this.playCards.bind(this) },
 	            _react2.default.createElement(
 	              'span',
 	              null,
@@ -21896,7 +21924,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'button',
-	            { disabled: !disabled, className: 'pass-button', onClick: this.passHandler.bind(this) },
+	            { disabled: disabledPass, className: 'pass-button', onClick: this.passHandler.bind(this) },
 	            _react2.default.createElement(
 	              'span',
 	              null,
@@ -22559,6 +22587,16 @@
 	        _react2.default.createElement(_hand4.default, { hand: this.state.hand, playerId: this.props.playerId }),
 	        _react2.default.createElement(
 	          'div',
+	          { className: "CPU-player-name".concat(this.props.playerId) },
+	          _react2.default.createElement(
+	            'span',
+	            null,
+	            'Player ',
+	            this.props.playerId
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
 	          { className: "CPU-player-played-hand".concat(this.props.playerId) },
 	          this.state.currentPlay
 	        )
@@ -22901,17 +22939,18 @@
 	    return _this;
 	  }
 
+	  //offset={{"top":"27.5px", "left":`calc(${(idx + 1) * 44}px - ${(13 - this.play.cards.length) * 3}px)`}}
+
+
 	  _createClass(HistoryItem, [{
 	    key: 'scaleCards',
 	    value: function scaleCards() {
-	      var _this2 = this;
-
 	      if (this.play.cards.length === 0) {
 	        return [];
 	      } else {
 	        var cards = this.play.cards.map(function (card, idx) {
 	          return _react2.default.createElement(_hand_card2.default, {
-	            offset: { "top": "27.5px", "left": 'calc(' + (idx + 1) * 44 + 'px - ' + (13 - _this2.play.cards.length) * 3 + 'px)' },
+	            offset: { "top": "27.5px", "left": 'calc(' + ((idx + 1) * 45 - 33) + 'px)' },
 	            i: card.i,
 	            idx: idx,
 	            key: "card ".concat(card.i).concat(' ' + idx) });

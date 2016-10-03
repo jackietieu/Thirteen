@@ -2,26 +2,94 @@ html {
   background: whitesmoke;
 }
 
+button.start {
+  position: absolute;
+  top: 350px;
+  /*bottom: 75px;
+  right: -75px;*/
+  background: #cef5ce;
+  border: 2px solid #75ca9a;
+  color: black;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  outline: 0;
+}
+
 .log-item {
   text-align: center;
   height: 24px;
   border-bottom: 1px solid black;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
 }
 
 .play-history li {
   position: relative;
-  border: 1px solid black;
-  border-top: none;
+  border-bottom: 1px solid black;
   height: 100px;
   min-height: 100px;
   display: flex;
   justify-content: center;
 }
+/*
+.play-history li, .play-history span {
+    transition: color 0.25s;
 
-.play-history li:first-child {
-  border: 1px solid black;
+  &::before,
+  &::after {
+    border: 2px solid transparent;
+    width: 0;
+    height: 0;
+  }
+
+
+  &::before {
+    top: 0;
+    left: 0;
+  }
+
+  &::after {
+    bottom: 0;
+    right: 0;
+  }
+
+  &:hover {
+    color: #60daaa;
+  }
+
+  &:hover::before,
+  &:hover::after {
+    width: 100%;
+    height: 100%;
+  }
+
+  &:hover::before {
+    border-top-color: #60daaa; // Make borders visible
+    border-right-color: #60daaa;
+    transition:
+      width 0.25s ease-out, // Width expands first
+      height 0.25s ease-out 0.25s; // And then height
+  }
+
+  &:hover::after {
+    border-bottom-color: #60daaa; // Make borders visible
+    border-left-color: #60daaa;
+    transition:
+      border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
+      width 0.25s ease-out 0.5s, // And then exanding width
+      height 0.25s ease-out 0.75s; // And finally height
+  }
+}*/
+
+/*.play-history li:last-child {
+  border-bottom: 1px solid black;
+}*/
+
+.log-item:hover, .play-history li:hover {
+  transition: background-color 0.5s ease;
+  background-color: #AEF7C9;
 }
 
 .game {
@@ -64,6 +132,7 @@ ul {
 }
 
 .instructions li {
+  text-align: center;
   list-style: square;
 }
 
@@ -93,6 +162,36 @@ ul {
   position: relative;
 }
 
+.CPU-player1, .CPU-player2, .CPU-player3 {
+  position: relative;
+}
+
+.CPU-player-name1 {
+  position: absolute;
+  white-space: nowrap;
+  top: 225px;
+  left: 135px;
+  z-index: 2;
+  -webkit-transform: rotate(90deg);
+}
+
+.CPU-player-name2 {
+  position: absolute;
+  white-space: nowrap;
+  top: 155px;
+  left: 217.5px;
+  z-index: 2;
+}
+
+.CPU-player-name3 {
+  position: absolute;
+  white-space: nowrap;
+  top: 225px;
+  right: 135px;
+  z-index: 2;
+  -webkit-transform: rotate(-90deg);
+}
+
 .CPU-player-hand2, .human-player-hand, .CPU-player-hand0 {
   position: relative;
   display: flex;
@@ -101,7 +200,6 @@ ul {
   width: 500px;
   height: 125px;
   background: lightgreen;
-  /*border: 1px solid black;*/
 }
 
 .human-player-hand > .card {
@@ -187,14 +285,9 @@ button:disabled {
 
 .CPU-player-hand1, .CPU-player-hand3 {
   position: relative;
-  /*display: flex;
-  flex-direction: column;*/
-  /*justify-content: space-between;
-  align-items: center;*/
   width: 125px;
   height: 500px;
   background: lightgreen;
-  /*border: 1px solid black;*/
 }
 
 .CPU-player-hand1 .card, .CPU-player-hand3 .card {
