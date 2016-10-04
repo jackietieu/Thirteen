@@ -12,8 +12,29 @@ class Thirteen extends React.Component {
   constructor(props){
     super(props);
     this.rotation = [0, 1, 2, 3];
-    this.startingRotation = [];
+
+    this.resetBestCurrentPlay = {
+      type: "newRound",
+      cards: [],
+      kicker: {}
+    };
+
+    this.state = {
+      start: true,
+      players: [],
+      currentPlayersInRound: [],
+      bestCurrentPlay: {
+        type: "start",
+        cards: [],
+        kicker: {}
+      }
+    };
+  }
+
+  clickToStart(e){
+    e.preventDefault();
     this.shuffledDeck = this.shuffleDeck();
+    this.startingRotation = [];
 
     this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
     this.player1 = new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26));
@@ -34,12 +55,6 @@ class Thirteen extends React.Component {
       firstPlayerIdx,
       rotation.length).concat(rotation.splice(0, firstPlayerIdx));
 
-    this.resetBestCurrentPlay = {
-      type: "newRound",
-      cards: [],
-      kicker: {}
-    };
-
     this.state = {
       start: true,
       players: this.initialPlayers,
@@ -50,13 +65,19 @@ class Thirteen extends React.Component {
         kicker: {}
       }
     };
-  }
 
-  clickToStart(e){
-    e.preventDefault();
     this.setState({
-      start: false
-    }, this.run.bind(this));
+        start: false,
+        players: this.initialPlayers,
+        currentPlayersInRound: this.startingRotation,
+        bestCurrentPlay: {
+          type: "start",
+          cards: [],
+          kicker: {}
+        }
+      }, this.run.bind(this));
+
+      // this.run.bind(this);
   }
 
   shuffleDeck(){
@@ -122,6 +143,7 @@ class Thirteen extends React.Component {
           currentPlayersInRound: currentPlayers,
           bestCurrentPlay: move }, () => {
           if (possibleWinner.hand.cards.length === 0) {
+            this.setState({ winner: possibleWinner.id });
             alert(`Player ${possibleWinner.id} won!`);
             return;
           }
@@ -150,6 +172,7 @@ class Thirteen extends React.Component {
             currentPlayersInRound: currentPlayers,
             bestCurrentPlay: move }, () => {
               if (document.querySelectorAll('.human-player-hand .card').length === 0) {
+                this.setState({ winner: 0 });
                 alert(`You won!`);
                 return;
               }
@@ -169,7 +192,11 @@ class Thirteen extends React.Component {
   render(){
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p>New Round!</p>;
     let playedCardsLength = this.state.bestCurrentPlay.cards.length;
-    let playedCards = this.state.bestCurrentPlay.cards.map((card, idx) => {
+    let playedCards = this.state.bestCurrentPlay.cards.sort(
+      (card1, card2) => (
+        card1.kickerRank - card2.kickerRank
+      )
+    ).map((card, idx) => {
       return(
         <HandCard
           offset={{"top":"155px", "left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
@@ -180,12 +207,12 @@ class Thirteen extends React.Component {
     );
 
     let currentPlayerHighlight;
-    let currentPlayer = this.state.currentPlayersInRound[0].id;
+    let currentPlayer = this.state.currentPlayersInRound.length > 0 ? this.state.currentPlayersInRound[0].id : undefined;
     let currentPlayerSpan;
     if (currentPlayer === 0) {
-      currentPlayerSpan = <span>It's Your Turn!</span>
+      currentPlayerSpan = <span>It's Your Turn!</span>;
     } else {
-      currentPlayerSpan = <span>Player {currentPlayer}'s Turn!</span>
+      currentPlayerSpan = <span>Player {currentPlayer}'s Turn!</span>;
     }
     if (currentPlayer === 0){
       currentPlayerHighlight = {"borderBottom":"10px solid mediumseagreen"};
@@ -196,7 +223,21 @@ class Thirteen extends React.Component {
     } else if (currentPlayer === 3){
       currentPlayerHighlight = {"borderRight":"10px solid mediumseagreen"};
     }
+
     if (this.state.start === false) {
+      if (this.state.winner !== undefined) {
+        if (this.state.winner === 0) {
+          currentPlayerSpan =
+          <div className="play-again">
+            <span>You won!</span>
+          </div>;
+        } else {
+          currentPlayerSpan =
+            <div className="play-again">
+              <span>Player {this.state.winner} won!</span>
+            </div>;
+        }
+      }
       return(
         <section className="game">
           <section className="playing-field">

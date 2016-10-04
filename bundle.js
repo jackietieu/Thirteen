@@ -101,20 +101,6 @@
 	    var _this = _possibleConstructorReturn(this, (Thirteen.__proto__ || Object.getPrototypeOf(Thirteen)).call(this, props));
 
 	    _this.rotation = [0, 1, 2, 3];
-	    _this.startingRotation = [];
-	    _this.shuffledDeck = _this.shuffleDeck();
-
-	    _this.player0 = new _human_player4.default(_this.shuffledDeck.slice(0, 13).sort());
-	    _this.player1 = new _computer_player4.default(1, _this.shuffledDeck.slice(13, 26));
-	    _this.player2 = new _computer_player4.default(2, _this.shuffledDeck.slice(26, 39));
-	    _this.player3 = new _computer_player4.default(3, _this.shuffledDeck.slice(39, 52));
-
-	    _this.initialPlayers = [_this.player0, _this.player1, _this.player2, _this.player3];
-
-	    var firstPlayerIdx = _this.shuffledDeck.indexOf(2) / 13 | 0;
-	    var rotation = [_this.player0, _this.player1, _this.player2, _this.player3];
-
-	    _this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
 
 	    _this.resetBestCurrentPlay = {
 	      type: "newRound",
@@ -124,8 +110,8 @@
 
 	    _this.state = {
 	      start: true,
-	      players: _this.initialPlayers,
-	      currentPlayersInRound: _this.startingRotation,
+	      players: [],
+	      currentPlayersInRound: [],
 	      bestCurrentPlay: {
 	        type: "start",
 	        cards: [],
@@ -139,9 +125,44 @@
 	    key: 'clickToStart',
 	    value: function clickToStart(e) {
 	      e.preventDefault();
+	      this.shuffledDeck = this.shuffleDeck();
+	      this.startingRotation = [];
+
+	      this.player0 = new _human_player4.default(this.shuffledDeck.slice(0, 13).sort());
+	      this.player1 = new _computer_player4.default(1, this.shuffledDeck.slice(13, 26));
+	      this.player2 = new _computer_player4.default(2, this.shuffledDeck.slice(26, 39));
+	      this.player3 = new _computer_player4.default(3, this.shuffledDeck.slice(39, 52));
+
+	      this.initialPlayers = [this.player0, this.player1, this.player2, this.player3];
+
+	      var firstPlayerIdx = this.shuffledDeck.indexOf(2) / 13 | 0;
+	      var rotation = [this.player0, this.player1, this.player2, this.player3];
+
+	      this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
+
+	      this.state = {
+	        start: true,
+	        players: this.initialPlayers,
+	        currentPlayersInRound: this.startingRotation,
+	        bestCurrentPlay: {
+	          type: "start",
+	          cards: [],
+	          kicker: {}
+	        }
+	      };
+
 	      this.setState({
-	        start: false
+	        start: false,
+	        players: this.initialPlayers,
+	        currentPlayersInRound: this.startingRotation,
+	        bestCurrentPlay: {
+	          type: "start",
+	          cards: [],
+	          kicker: {}
+	        }
 	      }, this.run.bind(this));
+
+	      // this.run.bind(this);
 	    }
 	  }, {
 	    key: 'shuffleDeck',
@@ -202,6 +223,7 @@
 	                currentPlayersInRound: currentPlayers,
 	                bestCurrentPlay: move }, function () {
 	                if (possibleWinner.hand.cards.length === 0) {
+	                  _this2.setState({ winner: possibleWinner.id });
 	                  alert('Player ' + possibleWinner.id + ' won!');
 	                  return;
 	                }
@@ -230,6 +252,7 @@
 	                currentPlayersInRound: currentPlayers,
 	                bestCurrentPlay: move }, function () {
 	                if (document.querySelectorAll('.human-player-hand .card').length === 0) {
+	                  _this2.setState({ winner: 0 });
 	                  alert('You won!');
 	                  return;
 	                }
@@ -259,7 +282,9 @@
 	        'New Round!'
 	      );
 	      var playedCardsLength = this.state.bestCurrentPlay.cards.length;
-	      var playedCards = this.state.bestCurrentPlay.cards.map(function (card, idx) {
+	      var playedCards = this.state.bestCurrentPlay.cards.sort(function (card1, card2) {
+	        return card1.kickerRank - card2.kickerRank;
+	      }).map(function (card, idx) {
 	        return _react2.default.createElement(_hand_card2.default, {
 	          offset: { "top": "155px", "left": 'calc((175px - ' + playedCardsLength + '*15px) + ' + idx + '*(30px))' },
 	          i: card.i,
@@ -268,7 +293,7 @@
 	      });
 
 	      var currentPlayerHighlight = void 0;
-	      var currentPlayer = this.state.currentPlayersInRound[0].id;
+	      var currentPlayer = this.state.currentPlayersInRound.length > 0 ? this.state.currentPlayersInRound[0].id : undefined;
 	      var currentPlayerSpan = void 0;
 	      if (currentPlayer === 0) {
 	        currentPlayerSpan = _react2.default.createElement(
@@ -294,7 +319,33 @@
 	      } else if (currentPlayer === 3) {
 	        currentPlayerHighlight = { "borderRight": "10px solid mediumseagreen" };
 	      }
+
 	      if (this.state.start === false) {
+	        if (this.state.winner !== undefined) {
+	          if (this.state.winner === 0) {
+	            currentPlayerSpan = _react2.default.createElement(
+	              'div',
+	              { className: 'play-again' },
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'You won!'
+	              )
+	            );
+	          } else {
+	            currentPlayerSpan = _react2.default.createElement(
+	              'div',
+	              { className: 'play-again' },
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                'Player ',
+	                this.state.winner,
+	                ' won!'
+	              )
+	            );
+	          }
+	        }
 	        return _react2.default.createElement(
 	          'section',
 	          { className: 'game' },
