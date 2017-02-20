@@ -110,6 +110,7 @@
 
 	    _this.state = {
 	      start: true,
+	      winner: undefined,
 	      players: [],
 	      currentPlayersInRound: [],
 	      bestCurrentPlay: {
@@ -129,6 +130,7 @@
 	      this.startingRotation = [];
 
 	      this.player0 = new _human_player4.default(this.shuffledDeck.slice(0, 13).sort());
+	      // this.player0 = new HumanPlayerObj([2]);
 	      this.player1 = new _computer_player4.default(1, this.shuffledDeck.slice(13, 26));
 	      this.player2 = new _computer_player4.default(2, this.shuffledDeck.slice(26, 39));
 	      this.player3 = new _computer_player4.default(3, this.shuffledDeck.slice(39, 52));
@@ -140,19 +142,9 @@
 
 	      this.startingRotation = rotation.splice(firstPlayerIdx, rotation.length).concat(rotation.splice(0, firstPlayerIdx));
 
-	      this.state = {
-	        start: true,
-	        players: this.initialPlayers,
-	        currentPlayersInRound: this.startingRotation,
-	        bestCurrentPlay: {
-	          type: "start",
-	          cards: [],
-	          kicker: {}
-	        }
-	      };
-
 	      this.setState({
 	        start: false,
+	        winner: undefined,
 	        players: this.initialPlayers,
 	        currentPlayersInRound: this.startingRotation,
 	        bestCurrentPlay: {
@@ -161,8 +153,6 @@
 	          kicker: {}
 	        }
 	      }, this.run.bind(this));
-
-	      // this.run.bind(this);
 	    }
 	  }, {
 	    key: 'shuffleDeck',
@@ -327,6 +317,11 @@
 	              'div',
 	              { className: 'play-again' },
 	              _react2.default.createElement(
+	                'button',
+	                { className: 'play-again', onClick: this.clickToStart.bind(this) },
+	                ' Play Again? '
+	              ),
+	              _react2.default.createElement(
 	                'span',
 	                null,
 	                'You won!'
@@ -336,6 +331,11 @@
 	            currentPlayerSpan = _react2.default.createElement(
 	              'div',
 	              { className: 'play-again' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'play-again', onClick: this.clickToStart.bind(this) },
+	                ' Play Again? '
+	              ),
 	              _react2.default.createElement(
 	                'span',
 	                null,

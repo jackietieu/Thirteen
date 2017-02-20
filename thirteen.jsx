@@ -21,6 +21,7 @@ class Thirteen extends React.Component {
 
     this.state = {
       start: true,
+      winner: undefined,
       players: [],
       currentPlayersInRound: [],
       bestCurrentPlay: {
@@ -37,6 +38,7 @@ class Thirteen extends React.Component {
     this.startingRotation = [];
 
     this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
+    // this.player0 = new HumanPlayerObj([2]);
     this.player1 = new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26));
     this.player2 = new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39));
     this.player3 = new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52));
@@ -55,8 +57,9 @@ class Thirteen extends React.Component {
       firstPlayerIdx,
       rotation.length).concat(rotation.splice(0, firstPlayerIdx));
 
-    this.state = {
-      start: true,
+    this.setState({
+      start: false,
+      winner: undefined,
       players: this.initialPlayers,
       currentPlayersInRound: this.startingRotation,
       bestCurrentPlay: {
@@ -64,20 +67,7 @@ class Thirteen extends React.Component {
         cards: [],
         kicker: {}
       }
-    };
-
-    this.setState({
-        start: false,
-        players: this.initialPlayers,
-        currentPlayersInRound: this.startingRotation,
-        bestCurrentPlay: {
-          type: "start",
-          cards: [],
-          kicker: {}
-        }
-      }, this.run.bind(this));
-
-      // this.run.bind(this);
+    }, this.run.bind(this));
   }
 
   shuffleDeck(){
@@ -229,11 +219,13 @@ class Thirteen extends React.Component {
         if (this.state.winner === 0) {
           currentPlayerSpan =
           <div className="play-again">
+            <button className="play-again" onClick={this.clickToStart.bind(this)}> Play Again? </button>
             <span>You won!</span>
           </div>;
         } else {
           currentPlayerSpan =
             <div className="play-again">
+              <button className="play-again" onClick={this.clickToStart.bind(this)}> Play Again? </button>
               <span>Player {this.state.winner} won!</span>
             </div>;
         }

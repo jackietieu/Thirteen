@@ -2,11 +2,37 @@ html {
   background: whitesmoke;
 }
 
+/*#instructions-1 .card {
+  border: 1px solid black;
+  position: absolute;
+  display: inline-block;
+  width: 2.1rem;
+  height: 3.1rem;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  cursor: default;
+}*/
+
+button.play-again {
+  position: absolute;
+  bottom: 102px;
+  left: 154px;
+  background: #cef5ce;
+  border: 2px solid #75ca9a;
+  color: black;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  outline: 0;
+}
+
 button.start {
   position: absolute;
   top: 350px;
-  /*bottom: 75px;
-  right: -75px;*/
   background: #cef5ce;
   border: 2px solid #75ca9a;
   color: black;
@@ -33,6 +59,16 @@ button.start {
   display: flex;
   justify-content: center;
 }
+
+/*.play-history li {
+  transition: all 0.4s ease-out;
+  opacity: 0;
+}
+
+.play-history li, .play-history span {
+  opacity: 1;
+}*/
+
 /*
 .play-history li, .play-history span {
     transition: color 0.25s;
@@ -131,9 +167,17 @@ ul {
   text-align: center;
 }
 
+.instructions {
+  align-items: center;
+}
+
 .instructions li {
+  margin-bottom: 25px;
   text-align: center;
   list-style: square;
+  position: relative;
+  /*display: inline-block;*/
+  justify-content: center;
 }
 
 .left-right {
@@ -141,7 +185,6 @@ ul {
   justify-content: space-between;
   align-items: center;
   background: darkgreen;
-  /*border: 1px solid black;*/
   height: 100%;
   width: 100%;
 }
@@ -629,7 +672,7 @@ button:disabled {
   }
 }
 
-.play-history .card {
+.instructions .card, .play-history .card {
   border: 1px solid black;
   position: absolute;
   display: inline-block;
@@ -643,6 +686,8 @@ button:disabled {
   cursor: default;
 }
 
+.instructions .card:before,
+.instructions .card:after,
 .play-history .card:before,
 .play-history .card:after {
   position: absolute;
@@ -652,5 +697,5 @@ button:disabled {
   font-family: 'Ubuntu Condensed', sans-serif;
   white-space: pre-line;
   width: 0.225rem;
-  letter-spacing: -0.05rem;
+  /*letter-spacing: -0.05rem;*/
 }
