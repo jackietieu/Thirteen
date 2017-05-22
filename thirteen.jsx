@@ -7,6 +7,7 @@ import HumanPlayerObj from './lib/human_player';
 import HandObj from './lib/hand';
 import HandCard from './hand_card';
 import History from './history';
+import Instructions from './frontend/instructions';
 
 class Thirteen extends React.Component {
   constructor(props){
@@ -180,6 +181,7 @@ class Thirteen extends React.Component {
   }
 
   render(){
+    debugger;
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p>New Round!</p>;
     let playedCardsLength = this.state.bestCurrentPlay.cards.length;
     let playedCards = this.state.bestCurrentPlay.cards.sort(
@@ -202,7 +204,7 @@ class Thirteen extends React.Component {
     if (currentPlayer === 0) {
       currentPlayerSpan = <span>It's Your Turn!</span>;
     } else {
-      currentPlayerSpan = <span>Player {currentPlayer}'s Turn!</span>;
+      currentPlayerSpan = <span>Player {currentPlayer}s Turn!</span>;
     }
     if (currentPlayer === 0){
       currentPlayerHighlight = {"borderBottom":"10px solid mediumseagreen"};
@@ -230,49 +232,56 @@ class Thirteen extends React.Component {
             </div>;
         }
       }
-      return(
-        <section className="game">
-          <section className="playing-field">
-            <ComputerPlayer
-              playerId={2}
-              playerObj={this.state.players[2]} />
-            <div className="left-right players">
-              <ComputerPlayer
-                playerId={1}
-                playerObj={this.state.players[1]} />
-              <div
-                className="played-cards"
-                style={currentPlayerHighlight}>
-                <div className="played-cards-container">
-                  {playedCardsOwner}
-                  {playedCards}
-                </div>
-                {currentPlayerSpan}
-              </div>
-              <ComputerPlayer
-                playerId={3}
-                playerObj={this.state.players[3]} />
-            </div>
 
-            <HumanPlayer
-              playerId={0}
-              playerObj={this.state.players[0]}
-              currentPlayToBeat={this.state.bestCurrentPlay}
-              currentPlayers={this.state.currentPlayersInRound}
-              nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+      return(
+        <div>
+          <section className="game">
+            <section className="playing-field">
+              <ComputerPlayer
+                playerId={2}
+                playerObj={this.state.players[2]} />
+              <div className="left-right players">
+                <ComputerPlayer
+                  playerId={1}
+                  playerObj={this.state.players[1]} />
+                <div
+                  className="played-cards"
+                  style={currentPlayerHighlight}>
+                  <div className="played-cards-container">
+                    {playedCardsOwner}
+                    {playedCards}
+                  </div>
+                  {currentPlayerSpan}
+                </div>
+                <ComputerPlayer
+                  playerId={3}
+                  playerObj={this.state.players[3]} />
+              </div>
+
+              <HumanPlayer
+                playerId={0}
+                playerObj={this.state.players[0]}
+                currentPlayToBeat={this.state.bestCurrentPlay}
+                currentPlayers={this.state.currentPlayersInRound}
+                nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+            </section>
+            <History
+              currentPlay={this.state.bestCurrentPlay}
+              currentPlayers={this.state.currentPlayersInRound} />
           </section>
-          <History
-            currentPlay={this.state.bestCurrentPlay}
-            currentPlayers={this.state.currentPlayersInRound} />
-        </section>
+          <Instructions />
+        </div>
       );
     } else {
       return(
-        <section className="game">
-          <section className="playing-field">
-            <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+        <div>
+          <section className="game">
+            <section className="playing-field">
+              <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+            </section>
           </section>
-        </section>
+          <Instructions />
+        </div>
       );
     }
   }

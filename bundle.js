@@ -80,9 +80,13 @@
 
 	var _hand_card2 = _interopRequireDefault(_hand_card);
 
-	var _history = __webpack_require__(181);
+	var _history = __webpack_require__(180);
 
 	var _history2 = _interopRequireDefault(_history);
+
+	var _instructions = __webpack_require__(182);
+
+	var _instructions2 = _interopRequireDefault(_instructions);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -262,6 +266,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      debugger;
 	      var playedCardsOwner = this.state.bestCurrentPlay.playerId || this.state.bestCurrentPlay.playerId === 0 ? _react2.default.createElement(
 	        'p',
 	        null,
@@ -297,7 +302,7 @@
 	          null,
 	          'Player ',
 	          currentPlayer,
-	          '\'s Turn!'
+	          's Turn!'
 	        );
 	      }
 	      if (currentPlayer === 0) {
@@ -346,62 +351,73 @@
 	            );
 	          }
 	        }
+
 	        return _react2.default.createElement(
-	          'section',
-	          { className: 'game' },
+	          'div',
+	          null,
 	          _react2.default.createElement(
 	            'section',
-	            { className: 'playing-field' },
-	            _react2.default.createElement(_computer_player2.default, {
-	              playerId: 2,
-	              playerObj: this.state.players[2] }),
+	            { className: 'game' },
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'left-right players' },
+	              'section',
+	              { className: 'playing-field' },
 	              _react2.default.createElement(_computer_player2.default, {
-	                playerId: 1,
-	                playerObj: this.state.players[1] }),
+	                playerId: 2,
+	                playerObj: this.state.players[2] }),
 	              _react2.default.createElement(
 	                'div',
-	                {
-	                  className: 'played-cards',
-	                  style: currentPlayerHighlight },
+	                { className: 'left-right players' },
+	                _react2.default.createElement(_computer_player2.default, {
+	                  playerId: 1,
+	                  playerObj: this.state.players[1] }),
 	                _react2.default.createElement(
 	                  'div',
-	                  { className: 'played-cards-container' },
-	                  playedCardsOwner,
-	                  playedCards
+	                  {
+	                    className: 'played-cards',
+	                    style: currentPlayerHighlight },
+	                  _react2.default.createElement(
+	                    'div',
+	                    { className: 'played-cards-container' },
+	                    playedCardsOwner,
+	                    playedCards
+	                  ),
+	                  currentPlayerSpan
 	                ),
-	                currentPlayerSpan
+	                _react2.default.createElement(_computer_player2.default, {
+	                  playerId: 3,
+	                  playerObj: this.state.players[3] })
 	              ),
-	              _react2.default.createElement(_computer_player2.default, {
-	                playerId: 3,
-	                playerObj: this.state.players[3] })
+	              _react2.default.createElement(_human_player2.default, {
+	                playerId: 0,
+	                playerObj: this.state.players[0],
+	                currentPlayToBeat: this.state.bestCurrentPlay,
+	                currentPlayers: this.state.currentPlayersInRound,
+	                nextMoveSameRound: this.nextMoveSameRound.bind(this) })
 	            ),
-	            _react2.default.createElement(_human_player2.default, {
-	              playerId: 0,
-	              playerObj: this.state.players[0],
-	              currentPlayToBeat: this.state.bestCurrentPlay,
-	              currentPlayers: this.state.currentPlayersInRound,
-	              nextMoveSameRound: this.nextMoveSameRound.bind(this) })
+	            _react2.default.createElement(_history2.default, {
+	              currentPlay: this.state.bestCurrentPlay,
+	              currentPlayers: this.state.currentPlayersInRound })
 	          ),
-	          _react2.default.createElement(_history2.default, {
-	            currentPlay: this.state.bestCurrentPlay,
-	            currentPlayers: this.state.currentPlayersInRound })
+	          _react2.default.createElement(_instructions2.default, null)
 	        );
 	      } else {
 	        return _react2.default.createElement(
-	          'section',
-	          { className: 'game' },
+	          'div',
+	          null,
 	          _react2.default.createElement(
 	            'section',
-	            { className: 'playing-field' },
+	            { className: 'game' },
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'start', onClick: this.clickToStart.bind(this) },
-	              ' Click to Start! '
+	              'section',
+	              { className: 'playing-field' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'start', onClick: this.clickToStart.bind(this) },
+	                ' Click to Start! '
+	              )
 	            )
-	          )
+	          ),
+	          _react2.default.createElement(_instructions2.default, null)
 	        );
 	      }
 	    }
@@ -22838,8 +22854,7 @@
 	exports.default = HumanPlayerObj;
 
 /***/ },
-/* 180 */,
-/* 181 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22854,7 +22869,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _history_item = __webpack_require__(182);
+	var _history_item = __webpack_require__(181);
 
 	var _history_item2 = _interopRequireDefault(_history_item);
 
@@ -22947,7 +22962,7 @@
 	exports.default = History;
 
 /***/ },
-/* 182 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23077,6 +23092,276 @@
 	}(_react2.default.Component);
 
 	exports.default = HistoryItem;
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Instructions = function (_React$Component) {
+	  _inherits(Instructions, _React$Component);
+
+	  function Instructions(props) {
+	    _classCallCheck(this, Instructions);
+
+	    return _possibleConstructorReturn(this, (Instructions.__proto__ || Object.getPrototypeOf(Instructions)).call(this, props));
+	  }
+
+	  _createClass(Instructions, [{
+	    key: "render",
+	    value: function render() {
+	      return _react2.default.createElement(
+	        "div",
+	        { className: "instructions" },
+	        _react2.default.createElement(
+	          "div",
+	          { className: "title" },
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            "Thirteen"
+	          ),
+	          _react2.default.createElement("br", null),
+	          _react2.default.createElement(
+	            "span",
+	            null,
+	            _react2.default.createElement(
+	              "a",
+	              { target: "_blank", href: "https://en.wikipedia.org/wiki/Ti%E1%BA%BFn_l%C3%AAn" },
+	              "Rules of Thirteen:"
+	            )
+	          ),
+	          _react2.default.createElement("br", null)
+	        ),
+	        _react2.default.createElement(
+	          "ul",
+	          null,
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "Player with the Three of Spades starts first!"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "2",
+	                className: "card spades rank3",
+	                style: { "top": "-20px", "left": "47.5%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "The first play of the game must be a valid combination that includes the Three of Spades"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "2",
+	                className: "card spades rank3",
+	                style: { "top": "-20px", "left": "40%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "16",
+	                className: "card clubs rank4",
+	                style: { "top": "-20px", "left": "47.5%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "30",
+	                className: "card diamonds rank5",
+	                style: { "top": "-20px", "left": "55%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "Valid plays are consecutive sequences of 3+ cards, four-of-a-kinds, three-of-a-kinds, pairs, and single cards"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "Play continues in clockwise direction"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "All players must beat the previous combo by playing a similar type of combo where the highest card is higher in value and/or suit"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "2",
+	                className: "card spades rank3",
+	                style: { "top": "-20px", "left": "15%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "16",
+	                className: "card clubs rank4",
+	                style: { "top": "-20px", "left": "22.5%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "30",
+	                className: "card diamonds rank5",
+	                style: { "top": "-20px", "left": "30%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            "loses to",
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "3",
+	                className: "card spades rank4",
+	                style: { "top": "-20px", "left": "65%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "17",
+	                className: "card clubs rank5",
+	                style: { "top": "-20px", "left": "72.5%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "18",
+	                className: "card clubs rank6",
+	                style: { "top": "-20px", "left": "80%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "Threes are the lowest in value and Twos are the highest in value"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "In case of a tiebreaker, the stronger suit wins"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "Hearts are the highest in rank, followed by Diamonds, Clubs and Spades"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "40",
+	                className: "card hearts rank2",
+	                style: { "top": "-20px", "left": "37.5%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "27",
+	                className: "card diamonds rank2",
+	                style: { "top": "-20px", "left": "45%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "14",
+	                className: "card clubs rank2",
+	                style: { "top": "-20px", "left": "52.5%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              {
+	                id: "1",
+	                className: "card spades rank2",
+	                style: { "top": "-20px", "left": "60%" }
+	              },
+	              _react2.default.createElement("div", { className: "face" })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "When there are no playable cards, the player must pass and wait for the next round to start"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "When all but one player passes, that player gets to start the next round with any combination"
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            "First one to play all of their cards wins!"
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Instructions;
+	}(_react2.default.Component);
+
+	exports.default = Instructions;
 
 /***/ }
 /******/ ]);
