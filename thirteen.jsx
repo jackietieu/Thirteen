@@ -68,7 +68,7 @@ class Thirteen extends React.Component {
         cards: [],
         kicker: {}
       }
-    }, this.run.bind(this));
+    }, () => (this.run.call(this)));
   }
 
   shuffleDeck(){
@@ -181,7 +181,6 @@ class Thirteen extends React.Component {
   }
 
   render(){
-    debugger;
     let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p>New Round!</p>;
     let playedCardsLength = this.state.bestCurrentPlay.cards.length;
     let playedCards = this.state.bestCurrentPlay.cards.sort(

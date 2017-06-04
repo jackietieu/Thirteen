@@ -129,6 +129,8 @@
 	  _createClass(Thirteen, [{
 	    key: 'clickToStart',
 	    value: function clickToStart(e) {
+	      var _this2 = this;
+
 	      e.preventDefault();
 	      this.shuffledDeck = this.shuffleDeck();
 	      this.startingRotation = [];
@@ -156,7 +158,9 @@
 	          cards: [],
 	          kicker: {}
 	        }
-	      }, this.run.bind(this));
+	      }, function () {
+	        return _this2.run.call(_this2);
+	      });
 	    }
 	  }, {
 	    key: 'shuffleDeck',
@@ -195,63 +199,63 @@
 	  }, {
 	    key: 'nextMoveSameRound',
 	    value: function nextMoveSameRound() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      if (this.state.currentPlayersInRound[0].id !== 0) {
 	        setTimeout(function () {
-	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
-	          var move = currentPlayers[0].makeMove(_this2.state.bestCurrentPlay);
+	          var currentPlayers = [].concat(_this3.state.currentPlayersInRound);
+	          var move = currentPlayers[0].makeMove(_this3.state.bestCurrentPlay);
 	          if (move === "pass") {
-	            _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
-	              if (_this2.state.currentPlayersInRound.length > 1) {
-	                return _this2.nextMoveSameRound();
+	            _this3.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
+	              if (_this3.state.currentPlayersInRound.length > 1) {
+	                return _this3.nextMoveSameRound();
 	              } else {
-	                return _this2.nextRound();
+	                return _this3.nextRound();
 	              }
 	            });
 	          } else {
 	            (function () {
 	              var possibleWinner = currentPlayers[0];
 	              currentPlayers.push(currentPlayers.shift());
-	              _this2.setState({
+	              _this3.setState({
 	                currentPlayersInRound: currentPlayers,
 	                bestCurrentPlay: move }, function () {
 	                if (possibleWinner.hand.cards.length === 0) {
-	                  _this2.setState({ winner: possibleWinner.id });
+	                  _this3.setState({ winner: possibleWinner.id });
 	                  alert('Player ' + possibleWinner.id + ' won!');
 	                  return;
 	                }
 
-	                return _this2.nextMoveSameRound();
+	                return _this3.nextMoveSameRound();
 	              });
 	            })();
 	          }
 	        }, 2000);
 	      } else {
 	        (function () {
-	          var currentPlayers = [].concat(_this2.state.currentPlayersInRound);
+	          var currentPlayers = [].concat(_this3.state.currentPlayersInRound);
 
-	          currentPlayers[0].makeMove(_this2.state.bestCurrentPlay, function (move) {
+	          currentPlayers[0].makeMove(_this3.state.bestCurrentPlay, function (move) {
 	            if (move === "pass") {
-	              _this2.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
-	                if (_this2.state.currentPlayersInRound.length > 1) {
-	                  return _this2.nextMoveSameRound();
+	              _this3.setState({ currentPlayersInRound: currentPlayers.slice(1, currentPlayers.length) }, function () {
+	                if (_this3.state.currentPlayersInRound.length > 1) {
+	                  return _this3.nextMoveSameRound();
 	                } else {
-	                  return _this2.nextRound();
+	                  return _this3.nextRound();
 	                }
 	              });
 	            } else {
 	              currentPlayers.push(currentPlayers.shift());
-	              _this2.setState({
+	              _this3.setState({
 	                currentPlayersInRound: currentPlayers,
 	                bestCurrentPlay: move }, function () {
 	                if (document.querySelectorAll('.human-player-hand .card').length === 0) {
-	                  _this2.setState({ winner: 0 });
+	                  _this3.setState({ winner: 0 });
 	                  alert('You won!');
 	                  return;
 	                }
 
-	                return _this2.nextMoveSameRound();
+	                return _this3.nextMoveSameRound();
 	              });
 	            }
 	          });
@@ -266,7 +270,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      debugger;
 	      var playedCardsOwner = this.state.bestCurrentPlay.playerId || this.state.bestCurrentPlay.playerId === 0 ? _react2.default.createElement(
 	        'p',
 	        null,
@@ -23168,7 +23171,7 @@
 	              {
 	                id: "2",
 	                className: "card spades rank3",
-	                style: { "top": "-20px", "left": "47.5%" }
+	                style: { "top": "-20px", "left": "48.3%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            )
@@ -23186,7 +23189,7 @@
 	              {
 	                id: "2",
 	                className: "card spades rank3",
-	                style: { "top": "-20px", "left": "40%" }
+	                style: { "top": "-20px", "left": "40.8%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23195,7 +23198,7 @@
 	              {
 	                id: "16",
 	                className: "card clubs rank4",
-	                style: { "top": "-20px", "left": "47.5%" }
+	                style: { "top": "-20px", "left": "48.3%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23204,7 +23207,7 @@
 	              {
 	                id: "30",
 	                className: "card diamonds rank5",
-	                style: { "top": "-20px", "left": "55%" }
+	                style: { "top": "-20px", "left": "55.8%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            )
@@ -23232,7 +23235,7 @@
 	              {
 	                id: "2",
 	                className: "card spades rank3",
-	                style: { "top": "-20px", "left": "15%" }
+	                style: { "top": "-20px", "left": "15.8%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23241,7 +23244,7 @@
 	              {
 	                id: "16",
 	                className: "card clubs rank4",
-	                style: { "top": "-20px", "left": "22.5%" }
+	                style: { "top": "-20px", "left": "23.3%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23250,7 +23253,7 @@
 	              {
 	                id: "30",
 	                className: "card diamonds rank5",
-	                style: { "top": "-20px", "left": "30%" }
+	                style: { "top": "-20px", "left": "30.8%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23260,7 +23263,7 @@
 	              {
 	                id: "3",
 	                className: "card spades rank4",
-	                style: { "top": "-20px", "left": "65%" }
+	                style: { "top": "-20px", "left": "65.8%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23269,7 +23272,7 @@
 	              {
 	                id: "17",
 	                className: "card clubs rank5",
-	                style: { "top": "-20px", "left": "72.5%" }
+	                style: { "top": "-20px", "left": "73.3%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            ),
@@ -23278,7 +23281,7 @@
 	              {
 	                id: "18",
 	                className: "card clubs rank6",
-	                style: { "top": "-20px", "left": "80%" }
+	                style: { "top": "-20px", "left": "80.8%" }
 	              },
 	              _react2.default.createElement("div", { className: "face" })
 	            )

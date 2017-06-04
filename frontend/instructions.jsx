@@ -22,7 +22,7 @@ export default class Instructions extends React.Component {
             <div
               id="2"
               className="card spades rank3"
-                style={{"top": "-20px", "left": "47.5%"}}
+              style={{"top": "-20px", "left": "48.3%"}}
               >
               <div className="face"></div>
             </div>
@@ -32,21 +32,21 @@ export default class Instructions extends React.Component {
             <div
               id="2"
               className="card spades rank3"
-                style={{"top": "-20px", "left": "40%"}}
+                style={{"top": "-20px", "left": "40.8%"}}
               >
               <div className="face"></div>
             </div>
             <div
               id="16"
               className="card clubs rank4"
-                style={{"top": "-20px", "left": "47.5%"}}
+                style={{"top": "-20px", "left": "48.3%"}}
               >
               <div className="face"></div>
             </div>
             <div
               id="30"
               className="card diamonds rank5"
-                style={{"top": "-20px", "left": "55%"}}
+                style={{"top": "-20px", "left": "55.8%"}}
               >
               <div className="face"></div>
             </div>
@@ -58,21 +58,21 @@ export default class Instructions extends React.Component {
             <div
               id="2"
               className="card spades rank3"
-                style={{"top": "-20px", "left": "15%"}}
+                style={{"top": "-20px", "left": "15.8%"}}
               >
               <div className="face"></div>
             </div>
             <div
               id="16"
               className="card clubs rank4"
-                style={{"top": "-20px", "left": "22.5%"}}
+                style={{"top": "-20px", "left": "23.3%"}}
               >
               <div className="face"></div>
             </div>
             <div
               id="30"
               className="card diamonds rank5"
-                style={{"top": "-20px", "left": "30%"}}
+                style={{"top": "-20px", "left": "30.8%"}}
               >
               <div className="face"></div>
             </div>
@@ -80,21 +80,21 @@ export default class Instructions extends React.Component {
             <div
               id="3"
               className="card spades rank4"
-                style={{"top": "-20px", "left": "65%"}}
+                style={{"top": "-20px", "left": "65.8%"}}
               >
               <div className="face"></div>
             </div>
             <div
               id="17"
               className="card clubs rank5"
-                style={{"top": "-20px", "left": "72.5%"}}
+                style={{"top": "-20px", "left": "73.3%"}}
               >
               <div className="face"></div>
             </div>
             <div
               id="18"
               className="card clubs rank6"
-                style={{"top": "-20px", "left": "80%"}}
+                style={{"top": "-20px", "left": "80.8%"}}
               >
               <div className="face"></div>
             </div>
