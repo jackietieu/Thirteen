@@ -30,10 +30,4 @@ class Hand extends React.Component{
   }
 }
 
-// return(
-//   <div className={"CPU-player-hand".concat(this.props.playerId)}>
-//     {cards}
-//   </div>
-// );
-
 export default Hand;

@@ -22747,12 +22747,6 @@
 	  return Hand;
 	}(_react2.default.Component);
 
-	// return(
-	//   <div className={"CPU-player-hand".concat(this.props.playerId)}>
-	//     {cards}
-	//   </div>
-	// );
-
 	exports.default = Hand;
 
 /***/ },
