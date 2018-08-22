@@ -1,18 +1,19 @@
+var path = require('path');
+var webpack = require('webpack');
 "use strict";
 
 module.exports = {
-  context: __dirname,
   entry: "./thirteen.jsx",
   output: {
-    path: "./",
+    path: path.resolve(__dirname, 'build'),
     filename: "bundle.js"
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: [/\.jsx?$/, /\.js?$/],
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           presets: ['react', 'es2015']
         }
@@ -20,6 +21,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
-  }
+    extensions: ['.js', '.jsx']
+  },
+  stats: {
+    colors: true
+  },
+  devtool: 'source-map'
 };
