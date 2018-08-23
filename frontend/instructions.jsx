@@ -9,10 +9,9 @@ export default class Instructions extends React.Component {
     return (
       <div className="instructions">
         <div className="title">
-          <span>Thirteen</span>
-          <br />
+          <h1>Thirteen</h1>
           <span>
-            <a target="_blank" href="https://en.wikipedia.org/wiki/Ti%E1%BA%BFn_l%C3%AAn">Rules of Thirteen:</a>
+            <a target="_blank" href="https://en.wikipedia.org/wiki/Ti%E1%BA%BFn_l%C3%AAn">Rules of Thirteen</a>
           </span>
           <br />
         </div>
