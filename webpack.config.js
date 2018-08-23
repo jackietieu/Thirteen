@@ -5,7 +5,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: "./thirteen.jsx",
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname),
     filename: "bundle.js"
   },
   module: {
