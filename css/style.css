@@ -270,11 +270,11 @@ ul {
 .human-player-hand > .card:hover {
   cursor: pointer;
   background: beige;
-  top: -25px;
+  top: -5px;
 }
 
 .human-player-hand > .selected {
-  top: -25px;
+  top: -5px;
 }
 
 .human-player-hand > .selected:hover {
