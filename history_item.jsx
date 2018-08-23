@@ -21,7 +21,7 @@ class HistoryItem extends React.Component {
       let cards = this.play.cards.map((card, idx) => {
         return(
           <HandCard
-            offset={{"top":"27.5px", "left":`calc(${((idx + 1) * 45) - 33}px)`}}
+            offset={{"top":"27.5px", "left":`calc(${((idx + 1) * 57) - 47}px)`}}
             i={card.i}
             idx={idx}
             key={"card ".concat(card.i).concat(` ${idx}`)} />

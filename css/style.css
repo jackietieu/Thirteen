@@ -52,14 +52,30 @@ button.start {
   border-bottom: 1px solid black;
 }
 
+.play-history {
+  border: 2px solid black;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 10px;
+  width: 450px;
+  height: 700px;
+  overflow: auto;
+  background: whitesmoke;
+}
+
 .play-history li {
   position: relative;
   border-bottom: 1px solid black;
-  height: 100px;
-  min-height: 100px;
+  height: 120px;
+  min-height: 120px;
   min-width: 250px;
   display: flex;
   justify-content: center;
+  /* transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1); */
 }
 
 /*.play-history li {
@@ -139,19 +155,6 @@ ul {
   padding: 0;
 }
 
-.play-history {
-  border: 2px solid black;
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 0 10px;
-  width: 350px;
-  height: 700px;
-  overflow-y: scroll;
-  background: whitesmoke;
-}
-
 .playing-field {
   min-width: 700px;
   background: lightgreen;
@@ -170,16 +173,29 @@ ul {
 }
 
 .instructions {
+  margin: 0 auto;
   align-items: center;
+  min-width: 700px;
+  width: 90vw;
+}
+
+.instructions ul {
+  margin-top: 5px;
+  list-style-type: none;
 }
 
 .instructions li {
-  margin-bottom: 25px;
+  padding: 5px 0;
   text-align: center;
-  list-style: square;
   position: relative;
-  /*display: inline-block;*/
   justify-content: center;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }
 
 .left-right {
@@ -325,7 +341,8 @@ button:hover:enabled {
 }
 
 button:disabled {
-  background: rgba(255, 255, 255, 0.9);
+  background: #ececece6;
+  color: #9c9c9c;
 }
 
 .CPU-player-hand1, .CPU-player-hand3 {
@@ -678,8 +695,8 @@ button:disabled {
   border: 1px solid black;
   position: absolute;
   display: inline-block;
-  width: 2.1rem;
-  height: 3rem;
+  width: 2.7rem;
+  height: 3.9rem;
   background-color: #fff;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -693,11 +710,38 @@ button:disabled {
 .play-history .card:before,
 .play-history .card:after {
   position: absolute;
-  font-size: 0.35rem;
+  font-size: 0.6rem;
   text-align: center;
-  line-height: 0.35rem;
+  line-height: 0.5rem;
   font-family: 'Ubuntu Condensed', sans-serif;
   white-space: pre-line;
-  width: 0.225rem;
-  /*letter-spacing: -0.05rem;*/
+  width: 0.35rem;
+}
+
+.card-container {
+  position: relative;
+  height: 80px;
+  margin-top: 10px;
+}
+
+/* #test {
+  border: 1px solid red;
+  width: calc(50% - 8px);
+  height: 2000px;
+  position: absolute;
+} */
+
+.title h1 {
+  margin: 25px 0 5px 0;
+}
+
+.title h3 {
+  margin: 5px 0 25px 0;
+  font-weight: normal;
+}
+
+.horizontal-line {
+  width: 75vw;
+  margin: 5px auto;
+  border-bottom: 1px solid black;
 }
