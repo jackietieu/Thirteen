@@ -10,7 +10,7 @@ export default class Instructions extends React.Component {
       <div className="instructions">
         <div className="title">
           <h1>Thirteen</h1>
-          <h3>The Most Beloved Card Game of Vietnam</h3>
+          <h3>The National Card Game of Vietnam</h3>
           <span>
             <a target="_blank" href="https://en.wikipedia.org/wiki/Ti%E1%BA%BFn_l%C3%AAn">Rules of Thirteen</a>
           </span>

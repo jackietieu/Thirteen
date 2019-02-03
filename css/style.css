@@ -271,6 +271,7 @@ ul {
   cursor: pointer;
   background: beige;
   top: -5px;
+  transition: 2s ease;
 }
 
 .human-player-hand > .selected {

@@ -35,34 +35,33 @@ class Game extends React.Component {
 
   clickToStart(e){
     e.preventDefault();
-    this.shuffledDeck = this.shuffleDeck();
-    this.startingRotation = [];
+    let shuffledDeck = this.shuffleDeck();
+    let startingRotation = [];
 
-    this.player0 = new HumanPlayerObj(this.shuffledDeck.slice(0, 13).sort());
-    // this.player0 = new HumanPlayerObj([2]);
-    this.player1 = new ComputerPlayerObj(1, this.shuffledDeck.slice(13, 26));
-    this.player2 = new ComputerPlayerObj(2, this.shuffledDeck.slice(26, 39));
-    this.player3 = new ComputerPlayerObj(3, this.shuffledDeck.slice(39, 52));
+    let player0 = new HumanPlayerObj(shuffledDeck.slice(0, 13).sort());
+    let player1 = new ComputerPlayerObj(1, shuffledDeck.slice(13, 26));
+    let player2 = new ComputerPlayerObj(2, shuffledDeck.slice(26, 39));
+    let player3 = new ComputerPlayerObj(3, shuffledDeck.slice(39, 52));
 
-    this.initialPlayers = [
-      this.player0,
-      this.player1,
-      this.player2,
-      this.player3
+    let initialPlayers = [
+      player0,
+      player1,
+      player2,
+      player3
     ];
 
-    let firstPlayerIdx = this.shuffledDeck.indexOf(2) / 13 | 0;
-    let rotation = [this.player0, this.player1, this.player2, this.player3];
+    let firstPlayerIdx = shuffledDeck.indexOf(2) / 13 | 0;
+    let rotation = [player0, player1, player2, player3];
 
-    this.startingRotation = rotation.splice(
+    startingRotation = rotation.splice(
       firstPlayerIdx,
       rotation.length).concat(rotation.splice(0, firstPlayerIdx));
 
     this.setState({
       start: false,
       winner: undefined,
-      players: this.initialPlayers,
-      currentPlayersInRound: this.startingRotation,
+      players: initialPlayers,
+      currentPlayersInRound: startingRotation,
       bestCurrentPlay: {
         type: "start",
         cards: [],
@@ -143,7 +142,7 @@ class Game extends React.Component {
         }
       );
     }
-  }, 2000);
+  }, 5);
     } else {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
