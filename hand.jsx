@@ -11,7 +11,6 @@ class Hand extends React.Component{
 
   componentDidUpdate(oldProps) {
     const newProps = this.props;
-    console.log('here')
     
     if(oldProps.hand !== newProps.hand) {
       this.setState({

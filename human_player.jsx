@@ -15,19 +15,16 @@ class HumanPlayer extends React.Component{
     };
   }
 
-  // componentWillReceiveProps(nextProps){
-  //   this.state.currentPlayToBeat = nextProps.currentPlayToBeat;
-  // }
-
   componentDidUpdate(oldProps) {
     const newProps = this.props;
 
     if(oldProps.playerObj.hand !== newProps.playerObj.hand) {
-      this.setState = {
+      this.setState({
         handCardIds: newProps.playerObj.hand.cardIds,
         hand: this.createCards(newProps.playerObj.hand.cards),
-        currentSelection: []
-      };
+        currentSelection: [],
+        currentPlayToBeat: this.props.currentPlayToBeat
+      });
     } else if (oldProps.currentPlayToBeat !== newProps.currentPlayToBeat) {
       this.setState({
         currentPlayToBeat: this.props.currentPlayToBeat

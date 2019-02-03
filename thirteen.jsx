@@ -176,7 +176,7 @@ class Game extends React.Component {
   }
 
   render(){
-    let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`Player ${this.state.bestCurrentPlay.playerId} played this!`}</p> : <p>New Round!</p>;
+    let playedCardsOwner = ((this.state.bestCurrentPlay.playerId) || (this.state.bestCurrentPlay.playerId === 0)) ? <p>{`${this.state.bestCurrentPlay.playerId === 0 ? 'You' : 'Player ' + this.state.bestCurrentPlay.playerId} played this!`}</p> : <p>New Round!</p>;
     let playedCardsLength = this.state.bestCurrentPlay.cards.length;
     let playedCards = this.state.bestCurrentPlay.cards.sort(
       (card1, card2) => (
