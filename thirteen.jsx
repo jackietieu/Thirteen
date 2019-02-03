@@ -9,7 +9,7 @@ import HandCard from './hand_card';
 import History from './history';
 import Instructions from './frontend/instructions';
 
-class Thirteen extends React.Component {
+class Game extends React.Component {
   constructor(props){
     super(props);
     this.rotation = [0, 1, 2, 3];
@@ -287,5 +287,5 @@ class Thirteen extends React.Component {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<Thirteen />, document.getElementById('root'));
+  ReactDOM.render(<Game />, document.getElementById('root'));
 });
