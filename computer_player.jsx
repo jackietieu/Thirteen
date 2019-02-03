@@ -11,6 +11,17 @@ class ComputerPlayer extends React.Component{
     };
   }
 
+  componentDidUpdate(oldProps) {
+    const newProps = this.props;
+
+    if(oldProps.playerObj.hand.cards !== newProps.playerObj.hand.cards) {
+      this.setState({
+        hand: newProps.playerObj.hand.cards,
+        currentPlay: []
+      })
+    }
+  }
+
   render(){
     return (
       <div className={"CPU-player".concat(this.props.playerId)}>

@@ -4,11 +4,24 @@ import HandCard from './hand_card';
 class Hand extends React.Component{
   constructor(props){
     super(props);
-    this.hand = this.props.hand;
+    this.state = {
+      hand: this.props.hand
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    const newProps = this.props;
+    console.log('here')
+    
+    if(oldProps.hand !== newProps.hand) {
+      this.setState({
+        hand: newProps.hand
+      })
+    }
   }
 
   render(){
-    let cards = this.hand.sort((a, b) => (
+    let cards = this.state.hand.sort((a, b) => (
       a.i - b.i
     )).map((card, idx) => {
       return(
