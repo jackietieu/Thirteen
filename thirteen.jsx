@@ -67,7 +67,7 @@ class Game extends React.Component {
         cards: [],
         kicker: {}
       }
-    }, () => (this.run.call(this)));
+    }, () => (this.nextMoveSameRound.call(this)));
   }
 
   shuffleDeck(){
@@ -173,10 +173,6 @@ class Game extends React.Component {
         }
       });
     }
-  }
-
-  run(){
-    this.nextMoveSameRound();
   }
 
   render(){
