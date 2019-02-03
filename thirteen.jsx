@@ -142,7 +142,7 @@ class Game extends React.Component {
         }
       );
     }
-  }, 5);
+  }, 2000);
     } else {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
