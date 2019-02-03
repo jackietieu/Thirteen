@@ -6,30 +6,32 @@ import CardObj from './lib/card_obj';
 class HumanPlayer extends React.Component{
   constructor(props){
     super(props);
-
-    this.currentPlayToBeat = this.props.currentPlayToBeat;
     this.playerId = 0;
-
     this.state = {
       handCardIds: this.props.playerObj.hand.cardIds,
       hand: this.createCards(this.props.playerObj.hand.cards),
-      currentSelection: []
+      currentSelection: [],
+      currentPlayToBeat: this.props.currentPlayToBeat
     };
   }
 
   // componentWillReceiveProps(nextProps){
-  //   this.currentPlayToBeat = nextProps.currentPlayToBeat;
+  //   this.state.currentPlayToBeat = nextProps.currentPlayToBeat;
   // }
 
   componentDidUpdate(oldProps) {
     const newProps = this.props;
 
     if(oldProps.playerObj.hand !== newProps.playerObj.hand) {
-      this.state = {
+      this.setState = {
         handCardIds: newProps.playerObj.hand.cardIds,
         hand: this.createCards(newProps.playerObj.hand.cards),
         currentSelection: []
       };
+    } else if (oldProps.currentPlayToBeat !== newProps.currentPlayToBeat) {
+      this.setState({
+        currentPlayToBeat: this.props.currentPlayToBeat
+      })
     }
   }
 
@@ -110,7 +112,7 @@ class HumanPlayer extends React.Component{
   validPlay(){
     let selection = [].concat(this.state.currentSelection);
     let selectedHand = new HandObj(selection, 0);
-    if (selectedHand.validPlay(this.currentPlayToBeat) === "pass") {
+    if (selection.length === 0 || selectedHand.validPlay(this.state.currentPlayToBeat) === "pass") {
       return true;
     } else {
       return false;
