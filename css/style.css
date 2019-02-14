@@ -157,7 +157,7 @@ ul {
 
 .playing-field {
   min-width: 700px;
-  background: lightgreen;
+  background: #77a178;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -216,7 +216,7 @@ ul {
   text-align: center;
   width: 400px;
   height: 400px;
-  background: lightgreen;
+  background: #77a178;
 }
 
 .human-player-hand {
@@ -260,7 +260,7 @@ ul {
   align-items: center;
   width: 500px;
   height: 125px;
-  background: lightgreen;
+  background: #77a178;
 }
 
 .human-player-hand > .card {
@@ -350,7 +350,7 @@ button:disabled {
   position: relative;
   width: 125px;
   height: 500px;
-  background: lightgreen;
+  background: #77a178;
 }
 
 .CPU-player-hand1 .card, .CPU-player-hand3 .card {
