@@ -11,12 +11,19 @@ class HumanPlayer extends React.Component{
       handCardIds: this.props.playerObj.hand.cardIds,
       hand: this.createCards(this.props.playerObj.hand.cards),
       currentSelection: [],
-      currentPlayToBeat: this.props.currentPlayToBeat
+      currentPlayToBeat: this.props.currentPlayToBeat,
+      playAgain: this.props.playAgain
     };
   }
 
   componentDidUpdate(oldProps) {
     const newProps = this.props;
+
+    if (oldProps.playAgain != newProps.playAgain) {
+      this.setState({
+        playAgain: newProps.playAgain
+      })
+    }
 
     if(oldProps.playerObj.hand !== newProps.playerObj.hand) {
       this.setState({
@@ -123,7 +130,10 @@ class HumanPlayer extends React.Component{
   }
 
   render(){
-    let disabledPlay, disabledPass;
+    let disabledPlay,
+        disabledPass,
+        buttons;
+
     if (this.props.currentPlayers[0].id !== 0) {
       disabledPlay = true;
       disabledPass = true;
@@ -132,17 +142,26 @@ class HumanPlayer extends React.Component{
       disabledPass = !disabledPlay;
     }
 
-    return (
-      <div className="human-player">
-        <div className="human-player-hand">
-          {this.state.hand}
+    if (this.props.playAgain) {
+      buttons = this.props.playAgain
+    } else {
+      buttons = (
+        <div>
           <button disabled={disabledPlay} className="play-button" onClick={this.playCards.bind(this)}>
             <span>Play Cards!</span>
           </button>
           <button disabled={disabledPass} className="pass-button" onClick={this.passHandler.bind(this)}>
             <span>Pass!</span>
           </button>
+        </div>
+      )
+    }
 
+    return (
+      <div className="human-player">
+        <div className="human-player-hand">
+          {this.state.hand}
+          {buttons}
         </div>
       </div>
     );

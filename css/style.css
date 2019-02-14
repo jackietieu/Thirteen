@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 html {
   background: whitesmoke;
   font-family: 'Muli', sans-serif;
@@ -17,8 +23,8 @@ html {
 
 button.play-again {
   position: absolute;
-  bottom: 102px;
-  left: 154px;
+  bottom: 90px;
+  left: 170px;
   border: 2px solid #75ca9a;
   color: black;
   font-size: 18px;
@@ -27,6 +33,7 @@ button.play-again {
 
 .play-again {
   margin-bottom: 75px;
+  transition: none;
 }
 
 button.start {
@@ -39,6 +46,10 @@ button.start {
     -1px 1px 0 rgba(0, 0, 0, 0.25),
     1px 1px 0 rgba(0, 0, 0, 0.25);
   outline: 0;
+}
+
+p.current-turn {
+  margin-bottom: 90px;
 }
 
 .log-item {
@@ -209,8 +220,8 @@ ul {
   border: 10px solid transparent;
   position: relative;
   text-align: center;
-  width: 400px;
-  height: 400px;
+  width: 420px;
+  height: 420px;
   background: #7AA67A;
 }
 
@@ -324,8 +335,9 @@ button.pass-button {
   -1px 1px 0 rgba(0, 0, 0, 0.25),
   1px 1px 0 rgba(0, 0, 0, 0.25);
   width: 140px;
-  top: -85px;
+  top: -90px;
   margin-bottom: 20px;
+  transition: none;
 }
 
 button:hover:enabled {
@@ -753,5 +765,5 @@ button {
 }
 
 .played-cards-container {
-  margin-top: 40px;
+  margin-top: 65px;
 }

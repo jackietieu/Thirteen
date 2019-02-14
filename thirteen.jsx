@@ -195,10 +195,12 @@ class Game extends React.Component {
     let currentPlayerHighlight;
     let currentPlayer = this.state.currentPlayersInRound.length > 0 ? this.state.currentPlayersInRound[0].id : undefined;
     let currentPlayerSpan;
+    let playAgain;
+
     if (currentPlayer === 0) {
-      currentPlayerSpan = <span>It's Your Turn!</span>;
+      currentPlayerSpan = <p className="current-turn">It's Your Turn!</p>;
     } else {
-      currentPlayerSpan = <span>Player {currentPlayer}s Turn!</span>;
+      currentPlayerSpan = <p className="current-turn">Player {currentPlayer}s Turn!</p>;
     }
     if (currentPlayer === 0){
       currentPlayerHighlight = {"borderBottom":"10px solid mediumseagreen"};
@@ -213,13 +215,13 @@ class Game extends React.Component {
     if (this.state.start === false) {
       if (this.state.winner !== undefined) {
         if (this.state.winner === 0) {
-          currentPlayerSpan =
+          playAgain =
           <div className="play-again">
             <button className="play-again" onClick={this.clickToStart.bind(this)}> Play Again? </button>
             <span>You won!</span>
           </div>;
         } else {
-          currentPlayerSpan =
+          playAgain =
             <div className="play-again">
               <button className="play-again" onClick={this.clickToStart.bind(this)}> Play Again? </button>
               <span>Player {this.state.winner} won!</span>
@@ -257,7 +259,8 @@ class Game extends React.Component {
                 playerObj={this.state.players[0]}
                 currentPlayToBeat={this.state.bestCurrentPlay}
                 currentPlayers={this.state.currentPlayersInRound}
-                nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+                nextMoveSameRound={this.nextMoveSameRound.bind(this)}
+                playAgain={this.state.winner ? playAgain : false} />
             </section>
             <History
               currentPlay={this.state.bestCurrentPlay}
