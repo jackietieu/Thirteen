@@ -185,7 +185,7 @@ class Game extends React.Component {
     ).map((card, idx) => {
       return(
         <HandCard
-          offset={{"top":"155px", "left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
+          offset={{"top":"135px", "left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />

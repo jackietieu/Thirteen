@@ -19,30 +19,25 @@ button.play-again {
   position: absolute;
   bottom: 102px;
   left: 154px;
-  background: #cef5ce;
   border: 2px solid #75ca9a;
   color: black;
-  box-shadow:
-    -1px -1px 0 rgba(0, 0, 0, 0.25),
-    1px -1px 0 rgba(0, 0, 0, 0.25),
-    -1px 1px 0 rgba(0, 0, 0, 0.25),
-    1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
+  font-size: 18px;
   outline: 0;
+}
+
+.play-again {
+  margin-bottom: 75px;
 }
 
 button.start {
   position: absolute;
   top: 350px;
-  background: #cef5ce;
-  border: 2px solid #75ca9a;
-  color: black;
+  /* border: 2px solid #75ca9a; */
   box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
     1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
   outline: 0;
 }
 
@@ -157,7 +152,7 @@ ul {
 
 .playing-field {
   min-width: 700px;
-  background: #77a178;
+  background: #7AA67A;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -210,13 +205,13 @@ ul {
 .played-cards {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   border: 10px solid transparent;
   position: relative;
   text-align: center;
   width: 400px;
   height: 400px;
-  background: #77a178;
+  background: #7AA67A;
 }
 
 .human-player-hand {
@@ -260,7 +255,7 @@ ul {
   align-items: center;
   width: 500px;
   height: 125px;
-  background: #77a178;
+  background: #7AA67A;
 }
 
 .human-player-hand > .card {
@@ -303,42 +298,40 @@ button.pass-button {
   position: absolute;
   /*bottom: 20px;
   right: -57.5px;*/
-  width: 85px;
-  top: -75px;
-  left: 275px;
-  background: #cef5ce;
-  border: 2px solid #75ca9a;
-  color: black;
-  box-shadow:
-    -1px -1px 0 rgba(0, 0, 0, 0.25),
-    1px -1px 0 rgba(0, 0, 0, 0.25),
-    -1px 1px 0 rgba(0, 0, 0, 0.25),
-    1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-  outline: 0;
+  right: 80px;
+  /* background: #cef5ce; */
+  /* border: 2px solid #75ca9a; */
+  /* color: black; */
+  /* font-size: 14px; */
 }
 
 button.play-button {
   position: absolute;
-  top: -75px;
-  left: 135px;
+  left: 80px;
   /*bottom: 75px;
   right: -75px;*/
-  background: #cef5ce;
-  border: 2px solid #75ca9a;
-  color: black;
+  /* background: #cef5ce; */
+  /* border: 2px solid #75ca9a; */
+  /* color: black; */
+  /* font-size: 14px; */
+}
+
+button.play-button,
+button.pass-button {
   box-shadow:
-    -1px -1px 0 rgba(0, 0, 0, 0.25),
-    1px -1px 0 rgba(0, 0, 0, 0.25),
-    -1px 1px 0 rgba(0, 0, 0, 0.25),
-    1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-  outline: 0;
+  -1px -1px 0 rgba(0, 0, 0, 0.25),
+  1px -1px 0 rgba(0, 0, 0, 0.25),
+  -1px 1px 0 rgba(0, 0, 0, 0.25),
+  1px 1px 0 rgba(0, 0, 0, 0.25);
+  width: 140px;
+  top: -85px;
+  margin-bottom: 20px;
 }
 
 button:hover:enabled {
   cursor: pointer;
-  background: #e1ffe1;
+  background: #386A38;
+  transition: ease .3s;
 }
 
 button:disabled {
@@ -350,7 +343,7 @@ button:disabled {
   position: relative;
   width: 125px;
   height: 500px;
-  background: #77a178;
+  background: #7AA67A;
 }
 
 .CPU-player-hand1 .card, .CPU-player-hand3 .card {
@@ -745,4 +738,20 @@ button:disabled {
   width: 75vw;
   margin: 5px auto;
   border-bottom: 1px solid black;
+}
+
+button {
+  background: #558755;
+  border-radius: 5px;
+  width: 160px;
+  height: 50px;
+  color: #e6f1e6;
+  border: none;
+  font-size: 18px;
+  transition: ease .3s;
+  outline: 0;
+}
+
+.played-cards-container {
+  margin-top: 40px;
 }
