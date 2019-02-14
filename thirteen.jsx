@@ -203,13 +203,13 @@ class Game extends React.Component {
       currentPlayerSpan = <p className="current-turn">Player {currentPlayer}s Turn!</p>;
     }
     if (currentPlayer === 0){
-      currentPlayerHighlight = {"borderBottom":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer0";
     } else if (currentPlayer === 1){
-      currentPlayerHighlight = {"borderLeft":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer1";
     } else if (currentPlayer === 2){
-      currentPlayerHighlight = {"borderTop":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer2";
     } else if (currentPlayer === 3){
-      currentPlayerHighlight = {"borderRight":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer3";
     }
 
     if (this.state.start === false) {
@@ -241,8 +241,7 @@ class Game extends React.Component {
                   playerId={1}
                   playerObj={this.state.players[1]} />
                 <div
-                  className="played-cards"
-                  style={currentPlayerHighlight}>
+                  className={"played-cards " + currentPlayerHighlight}>
                   <div className="played-cards-container">
                     {playedCardsOwner}
                     {playedCards}

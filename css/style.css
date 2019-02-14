@@ -208,7 +208,7 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: darkgreen;
+  background: #3B6F3B;
   height: 100%;
   width: 100%;
 }
@@ -223,10 +223,6 @@ ul {
   width: 420px;
   height: 420px;
   background: #7AA67A;
-}
-
-.human-player-hand {
-  position: relative;
 }
 
 .CPU-player1, .CPU-player2, .CPU-player3 {
@@ -259,6 +255,10 @@ ul {
   -webkit-transform: rotate(-90deg);
 }
 
+.human-player-hand {
+  position: relative;
+}
+
 .CPU-player-hand2, .human-player-hand, .CPU-player-hand0 {
   position: relative;
   display: flex;
@@ -271,13 +271,14 @@ ul {
 
 .human-player-hand > .card {
   z-index: 2;
+  top: 5px;
+  transition: ease .2s;
 }
 
 .human-player-hand > .card:hover {
   cursor: pointer;
   background: beige;
   top: -5px;
-  transition: 2s ease;
 }
 
 .human-player-hand > .selected {
@@ -285,6 +286,7 @@ ul {
 }
 
 .human-player-hand > .selected:hover {
+  top: -5px;
   background: blanchedalmond;
 }
 
@@ -760,10 +762,25 @@ button {
   color: #e6f1e6;
   border: none;
   font-size: 18px;
-  transition: ease .3s;
   outline: 0;
 }
 
 .played-cards-container {
   margin-top: 65px;
+}
+
+.currentPlayer0 {
+  border-bottom: 10px solid #AAC9AA;
+}
+
+.currentPlayer1 {
+  border-left: 10px solid #AAC9AA;
+}
+
+.currentPlayer2 {
+  border-top: 10px solid #AAC9AA;
+}
+
+.currentPlayer3 {
+  border-right: 10px solid #AAC9AA;
 }
