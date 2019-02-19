@@ -88,7 +88,6 @@ export default class Instructions extends React.Component {
               <div
                 id="2"
                 className="card spades rank3"
-                style={{"left": "calc(50% - 27px)"}}
                 >
                 <div className="face"></div>
               </div>

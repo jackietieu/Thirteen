@@ -8,6 +8,7 @@ import HandObj from './lib/hand';
 import HandCard from './hand_card';
 import History from './history';
 import Instructions from './frontend/instructions';
+import SpreadCards from './spread_cards';
 
 class Game extends React.Component {
   constructor(props){
@@ -304,6 +305,7 @@ class Game extends React.Component {
               <div className="start-splash-screen">
                 <h1>Thirteen</h1>
                 <p>The National Card Game of Vietnam</p>
+                <SpreadCards/>
                 <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
                 <button className="start-instructions" onClick={this.showInstructionsModal.bind(this)}> How to Play </button>
               </div>

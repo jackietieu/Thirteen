@@ -890,9 +890,103 @@ button {
   margin: 20px;
 }
 
+.instructions-modal h1:first-of-type {
+  margin-top: 80px;
+}
+
 li.history-recent-header {
   position: absolute;
   top: 0;
   min-height: 1.3em;
   height: 1.3em;
+}
+
+.card-container-splash {
+  position: relative;
+  right: 85px;
+}
+
+.card-container-splash .card {
+  position: absolute;
+  margin-top: 65px;
+}
+
+@keyframes rotate1 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+  }
+}
+
+@keyframes rotate2 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-5deg) translateY(-5px);
+  }
+}
+
+@keyframes rotate3 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(10deg) translateY(-5px) translateX(30px);
+  }
+}
+
+@keyframes rotate4 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(25deg) translateY(-10px) translateX(60px);
+  }
+}
+
+.card-container-splash .hearts.spread {
+  animation-name: rotate1;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.card-container-splash .diamonds.spread {
+  animation-name: rotate2;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.card-container-splash .clubs.spread {
+  animation-name: rotate3;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.card-container-splash .spades.spread {
+  animation-name: rotate4;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+ 
+.card-container-splash .diamonds.spread {
+  left: 30px;
+}
+ 
+.card-container-splash .clubs.spread {
+  left: 50px;
+}
+
+.card-container-splash .spades.spread {
+  left: 70px;
+}
+
+.instructions-modal p:first-of-type {
+  margin: 80px 40px 40px 40px;
 }
