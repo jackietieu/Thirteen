@@ -396,12 +396,12 @@ button.play-button {
 button.play-button,
 button.pass-button {
   box-shadow:
-  -1px -1px 0 rgba(0, 0, 0, 0.25),
-  1px -1px 0 rgba(0, 0, 0, 0.25),
-  -1px 1px 0 rgba(0, 0, 0, 0.25),
-  1px 1px 0 rgba(0, 0, 0, 0.25);
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
   width: 140px;
-  top: -90px;
+  top: -95px;
   margin-bottom: 20px;
   transition: none;
 }

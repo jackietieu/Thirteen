@@ -23,7 +23,6 @@ export default class Instructions extends React.Component {
 
   handleClick(e) {
     if (this.node.contains(e.target)) {
-      console.log('not closing')
       return;
     }
 
