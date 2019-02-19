@@ -11,14 +11,26 @@ class HandCard extends React.Component{
     this.rank = " rank".concat(this.i % 13 + 1);
     this.val = this.i % 13 + 1;
     this.suit = suits[this.i / 13 | 0];
-    this.offset = this.props.offset;
+    this.state = {
+      offset: this.props.offset
+    }
+  }
+
+  componentDidUpdate(oldProps) {
+    const newProps = this.props;
+
+    if (oldProps.offset !== newProps.offset) {
+      this.setState({
+        offset: newProps.offset
+      })
+    }
   }
 
   render(){
     return(
       <div
         id={this.i}
-        style={this.offset}
+        style={this.state.offset}
         key={"card ".concat(this.suit).concat(this.rank)}
         className={"card ".concat(this.suit).concat(this.rank)}
         onClick={this.props.selectCard} >

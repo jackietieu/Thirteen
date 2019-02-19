@@ -1,5 +1,5 @@
 import React from 'react';
-import HandCard from './hand_card';
+// import HandCard from './hand_card';
 
 class Hand extends React.Component{
   constructor(props){

@@ -26,7 +26,6 @@ button.play-again {
   bottom: 90px;
   left: 170px;
   border: 2px solid #75ca9a;
-  color: black;
   font-size: 18px;
   outline: 0;
 }
@@ -37,8 +36,8 @@ button.play-again {
 }
 
 button.start {
-  position: absolute;
-  top: 350px;
+  /* position: absolute;
+  top: 350px; */
   /* border: 2px solid #75ca9a; */
   box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
@@ -46,6 +45,48 @@ button.start {
     -1px 1px 0 rgba(0, 0, 0, 0.25),
     1px 1px 0 rgba(0, 0, 0, 0.25);
   outline: 0;
+  margin-top: 200px;
+}
+
+button.start-instructions {
+  margin-top: 20px;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+  outline: 0;
+}
+
+.start-splash-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.start-splash-screen h1 {
+  font-size: 48px;
+}
+
+.start-splash-screen p {
+  font-size: 30px;
+}
+
+.instructions-modal-bg {
+  position: fixed;
+  background-color: rgba(0,0,0,0.4);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.instructions-modal {
+  position: relative;
+  margin-top: 20px;
 }
 
 p.current-turn {
@@ -155,13 +196,16 @@ p.current-turn {
 .game {
   display: flex;
   justify-content: center;
+  padding-top: 20px;
 }
 
 ul {
   padding: 0;
 }
 
-.playing-field {
+.playing-field, 
+.instructions-modal {
+  position: relative;
   min-width: 700px;
   background: #7AA67A;
   display: flex;
@@ -172,6 +216,15 @@ ul {
   height: 700px;
   border-radius: 5px;
   align-items: center;
+}
+
+.start-instructions-in-game {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 100px;
+  font-size: 16px;
+  height: 40px;
 }
 
 .title {
@@ -783,4 +836,45 @@ button {
 
 .currentPlayer3 {
   border-right: 10px solid #AAC9AA;
+}
+
+.next-instructions-page,
+.prev-instructions-page,
+.close-instructions-page {
+  position: absolute;
+  background: none;
+  width: 40px;
+  height: 40px;
+}
+
+.next-instructions-page {
+  top: 50%;
+  right: 0;
+}
+
+.prev-instructions-page {
+  top: 50%;
+  left: 0;
+}
+
+.close-instructions-page {
+  top: 0;
+  right: 0;
+}
+
+.instructions-page {
+  position: absolute;
+  bottom: 0;
+}
+
+.instructions-modal p,
+.instructions-modal ul,
+.instructions-modal h1 {
+  margin: 40px;
+  text-align: center;
+}
+
+.instructions-modal li {
+  list-style-type: none;
+  margin: 20px;
 }

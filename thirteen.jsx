@@ -22,6 +22,7 @@ class Game extends React.Component {
 
     this.state = {
       start: true,
+      instructions: false,
       winner: undefined,
       players: [],
       currentPlayersInRound: [],
@@ -31,6 +32,19 @@ class Game extends React.Component {
         kicker: {}
       }
     };
+  }
+
+  showInstructionsModal(e) {
+    e.preventDefault();
+    this.setState({
+      instructions: true
+    })
+  }
+
+  removeInstructionsModal(e) {
+    this.setState({
+      instructions: false
+    })
   }
 
   clickToStart(e){
@@ -59,6 +73,7 @@ class Game extends React.Component {
 
     this.setState({
       start: false,
+      instructions: false,
       winner: undefined,
       players: initialPlayers,
       currentPlayersInRound: startingRotation,
@@ -134,7 +149,6 @@ class Game extends React.Component {
           bestCurrentPlay: move }, () => {
           if (possibleWinner.hand.cards.length === 0) {
             this.setState({ winner: possibleWinner.id });
-            alert(`Player ${possibleWinner.id} won!`);
             return;
           }
 
@@ -196,12 +210,24 @@ class Game extends React.Component {
     let currentPlayer = this.state.currentPlayersInRound.length > 0 ? this.state.currentPlayersInRound[0].id : undefined;
     let currentPlayerSpan;
     let playAgain;
+    let instructions = this.state.instructions ? (
+      <div className="instructions-modal-bg" >
+        <Instructions closeModal={this.removeInstructionsModal.bind(this)}/>
+      </div>
+      ) : '';
 
-    if (currentPlayer === 0) {
+    if (this.state.winner) {
+      currentPlayerSpan = (
+        <p className="current-turn">
+          {this.state.winner === 0 ? 'You' : `Player ${this.state.winner} won!`}
+        </p>
+      )
+    } else if (currentPlayer === 0) {
       currentPlayerSpan = <p className="current-turn">It's Your Turn!</p>;
     } else {
       currentPlayerSpan = <p className="current-turn">Player {currentPlayer}s Turn!</p>;
     }
+
     if (currentPlayer === 0){
       currentPlayerHighlight = "currentPlayer0";
     } else if (currentPlayer === 1){
@@ -231,6 +257,7 @@ class Game extends React.Component {
 
       return(
         <div>
+          {instructions}
           <section className="game">
             <section className="playing-field">
               <ComputerPlayer
@@ -260,23 +287,28 @@ class Game extends React.Component {
                 currentPlayers={this.state.currentPlayersInRound}
                 nextMoveSameRound={this.nextMoveSameRound.bind(this)}
                 playAgain={this.state.winner ? playAgain : false} />
+              <button className="start-instructions-in-game" onClick={this.showInstructionsModal.bind(this)}> How to Play </button>
             </section>
             <History
               currentPlay={this.state.bestCurrentPlay}
               currentPlayers={this.state.currentPlayersInRound} />
           </section>
-          <Instructions />
         </div>
       );
     } else {
       return(
         <div>
+          {instructions}
           <section className="game">
             <section className="playing-field">
-              <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+              <div className="start-splash-screen">
+                <h1>Thirteen</h1>
+                <p>The National Card Game of Vietnam</p>
+                <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+                <button className="start-instructions" onClick={this.showInstructionsModal.bind(this)}> How to Play </button>
+              </div>
             </section>
           </section>
-          <Instructions />
         </div>
       );
     }
