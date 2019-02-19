@@ -1,7 +1,8 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 html {
@@ -32,6 +33,8 @@ button.play-again {
 
 .play-again {
   margin-bottom: 75px;
+  -webkit-transition: none;
+  -o-transition: none;
   transition: none;
 }
 
@@ -39,7 +42,12 @@ button.start {
   /* position: absolute;
   top: 350px; */
   /* border: 2px solid #75ca9a; */
-  box-shadow:
+  -webkit-box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+          box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
@@ -50,7 +58,12 @@ button.start {
 
 button.start-instructions {
   margin-top: 20px;
-  box-shadow:
+  -webkit-box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+          box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
@@ -59,10 +72,19 @@ button.start-instructions {
 }
 
 .start-splash-screen {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   padding-top: 100px;
 }
 
@@ -79,8 +101,12 @@ button.start-instructions {
   background-color: rgba(0,0,0,0.4);
   height: 100vh;
   width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   z-index: 10;
 }
 
@@ -101,8 +127,13 @@ p.current-turn {
 
 .play-history {
   border: 2px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   list-style: none;
   padding: 0;
   margin: 0 0 0 10px;
@@ -125,8 +156,12 @@ p.current-turn {
   height: 120px;
   min-height: 120px;
   min-width: 250px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   /* transition-property: all;
 	transition-duration: .5s;
 	transition-timing-function: cubic-bezier(0, 1, 0.5, 1); */
@@ -196,13 +231,19 @@ p.current-turn {
 }*/
 
 .log-item:hover, .play-history li:hover {
+  -webkit-transition: background-color 0.5s ease;
+  -o-transition: background-color 0.5s ease;
   transition: background-color 0.5s ease;
   background-color: #AEF7C9;
 }
 
 .game {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding-top: 20px;
 }
 
@@ -215,14 +256,23 @@ ul {
   position: relative;
   min-width: 700px;
   background: #7AA67A;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   border: 1px solid black;
   width: 700px;
   height: 700px;
   border-radius: 5px;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .start-instructions-in-game {
@@ -232,7 +282,12 @@ ul {
   width: 100px;
   font-size: 16px;
   height: 40px;
-  box-shadow:
+  -webkit-box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+          box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
@@ -245,7 +300,9 @@ ul {
 
 .instructions {
   margin: 0 auto;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   min-width: 700px;
   width: 90vw;
 }
@@ -259,29 +316,51 @@ ul {
   padding: 5px 0;
   text-align: center;
   position: relative;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 
 .card-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .left-right {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background: #3B6F3B;
-  height: 100%;
+  height: 450px;
   width: 100%;
 }
 
 .played-cards {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   border: 10px solid transparent;
   position: relative;
   text-align: center;
@@ -326,9 +405,15 @@ ul {
 
 .CPU-player-hand2, .human-player-hand, .CPU-player-hand0 {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 500px;
   height: 125px;
   background: #7AA67A;
@@ -337,6 +422,8 @@ ul {
 .human-player-hand > .card {
   z-index: 2;
   top: 5px;
+  -webkit-transition: ease .2s;
+  -o-transition: ease .2s;
   transition: ease .2s;
 }
 
@@ -364,8 +451,12 @@ ul {
 
 .human-player-played-hand {
   position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   top: -127px;
   width: 300px;
   height: 125px;
@@ -396,7 +487,12 @@ button.play-button {
 
 button.play-button,
 button.pass-button {
-  box-shadow:
+  -webkit-box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+          box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
@@ -404,12 +500,16 @@ button.pass-button {
   width: 140px;
   top: -95px;
   margin-bottom: 20px;
+  -webkit-transition: none;
+  -o-transition: none;
   transition: none;
 }
 
 button:hover:enabled {
   cursor: pointer;
   background: #386A38;
+  -webkit-transition: ease .3s;
+  -o-transition: ease .3s;
   transition: ease .3s;
 }
 
@@ -428,8 +528,6 @@ button:disabled {
 .CPU-player-hand1 .card, .CPU-player-hand3 .card {
   /*position: absolute;*/
   -webkit-transform: rotate(90deg);
-  -moz-transform: rotate(90deg);
-  -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
 }
@@ -450,7 +548,6 @@ button:disabled {
   width: 3.875rem;
   height: 5.5rem;
   background-color: #fff;
-  -webkit-border-radius: 4px;
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
   box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -475,16 +572,12 @@ button:disabled {
   bottom: 0.1rem;
   right: 0;
   -webkit-transform: rotate(180deg);
-  -moz-transform: rotate(180deg);
-  -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 .card .face {
   height: 100%;
   background-position: 50% 50%;
-  -webkit-background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
   background-size: 100% 100%;
   background-repeat: no-repeat;
 }
@@ -492,8 +585,6 @@ button:disabled {
   position: absolute;
   background-image: url("faces/back.png");
   background-position: 50% 50%;
-  -webkit-background-size: 100% 100%;
-  -moz-background-size: 100% 100%;
   background-size: 100% 100%;
   background-repeat: no-repeat;
   width: 100%;
@@ -747,13 +838,9 @@ button:disabled {
   }
   .gh-ribbon {
     -webkit-transform: scale(0.5);
-    -moz-transform: scale(0.5);
-    -o-transform: scale(0.5);
     -ms-transform: scale(0.5);
     transform: scale(0.5);
     -webkit-transform-origin: 100% 0;
-    -moz-transform-origin: 100% 0;
-    -o-transform-origin: 100% 0;
     -ms-transform-origin: 100% 0;
     transform-origin: 100% 0;
   }
@@ -771,7 +858,6 @@ button:disabled {
   width: 2.7rem;
   height: 3.9rem;
   background-color: #fff;
-  -webkit-border-radius: 4px;
   border-radius: 4px;
   -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
   box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -913,68 +999,136 @@ li.history-recent-header {
   margin-top: 65px;
 }
 
-@keyframes rotate1 {
+@-webkit-keyframes rotate1 {
   from {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
 
   to {
-    transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+    -webkit-transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+            transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+  }
+}
+
+@keyframes rotate1 {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+            transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+  }
+}
+
+@-webkit-keyframes rotate2 {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(-5deg) translateY(-5px);
+            transform: rotate(-5deg) translateY(-5px);
   }
 }
 
 @keyframes rotate2 {
   from {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
 
   to {
-    transform: rotate(-5deg) translateY(-5px);
+    -webkit-transform: rotate(-5deg) translateY(-5px);
+            transform: rotate(-5deg) translateY(-5px);
+  }
+}
+
+@-webkit-keyframes rotate3 {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(10deg) translateY(-5px) translateX(30px);
+            transform: rotate(10deg) translateY(-5px) translateX(30px);
   }
 }
 
 @keyframes rotate3 {
   from {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
 
   to {
-    transform: rotate(10deg) translateY(-5px) translateX(30px);
+    -webkit-transform: rotate(10deg) translateY(-5px) translateX(30px);
+            transform: rotate(10deg) translateY(-5px) translateX(30px);
+  }
+}
+
+@-webkit-keyframes rotate4 {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(25deg) translateY(-10px) translateX(60px);
+            transform: rotate(25deg) translateY(-10px) translateX(60px);
   }
 }
 
 @keyframes rotate4 {
   from {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
 
   to {
-    transform: rotate(25deg) translateY(-10px) translateX(60px);
+    -webkit-transform: rotate(25deg) translateY(-10px) translateX(60px);
+            transform: rotate(25deg) translateY(-10px) translateX(60px);
   }
 }
 
 .card-container-splash .hearts.spread {
-  animation-name: rotate1;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
+  -webkit-animation-name: rotate1;
+          animation-name: rotate1;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .card-container-splash .diamonds.spread {
-  animation-name: rotate2;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
+  -webkit-animation-name: rotate2;
+          animation-name: rotate2;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .card-container-splash .clubs.spread {
-  animation-name: rotate3;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
+  -webkit-animation-name: rotate3;
+          animation-name: rotate3;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .card-container-splash .spades.spread {
-  animation-name: rotate4;
-  animation-duration: 2s;
-  animation-fill-mode: forwards;
+  -webkit-animation-name: rotate4;
+          animation-name: rotate4;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
  
 .card-container-splash .diamonds.spread {
