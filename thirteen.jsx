@@ -8,6 +8,7 @@ import HandObj from './lib/hand';
 import HandCard from './hand_card';
 import History from './history';
 import Instructions from './frontend/instructions';
+import SpreadCards from './spread_cards';
 
 class Game extends React.Component {
   constructor(props){
@@ -22,6 +23,7 @@ class Game extends React.Component {
 
     this.state = {
       start: true,
+      instructions: false,
       winner: undefined,
       players: [],
       currentPlayersInRound: [],
@@ -31,6 +33,19 @@ class Game extends React.Component {
         kicker: {}
       }
     };
+  }
+
+  showInstructionsModal(e) {
+    e.preventDefault();
+    this.setState({
+      instructions: true
+    })
+  }
+
+  removeInstructionsModal(e) {
+    this.setState({
+      instructions: false
+    })
   }
 
   clickToStart(e){
@@ -59,6 +74,7 @@ class Game extends React.Component {
 
     this.setState({
       start: false,
+      instructions: false,
       winner: undefined,
       players: initialPlayers,
       currentPlayersInRound: startingRotation,
@@ -134,7 +150,6 @@ class Game extends React.Component {
           bestCurrentPlay: move }, () => {
           if (possibleWinner.hand.cards.length === 0) {
             this.setState({ winner: possibleWinner.id });
-            alert(`Player ${possibleWinner.id} won!`);
             return;
           }
 
@@ -163,7 +178,6 @@ class Game extends React.Component {
             bestCurrentPlay: move }, () => {
               if (document.querySelectorAll('.human-player-hand .card').length === 0) {
                 this.setState({ winner: 0 });
-                alert(`You won!`);
                 return;
               }
 
@@ -185,7 +199,7 @@ class Game extends React.Component {
     ).map((card, idx) => {
       return(
         <HandCard
-          offset={{"top":"155px", "left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
+          offset={{"top":"135px", "left":`calc((175px - ${playedCardsLength}*15px) + ${idx}*(30px))`}}
           i={card.i}
           idx={idx}
           key={"card ".concat(card.i).concat(` ${idx}`)} />
@@ -195,31 +209,45 @@ class Game extends React.Component {
     let currentPlayerHighlight;
     let currentPlayer = this.state.currentPlayersInRound.length > 0 ? this.state.currentPlayersInRound[0].id : undefined;
     let currentPlayerSpan;
-    if (currentPlayer === 0) {
-      currentPlayerSpan = <span>It's Your Turn!</span>;
+    let playAgain;
+    let instructions = this.state.instructions ? (
+      <div className="instructions-modal-bg" >
+        <Instructions closeModal={this.removeInstructionsModal.bind(this)}/>
+      </div>
+      ) : '';
+
+    if (this.state.winner) {
+      currentPlayerSpan = (
+        <p className="current-turn">
+          {this.state.winner === 0 ? 'You' : `Player ${this.state.winner} won!`}
+        </p>
+      )
+    } else if (currentPlayer === 0) {
+      currentPlayerSpan = <p className="current-turn">It's Your Turn!</p>;
     } else {
-      currentPlayerSpan = <span>Player {currentPlayer}s Turn!</span>;
+      currentPlayerSpan = <p className="current-turn">Player {currentPlayer}s Turn!</p>;
     }
+
     if (currentPlayer === 0){
-      currentPlayerHighlight = {"borderBottom":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer0";
     } else if (currentPlayer === 1){
-      currentPlayerHighlight = {"borderLeft":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer1";
     } else if (currentPlayer === 2){
-      currentPlayerHighlight = {"borderTop":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer2";
     } else if (currentPlayer === 3){
-      currentPlayerHighlight = {"borderRight":"10px solid mediumseagreen"};
+      currentPlayerHighlight = "currentPlayer3";
     }
 
     if (this.state.start === false) {
       if (this.state.winner !== undefined) {
         if (this.state.winner === 0) {
-          currentPlayerSpan =
+          playAgain =
           <div className="play-again">
             <button className="play-again" onClick={this.clickToStart.bind(this)}> Play Again? </button>
             <span>You won!</span>
           </div>;
         } else {
-          currentPlayerSpan =
+          playAgain =
             <div className="play-again">
               <button className="play-again" onClick={this.clickToStart.bind(this)}> Play Again? </button>
               <span>Player {this.state.winner} won!</span>
@@ -229,6 +257,7 @@ class Game extends React.Component {
 
       return(
         <div>
+          {instructions}
           <section className="game">
             <section className="playing-field">
               <ComputerPlayer
@@ -239,8 +268,7 @@ class Game extends React.Component {
                   playerId={1}
                   playerObj={this.state.players[1]} />
                 <div
-                  className="played-cards"
-                  style={currentPlayerHighlight}>
+                  className={"played-cards " + currentPlayerHighlight}>
                   <div className="played-cards-container">
                     {playedCardsOwner}
                     {playedCards}
@@ -257,24 +285,31 @@ class Game extends React.Component {
                 playerObj={this.state.players[0]}
                 currentPlayToBeat={this.state.bestCurrentPlay}
                 currentPlayers={this.state.currentPlayersInRound}
-                nextMoveSameRound={this.nextMoveSameRound.bind(this)} />
+                nextMoveSameRound={this.nextMoveSameRound.bind(this)}
+                playAgain={this.state.winner ? playAgain : false} />
+              <button className="start-instructions-in-game" onClick={this.showInstructionsModal.bind(this)}> How to Play </button>
             </section>
             <History
               currentPlay={this.state.bestCurrentPlay}
               currentPlayers={this.state.currentPlayersInRound} />
           </section>
-          <Instructions />
         </div>
       );
     } else {
       return(
         <div>
+          {instructions}
           <section className="game">
             <section className="playing-field">
-              <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+              <div className="start-splash-screen">
+                <h1>Thirteen</h1>
+                <p>The National Card Game of Vietnam</p>
+                <SpreadCards/>
+                <button className="start" onClick={this.clickToStart.bind(this)}> Click to Start! </button>
+                <button className="start-instructions" onClick={this.showInstructionsModal.bind(this)}> How to Play </button>
+              </div>
             </section>
           </section>
-          <Instructions />
         </div>
       );
     }

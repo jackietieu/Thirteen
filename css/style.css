@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 html {
   background: whitesmoke;
   font-family: 'Muli', sans-serif;
@@ -17,33 +23,74 @@ html {
 
 button.play-again {
   position: absolute;
-  bottom: 102px;
-  left: 154px;
-  background: #cef5ce;
+  bottom: 90px;
+  left: 170px;
   border: 2px solid #75ca9a;
-  color: black;
-  box-shadow:
-    -1px -1px 0 rgba(0, 0, 0, 0.25),
-    1px -1px 0 rgba(0, 0, 0, 0.25),
-    -1px 1px 0 rgba(0, 0, 0, 0.25),
-    1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
+  font-size: 18px;
   outline: 0;
 }
 
+.play-again {
+  margin-bottom: 75px;
+  transition: none;
+}
+
 button.start {
-  position: absolute;
-  top: 350px;
-  background: #cef5ce;
-  border: 2px solid #75ca9a;
-  color: black;
+  /* position: absolute;
+  top: 350px; */
+  /* border: 2px solid #75ca9a; */
   box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
     1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
   outline: 0;
+  margin-top: 260px;
+}
+
+button.start-instructions {
+  margin-top: 20px;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
+  outline: 0;
+}
+
+.start-splash-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+}
+
+.start-splash-screen h1 {
+  font-size: 48px;
+}
+
+.start-splash-screen p {
+  font-size: 30px;
+}
+
+.instructions-modal-bg {
+  position: fixed;
+  background-color: rgba(0,0,0,0.4);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+.instructions-modal {
+  position: relative;
+  margin-top: 20px;
+}
+
+p.current-turn {
+  margin-bottom: 90px;
 }
 
 .log-item {
@@ -63,6 +110,13 @@ button.start {
   height: 700px;
   overflow: auto;
   background: whitesmoke;
+  position: relative;
+  border-radius: 5px;
+}
+
+.play-history li:nth-of-type(2),
+.play-history span:first-of-type {
+  margin-top: 1.3em;
 }
 
 .play-history li {
@@ -149,15 +203,18 @@ button.start {
 .game {
   display: flex;
   justify-content: center;
+  padding-top: 20px;
 }
 
 ul {
   padding: 0;
 }
 
-.playing-field {
+.playing-field, 
+.instructions-modal {
+  position: relative;
   min-width: 700px;
-  background: lightgreen;
+  background: #7AA67A;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -166,6 +223,20 @@ ul {
   height: 700px;
   border-radius: 5px;
   align-items: center;
+}
+
+.start-instructions-in-game {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 100px;
+  font-size: 16px;
+  height: 40px;
+  box-shadow:
+    -1px -1px 0 rgba(0, 0, 0, 0.25),
+    1px -1px 0 rgba(0, 0, 0, 0.25),
+    -1px 1px 0 rgba(0, 0, 0, 0.25),
+    1px 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 .title {
@@ -202,7 +273,7 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: darkgreen;
+  background: #3B6F3B;
   height: 100%;
   width: 100%;
 }
@@ -210,17 +281,13 @@ ul {
 .played-cards {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   border: 10px solid transparent;
   position: relative;
   text-align: center;
-  width: 400px;
-  height: 400px;
-  background: lightgreen;
-}
-
-.human-player-hand {
-  position: relative;
+  width: 420px;
+  height: 420px;
+  background: #7AA67A;
 }
 
 .CPU-player1, .CPU-player2, .CPU-player3 {
@@ -253,6 +320,10 @@ ul {
   -webkit-transform: rotate(-90deg);
 }
 
+.human-player-hand {
+  position: relative;
+}
+
 .CPU-player-hand2, .human-player-hand, .CPU-player-hand0 {
   position: relative;
   display: flex;
@@ -260,18 +331,19 @@ ul {
   align-items: center;
   width: 500px;
   height: 125px;
-  background: lightgreen;
+  background: #7AA67A;
 }
 
 .human-player-hand > .card {
   z-index: 2;
+  top: 5px;
+  transition: ease .2s;
 }
 
 .human-player-hand > .card:hover {
   cursor: pointer;
   background: beige;
   top: -5px;
-  transition: 2s ease;
 }
 
 .human-player-hand > .selected {
@@ -279,6 +351,7 @@ ul {
 }
 
 .human-player-hand > .selected:hover {
+  top: -5px;
   background: blanchedalmond;
 }
 
@@ -303,42 +376,41 @@ button.pass-button {
   position: absolute;
   /*bottom: 20px;
   right: -57.5px;*/
-  width: 85px;
-  top: -75px;
-  left: 275px;
-  background: #cef5ce;
-  border: 2px solid #75ca9a;
-  color: black;
-  box-shadow:
-    -1px -1px 0 rgba(0, 0, 0, 0.25),
-    1px -1px 0 rgba(0, 0, 0, 0.25),
-    -1px 1px 0 rgba(0, 0, 0, 0.25),
-    1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-  outline: 0;
+  right: 80px;
+  /* background: #cef5ce; */
+  /* border: 2px solid #75ca9a; */
+  /* color: black; */
+  /* font-size: 14px; */
 }
 
 button.play-button {
   position: absolute;
-  top: -75px;
-  left: 135px;
+  left: 80px;
   /*bottom: 75px;
   right: -75px;*/
-  background: #cef5ce;
-  border: 2px solid #75ca9a;
-  color: black;
+  /* background: #cef5ce; */
+  /* border: 2px solid #75ca9a; */
+  /* color: black; */
+  /* font-size: 14px; */
+}
+
+button.play-button,
+button.pass-button {
   box-shadow:
     -1px -1px 0 rgba(0, 0, 0, 0.25),
     1px -1px 0 rgba(0, 0, 0, 0.25),
     -1px 1px 0 rgba(0, 0, 0, 0.25),
     1px 1px 0 rgba(0, 0, 0, 0.25);
-  font-size: 14px;
-  outline: 0;
+  width: 140px;
+  top: -95px;
+  margin-bottom: 20px;
+  transition: none;
 }
 
 button:hover:enabled {
   cursor: pointer;
-  background: #e1ffe1;
+  background: #386A38;
+  transition: ease .3s;
 }
 
 button:disabled {
@@ -350,7 +422,7 @@ button:disabled {
   position: relative;
   width: 125px;
   height: 500px;
-  background: lightgreen;
+  background: #7AA67A;
 }
 
 .CPU-player-hand1 .card, .CPU-player-hand3 .card {
@@ -745,4 +817,177 @@ button:disabled {
   width: 75vw;
   margin: 5px auto;
   border-bottom: 1px solid black;
+}
+
+button {
+  background: #558755;
+  border-radius: 5px;
+  width: 160px;
+  height: 50px;
+  color: #e6f1e6;
+  border: none;
+  font-size: 18px;
+  outline: 0;
+}
+
+.played-cards-container {
+  margin-top: 65px;
+}
+
+.currentPlayer0 {
+  border-bottom: 10px solid #AAC9AA;
+}
+
+.currentPlayer1 {
+  border-left: 10px solid #AAC9AA;
+}
+
+.currentPlayer2 {
+  border-top: 10px solid #AAC9AA;
+}
+
+.currentPlayer3 {
+  border-right: 10px solid #AAC9AA;
+}
+
+.next-instructions-page,
+.prev-instructions-page,
+.close-instructions-page {
+  position: absolute;
+  background: none;
+  width: 40px;
+  height: 40px;
+}
+
+.next-instructions-page {
+  top: 50%;
+  right: 0;
+}
+
+.prev-instructions-page {
+  top: 50%;
+  left: 0;
+}
+
+.close-instructions-page {
+  top: 0;
+  right: 0;
+}
+
+.instructions-page {
+  position: absolute;
+  bottom: 0;
+}
+
+.instructions-modal p,
+.instructions-modal ul,
+.instructions-modal h1 {
+  margin: 40px;
+  text-align: center;
+}
+
+.instructions-modal li {
+  list-style-type: none;
+  margin: 20px;
+}
+
+.instructions-modal h1:first-of-type {
+  margin-top: 80px;
+}
+
+li.history-recent-header {
+  position: absolute;
+  top: 0;
+  min-height: 1.3em;
+  height: 1.3em;
+}
+
+.card-container-splash {
+  position: relative;
+  right: 85px;
+}
+
+.card-container-splash .card {
+  position: absolute;
+  margin-top: 65px;
+}
+
+@keyframes rotate1 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-20deg) translateY(-10px) translateX(-30px);
+  }
+}
+
+@keyframes rotate2 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-5deg) translateY(-5px);
+  }
+}
+
+@keyframes rotate3 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(10deg) translateY(-5px) translateX(30px);
+  }
+}
+
+@keyframes rotate4 {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(25deg) translateY(-10px) translateX(60px);
+  }
+}
+
+.card-container-splash .hearts.spread {
+  animation-name: rotate1;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.card-container-splash .diamonds.spread {
+  animation-name: rotate2;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.card-container-splash .clubs.spread {
+  animation-name: rotate3;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+.card-container-splash .spades.spread {
+  animation-name: rotate4;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+ 
+.card-container-splash .diamonds.spread {
+  left: 30px;
+}
+ 
+.card-container-splash .clubs.spread {
+  left: 50px;
+}
+
+.card-container-splash .spades.spread {
+  left: 70px;
+}
+
+.instructions-modal p:first-of-type {
+  margin: 80px 40px 40px 40px;
 }
