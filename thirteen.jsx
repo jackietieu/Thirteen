@@ -157,7 +157,7 @@ class Game extends React.Component {
         }
       );
     }
-  }, 5);
+  }, 2000);
     } else {
       let currentPlayers = [].concat(this.state.currentPlayersInRound);
 
@@ -178,7 +178,6 @@ class Game extends React.Component {
             bestCurrentPlay: move }, () => {
               if (document.querySelectorAll('.human-player-hand .card').length === 0) {
                 this.setState({ winner: 0 });
-                alert(`You won!`);
                 return;
               }
 

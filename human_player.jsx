@@ -116,6 +116,7 @@ class HumanPlayer extends React.Component{
   validPlay(){
     let selection = [].concat(this.state.currentSelection);
     let selectedHand = new HandObj(selection, 0);
+
     if (selection.length === 0 || selectedHand.validPlay(this.state.currentPlayToBeat) === "pass") {
       return true;
     } else {
