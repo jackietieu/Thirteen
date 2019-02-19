@@ -45,7 +45,7 @@ button.start {
     -1px 1px 0 rgba(0, 0, 0, 0.25),
     1px 1px 0 rgba(0, 0, 0, 0.25);
   outline: 0;
-  margin-top: 200px;
+  margin-top: 260px;
 }
 
 button.start-instructions {
@@ -110,6 +110,12 @@ p.current-turn {
   height: 700px;
   overflow: auto;
   background: whitesmoke;
+  position: relative;
+  border-radius: 5px;
+}
+
+.play-history li:nth-of-type(2) {
+  margin-top: 1.3em;
 }
 
 .play-history li {
@@ -877,4 +883,11 @@ button {
 .instructions-modal li {
   list-style-type: none;
   margin: 20px;
+}
+
+li.history-recent-header {
+  position: absolute;
+  top: 0;
+  min-height: 1.3em;
+  height: 1.3em;
 }

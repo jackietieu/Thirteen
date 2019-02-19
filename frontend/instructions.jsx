@@ -22,12 +22,11 @@ export default class Instructions extends React.Component {
   }
 
   handleClick(e) {
-    console.log(this.node)
     if (this.node.contains(e.target)) {
       console.log('not closing')
       return;
     }
-    console.log('closing')
+
     this.closeModal();
   }
 

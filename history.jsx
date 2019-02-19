@@ -49,6 +49,7 @@ class History extends React.Component {
   render(){
     return(
       <ul className="play-history">
+        <li className="history-recent-header">Most Recent:</li>
         {this.log}
       </ul>
     );
